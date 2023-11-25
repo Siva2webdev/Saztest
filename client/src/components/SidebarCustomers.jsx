@@ -43,6 +43,7 @@ import {
   ChevronLeft,
   Menu as MenuIcon,
   SortByAlpha,
+  NotificationAddOutlined,
 } from "@mui/icons-material";
 import FlexBetween from "./FlexBetween";
 
@@ -110,6 +111,12 @@ function SidebarCustomers() {
               <Layers />
             </ListItemIcon>
             <ListItemText primary=" Customer_Saz3" />
+          </ListItem>
+          <ListItem button component={Link} to="/Customers/Notifications">
+            <ListItemIcon>
+              <NotificationAddOutlined />
+            </ListItemIcon>
+            <ListItemText primary=" Notifications" />
           </ListItem>
         </List>
       </Drawer>

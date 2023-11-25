@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { deepPurple } from "@mui/material/colors";
 import {
@@ -17,6 +17,8 @@ import {
   InputLabel,
   ThemeProvider,
   useTheme,
+  IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import {
   PlaylistAddCircle,
@@ -41,10 +43,15 @@ import {
   ChevronLeft,
   Menu as MenuIcon,
   SortByAlpha,
+  ChevronRight,
 } from "@mui/icons-material";
 import FlexBetween from "./FlexBetween";
 
-function Sidebarmanage() {
+// const ResponsiveListItem = styled(ListItem)(({ theme, isSmallScreen }) => ({
+//   paddingLeft: isSmallScreen ? theme.spacing(2) : theme.spacing(4),
+// }));
+
+function Sidebarmanage(drawerWidth) {
   // Define state and click handlers for each dropdown
   const [openDropdown1, setOpenDropdown1] = useState(false);
   const [openDropdown2, setOpenDropdown2] = useState(false);
@@ -71,7 +78,8 @@ function Sidebarmanage() {
   const [openDropdown23, setOpenDropdown23] = useState(false);
   const [openDropdown24, setOpenDropdown24] = useState(false);
   const [openDropdown25, setOpenDropdown25] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarManageOpen, setIsSidebarManageOpen] = useState(true);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const theme = useTheme();
   // Define click handlers for each dropdown
@@ -166,17 +174,20 @@ function Sidebarmanage() {
   };
 
   return (
+    
     <ThemeProvider theme={theme}>
       <Drawer
-        open={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
+        open={isSidebarManageOpen}
+        onClose={() => setIsSidebarManageOpen(false)}
         anchor="left"
-        variant="permanent"
+        variant="persistent"
         sx={{
           "& .MuiDrawer-paper": {
             color: theme.palette.secondary[200],
             backgroundColor: theme.palette.background.alt,
             boxSizing: "border-box",
+            width: !isSmallScreen ? drawerWidth : theme.spacing(20),              
+            // width: drawerWidth,
           },
         }}
       >
@@ -777,6 +788,22 @@ function Sidebarmanage() {
           </Collapse>
         </List>
       </Drawer>
+      {isSmallScreen && (
+      <IconButton
+        color="inherit"
+        aria-label={isSidebarManageOpen ? "Close sidebar" : "Open sidebar"}
+        onClick={() => setIsSidebarManageOpen(!isSidebarManageOpen)}
+        sx={{
+          position: 'fixed',
+          top: '5%',
+          left: isSidebarManageOpen ? drawerWidth : 0.5,
+          transform: 'translateY(-50%)',
+          zIndex: theme.zIndex.drawer + 1,
+        }}
+      >
+        {isSidebarManageOpen ? <ChevronLeft /> : <ChevronRight />}
+      </IconButton>
+      )}
     </ThemeProvider>
   );
 }

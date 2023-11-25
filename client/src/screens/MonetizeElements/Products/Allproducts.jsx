@@ -27,7 +27,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  openDe,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 // import BreakdownChart from "components/BreakdownChart";
@@ -129,7 +128,7 @@ const Allproducts = () => {
       renderCell: (params) => {
         const _id = params.row._id; // Assuming 'id' is a unique identifier for the row
 
-  const handleEditAction =        (_id) =>
+  const handleEditAction = (_id) =>
         {
           navigate(`/addproducts/${params.row._id}`);
           // Ikkada Edit Action Logic Raasko

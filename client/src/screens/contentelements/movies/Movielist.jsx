@@ -217,23 +217,6 @@ setMovies(res.videodata)});
         mt="10px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-
-        // gridAutoRows="500px"
-
-
-        // gridAutoRows="500px"
-
-        // gridAutoRows="500px"
-
-
-        // gridAutoRows="300px"
-
-        // gridAutoRows="500px"
-
-
-
-
-
         gap="20px"
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },

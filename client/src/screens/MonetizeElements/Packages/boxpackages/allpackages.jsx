@@ -1,5 +1,3 @@
-
-
 import React from "react";
 
 import FlexBetween from "components/FlexBetween";
@@ -27,8 +25,6 @@ import {
   PersonAdd,
 
   Traffic,
-  Edit,
-  Delete,
 
 } from "@mui/icons-material";
 
@@ -133,59 +129,13 @@ const AllPackages = () => {
         headerName: "Action",
 
         flex: 1,
-        renderCell: (params) => {
-          // const id = params.row.id; // Assuming 'id' is a unique identifier for the row
-
-          // const handleEditAction = () => {
-          //   // Ikkada Edit Action Logic Raasko
-          //   console.log(`Edit action for ID `);
-          //   // aah Edit Logic ikkada Add chesko
-          // };
-          // const handleDeleteAction = () => {
-          //   // Ikkada Delete Action Logic Raasko
-          //   console.log(`Delete action for ID `);
-          //   // aah Delete Logic ikkada Add chesko
-          // }
-
-          return (
-            <div>
-              <IconButton
-                // onClick={handleEditAction}
-                aria-label="Edit"
-                color="primary"
-
-              >
-                <Edit />
-              </IconButton>
-
-              <text>|</text>
-
-              <IconButton
-                // onClick={handleDeleteAction}
-                aria-label="Delete"
-                color="secondary"
-              >
-
-                <Delete />
-              </IconButton>
-            </div>
-          );
-        },
-      },
 
         // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
 
-
+      },
 
   ];
 
-  const [packages, setpackages] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5001/api/packages/find")
-      .then((response) => response.json())
-      .then((json) => setpackages(json.data));
-  }, []);
-  console.log(packages);
 
 
   return (
@@ -211,7 +161,7 @@ const AllPackages = () => {
 
         gridTemplateColumns="repeat(12, 1fr)"
 
-        // gridAutoRows="160px"
+        gridAutoRows="160px"
 
         gap="20px"
 
@@ -301,7 +251,7 @@ const AllPackages = () => {
 
             // rows={(data && data.transactions) || []}
 
-            rows={packages}
+            rows={[]}
 
             columns={columns}
 

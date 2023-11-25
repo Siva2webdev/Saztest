@@ -11,7 +11,7 @@ import {DataGrid} from "@mui/x-data-grid"
 // import SidebarContent from "components/SidebarContent"
 
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
-
+import axios from "axios";
 
 
 
@@ -43,6 +43,11 @@ import {
   useTheme,
 
   useMediaQuery,
+  Container,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 
 } from "@mui/material";
 
@@ -89,13 +94,14 @@ import SidebarContent from "components/SidebarContent";
 import {Menu as MenuIcon,IconButton} from "@mui/material"
 
 import Navbar from "components/Navbar";
+import { useNavigate } from 'react-router-dom';
 
 
 
 
 
 const AllBanner = () => {
-
+  const navigate = useNavigate();
   const theme = useTheme();
 
   const isNonMediumScreens = useMediaQuery("(min-width: 400px, max-width:1280px)");
@@ -107,6 +113,18 @@ const AllBanner = () => {
   const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
 
 
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
+
+  const openDeleteDialog = (_id) => {
+    setDeleteDialogOpen(true);
+    setDeleteItemId(_id);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setDeleteItemId(null);
+  };
 
   const columns = [
 
@@ -170,51 +188,85 @@ const AllBanner = () => {
       renderCell: (params) => {
         const id = params.row.id; // Assuming 'id' is a unique identifier for the row
   
-        const handleEditAction = () => {
+        const handleEditAction = (_id) =>
+        {
+          navigate(`/addbanner/${params.row._id}`);
           // Ikkada Edit Action Logic Raasko
-          console.log(`Edit action for ID ${id}`);
+          console.log(`Edit action for ID ${_id}`);
           // aah Edit Logic ikkada Add chesko
         };
-        const handleDeleteAction = () => {
-          // Ikkada Delete Action Logic Raasko
-          console.log(`Delete action for ID ${id}`);
-          // aah Delete Logic ikkada Add chesko
+        const handleDeleteAction = (_id) => {
+          // Open the delete confirmation dialog
+          openDeleteDialog(_id);
         };
-  
+
+        const handleDeleteConfirmation = () => {
+          // Assuming you have an API endpoint for deleting by ID
+          axios
+            .delete(`http://localhost:5001/api/dashboard_banners/delete/${deleteItemId}`)
+            .then((response) => {
+              console.log(`Item with ID ${deleteItemId} deleted successfully.`);
+              closeDeleteDialog(); // Close the dialog
+              fetchData();
+              // You might want to refresh your data after a successful delete
+            })
+            .catch((error) => {
+              console.error(
+                `Error deleting item with ID ${deleteItemId}:`,
+                error
+              );
+            });
+        };
+
         return (
           <div>
             <IconButton
               onClick={handleEditAction}
               aria-label="Edit"
               color="primary"
-
             >
               <Edit />
             </IconButton>
             <text>|</text>
 
             <IconButton
-              onClick={handleDeleteAction}
+              onClick={() => handleDeleteAction(params.row._id)}
               aria-label="Delete"
               color="secondary"
             >
-              
               <Delete />
             </IconButton>
+            <Dialog open={isDeleteDialogOpen} onClose={closeDeleteDialog}>
+              <DialogTitle>Confirm Delete</DialogTitle>
+              <DialogContent>
+                Are you sure you want to delete this item?
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={closeDeleteDialog} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleDeleteConfirmation} color="secondary">
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
           </div>
         );
       },
     },
-
   ];
   const [banner, setBanner] = useState([]);
-  useEffect(() => {
+  const fetchData = () => {
     fetch("http://localhost:5001/api/dashboard_banners/list")
-      .then((response) => response.json())
-      .then((json) => setBanner(json.data));
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setBanner(res.data);
+      });
+  };
+  useEffect(() => {
+    fetchData(); // Fetch initial data when the component mounts
   }, []);
-  console.log(banner);
-
 
   return (
 

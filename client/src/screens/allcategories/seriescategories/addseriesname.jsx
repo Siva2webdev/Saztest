@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
 import axios from "axios";
-
 import {
   TextField,
   Button,
@@ -22,26 +20,49 @@ const AddCategorySeries = () => {
   const [visiblechecked, setVisibleChecked] = useState(false);
 
   const [formData, setFormData] = useState({
-    id: "",
     title: "",
 
+    visible: '',
 
+    // stream_for_webtv: '',
 
-    // image: '',
+    // stream_for_ios_mobile: '',
 
-    // createdate: '',
+    // stream_for_android: '',
 
-    // parent_id: '',
+    // android_setup_box: '',
 
-    // visible: '',
+    // custom_linux_box: '',
 
-    // position: '',
+    // dreambox: '',
 
-    // is_protected: '',
+    // pc: '',
 
-    // is_deleted: ''
+    // add_trailer: '',
 
+    // description: '',
 
+    // language: '',
+
+    // duration: '',
+
+    // year: '',
+
+    // studio: '',
+
+    // producer:'',
+
+    // director: '',
+
+    // actors: '',
+
+    // ratings: '',
+
+    // price: '',
+
+    // select_channel_image: '',
+
+    // category: ''
   });
 
   const handleChange = (e) => {
@@ -53,11 +74,17 @@ const AddCategorySeries = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // console.log(formData);
     axios
-      .post('http://localhost:5001/api/mod_categories/post', formData)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+      .post("http://localhost:5001/api/mod_categories/post", formData)
+      .then((response) => {
+        
+        
+        console.log(response);
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -121,10 +148,9 @@ const AddCategorySeries = () => {
         </div>
         <br />
         <ButtonGroup variant="contained" aria-label="outlined button group">
-          <Button style={{ backgroundColor: "White", color: "black" }}>
-            Reset
-          </Button>
-          <Button type= "submit" style={{ backgroundColor: "green" }}>Submit</Button>
+          <Button>Reset</Button>
+
+          <Button type="submit">Submit</Button>
         </ButtonGroup>
       </form>
     </Box>

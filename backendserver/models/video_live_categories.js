@@ -39,6 +39,6 @@ const video_live_categoriesSchema=new mongoose.Schema({
     is_deleted:{
         type:String
     }    
-})
+},{versionKey:false})
 const video_live_categories=new mongoose.model("video_live_categories",video_live_categoriesSchema);
 export default video_live_categories;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 import {
   TextField,
@@ -35,24 +34,25 @@ const AddMessage4 = () => {
   const [visiblechecked, setVisibleChecked] = useState(false);
 
   const [formData, setFormData] = useState({
-    id: "",
+    visible: "",
 
-    title: "",
+    stream_for_webtv: "",
 
-    description: "",
+    backup_stream_1: "",
 
-    user_ids: "",
+    backup_stream_2: "",
 
-    start_date: "",
+    backup_stream_3: "",
 
-    repeat_interval: "",
+    backup_stream_4: "",
 
-    is_active: "",
+    backup_stream_5: "",
 
-    created: "",
+    backup_stream_6: "",
 
-    modified: "",
+    select_channel_image: "",
 
+    select_the_category: "",
   });
 
   const handleChange = (e) => {
@@ -64,11 +64,7 @@ const AddMessage4 = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // console.log(formData);
-    axios
-      .post('http://localhost:5001/api/multi_user_messages/post', formData)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+    console.log(formData);
   };
 
 
@@ -76,7 +72,16 @@ const AddMessage4 = () => {
 
   // Make an API request to fetch payment types data from your server
   useEffect(() => {
-    fetch("http://localhost:5001/api/products/list")
+
+
+//     fetch("http://localhost:5001/api/products/list")
+
+
+
+    fetch("http://localhost:5001/api/masa_new_users/find")
+
+
+
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
@@ -96,7 +101,7 @@ const AddMessage4 = () => {
       <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
-          name="title"
+          name="Title"
           label="Title"
           variant="outlined"
           value={formData.title}
@@ -164,7 +169,7 @@ const AddMessage4 = () => {
 
         <TextField
           fullWidth
-          name="description"
+          name="Description"
           label="Description"
           variant="outlined"
           value={formData.PassWord}
@@ -206,7 +211,7 @@ const AddMessage4 = () => {
 
         <TextField
           fullWidth
-          name="start_date"
+          name="Startdate"
           label="Startdate"
           variant="outlined"
           value={formData.Address1}
@@ -216,7 +221,7 @@ const AddMessage4 = () => {
 
         <TextField
           fullWidth
-          name="repeat_interval"
+          name="Repeat Intervels"
           label="Repeat Intervels"
           variant="outlined"
           value={formData.Address1}
@@ -227,7 +232,7 @@ const AddMessage4 = () => {
           <Button style={{ backgroundColor: "White", color: "black" }}>
             Reset
           </Button>
-          <Button type="submit" style={{ backgroundColor: "green" }}>Submit</Button>
+          <Button style={{ backgroundColor: "green" }}>Submit</Button>
         </ButtonGroup>
       </form>
 

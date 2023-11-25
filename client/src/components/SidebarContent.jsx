@@ -22,6 +22,8 @@ import {
   InputLabel,
   ThemeProvider,
   useTheme,
+  useMediaQuery,
+  IconButton,
 } from "@mui/material";
 
 import {
@@ -47,11 +49,12 @@ import {
   ChevronLeft,
   Menu as MenuIcon,
   SortByAlpha,
+  ChevronRight,
 } from "@mui/icons-material";
 
 import FlexBetween from "./FlexBetween";
 
-function Sidebar() {
+function Sidebar(drawerWidth) {
   // Define state and click handlers for each dropdown
 
   const [openDropdown1, setOpenDropdown1] = useState(false);
@@ -72,7 +75,9 @@ function Sidebar() {
 
   const [openDropdown9, setOpenDropdown9] = useState(false);
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+
 
   const theme = useTheme();
 
@@ -117,10 +122,10 @@ function Sidebar() {
   return (
     <ThemeProvider theme={theme}>
       <Drawer
-        open={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
+        open={isSidebarContentOpen}
+        onClose={() => setIsSidebarContentOpen(false)}
         anchor="left"
-        variant="permanent"
+        variant="persistent"
         sx={{
           "& .MuiDrawer-paper": {
             color: theme.palette.secondary[200],
@@ -451,10 +456,10 @@ function Sidebar() {
       </Drawer>
 
       <Drawer
-        open={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
+        open={isSidebarContentOpen}
+        onClose={() => setIsSidebarContentOpen(false)}
         anchor="left"
-        variant="permanent"
+        variant="persistent"
         sx={{
           "& .MuiDrawer-paper": {
             color: theme.palette.secondary[200],
@@ -715,6 +720,22 @@ function Sidebar() {
           </Collapse>
         </List>
       </Drawer>
+      {isSmallScreen && (
+      <IconButton
+        color="inherit"
+        aria-label={isSidebarContentOpen ? "Close sidebar" : "Open sidebar"}
+        onClick={() => setIsSidebarContentOpen(!isSidebarContentOpen)}
+        sx={{
+          position: 'fixed',
+          top: '1%',
+          left: '1%',
+          transform: 'translateY(50%)',
+          zIndex: theme.zIndex.drawer + 1,
+        }}
+      >
+        {isSidebarContentOpen ? <ChevronLeft /> : <ChevronRight />}
+      </IconButton>
+      )}
     </ThemeProvider>
   );
 }

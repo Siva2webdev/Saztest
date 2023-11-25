@@ -1,15 +1,12 @@
-// import React from "react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import FlexBetween from "components/FlexBetween";
-// import DeleteIcon from '@mui/icons-material/Delete';
 
 import Header from "components/Header";
 
-import CustomColumnMenu from "components/DataGridCustomColumnMenu";
-import axios from "axios";
+import CustomColumnMenu from "components/DataGridCustomColumnMenu"
 
-
+ 
 
 import {
 
@@ -23,14 +20,10 @@ import {
 
   Traffic,
   Update,
-  Edit,
-  Delete,
-
 
 } from "@mui/icons-material";
 
 import {
-  Container,
 
   Box,
 
@@ -41,7 +34,6 @@ import {
   useTheme,
 
   useMediaQuery,
-  IconButton
 
 } from "@mui/material";
 
@@ -57,7 +49,7 @@ import StatBox from "components/StatBox";
 
 import Navbar from "components/Navbar";
 
-
+ 
 
 const Allmessage1 = () => {
 
@@ -65,17 +57,15 @@ const Allmessage1 = () => {
 
   const isNonMediumScreens = useMediaQuery("(min-width: 1800px)");
 
-  const [allcontent, setAllcontent] = useState([]);
-
   // const { data, isLoading } = useGetDashboardQuery();
 
-
+ 
 
   const columns = [
 
     {
 
-      field: "title",
+      field: "Title",
 
       headerName: "Title",
 
@@ -95,7 +85,7 @@ const Allmessage1 = () => {
 
     {
 
-      field: "created",
+      field: "created date",
 
       headerName: "Created Date",
 
@@ -105,7 +95,7 @@ const Allmessage1 = () => {
 
     {
 
-      field: "user_ids",
+      field: "users",
 
       headerName: "Users",
 
@@ -117,7 +107,7 @@ const Allmessage1 = () => {
 
     {
 
-      field: "start_date",
+      field: "starting date",
 
       headerName: "Starting Date",
 
@@ -129,21 +119,33 @@ const Allmessage1 = () => {
 
     {
 
-        field: "repeat_interval",
-
+        field: "repeat intervel",
+  
         headerName: "Repeat nterval",
-
+  
         flex: 1,
-
+  
         // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
-
+  
       },
 
       {
 
         field: "status",
-
+  
         headerName: "Status",
+  
+        flex: 1,
+  
+        // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
+  
+      },
+
+    {
+
+        field: "action",
+
+        headerName: "Action",
 
         flex: 1,
 
@@ -151,89 +153,15 @@ const Allmessage1 = () => {
 
       },
 
-      {
-        field: "action",
-        headerName: "Actions",
-        flex:1,
-
-        renderCell: (params) => {
-          // const id = params.row.id; // Assuming 'id' is a unique identifier for the row
-
-          // const handleEditAction = () => {
-          //   // Ikkada Edit Action Logic Raasko
-          //   console.log(`Edit action for ID `);
-          //   // aah Edit Logic ikkada Add chesko
-          // };
-          const handleDeleteAction = async (id) => {
-            if (
-              window.confirm(`Do you want to delete item with ObjectId: ${id}?`)
-            ) {
-              try {
-                const res = await axios.delete(
-                  `http://localhost:5001/api/messages/delete/${id}`
-                );
-
-                if (res.status === 200) {
-                  const updatedAllcontent = allcontent.filter(
-                    (item) => item._id !== id
-                  );
-                  setAllcontent(updatedAllcontent);
-                } else {
-                  console.error("Failed to delete item.");
-                }
-              } catch (err) {
-                console.error(err);
-              }
-            }
-          };
-
-          return (
-            <div>
-              <IconButton
-                // onClick={handleEditAction}
-                aria-label="Edit"
-                color="primary"
-
-              >
-                <Edit />
-              </IconButton>
-
-              <text>|</text>
-
-              <IconButton
-
-                onClick={() => handleDeleteAction(params.row._id)}
-                aria-label="Delete"
-                color="secondary"
-              >
-
-                <Delete />
-              </IconButton>
-            </div>
-          );
-        },
-      },
-
-
-
+     
 
   ];
 
-
-
-  const [messages, setMessages] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5001/api/messages/find")
-      .then((response) => response.json())
-      .then((json) => setMessages(json.data));
-  }, []);
-  console.log(messages);
-
-
+ 
 
   return (
 
-
+ 
 
     <Box m="1.5rem 3.5rem" ml="400px">
 
@@ -245,7 +173,7 @@ const Allmessage1 = () => {
 
       {/* <Navbar/> */}
 
-
+ 
 
       <Box
 
@@ -255,7 +183,7 @@ const Allmessage1 = () => {
 
         gridTemplateColumns="repeat(12, 1fr)"
 
-        gridAutoRows="500"
+        gridAutoRows="160px"
 
         gap="20px"
 
@@ -273,7 +201,7 @@ const Allmessage1 = () => {
 
           title="APP MESSAGE"
 
-
+ 
 
           searchtab = {<div className="content">
 
@@ -297,7 +225,7 @@ const Allmessage1 = () => {
 
           }
 
-
+       
 
         //   icon={
 
@@ -311,29 +239,16 @@ const Allmessage1 = () => {
 
         />
 
-<Container sx={{height: 450}}>
-<DataGrid
-   // className={classes.root}
-    // components={{
-    //   LoadingOverlay: CustomLoadingOverlay,
-    //   NoRowsOverlay: CustomNoRowsOverlay,
-    //   ErrorOverlay: CustomErrorOverlay,
-    // }}
-    // loading={loading}
-    // error={error}
+               <DataGrid   sx={{mt:"-60px"}}
 
+         
 
-    disableSelectionOnClick
-    rows={messages}
-    columns={columns}
-    pageSize={8}
-    checkboxSelection
-    getRowId={(row) => String(row._id)}
+            rows={[]}
 
+            columns={columns}
 
+          />
 
-   />
-</Container>
       </Box>
       <CustomColumnMenu/>
 
@@ -343,6 +258,6 @@ const Allmessage1 = () => {
 
 };
 
-
+ 
 
 export default Allmessage1;
