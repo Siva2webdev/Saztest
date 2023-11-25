@@ -300,10 +300,10 @@ const LayoutMonteize = () => {
   const [isSidebarMonetizeOpen, setIsSidebarMonetizeOpen] = useState(true);
   return (
     <Box display={isNonMobile1 ? "flex" : "block"} width="100%" height="100%">
-        <Navbar
+        {/* <Navbar
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
-        />
+        /> */}
       {/* /* const  Layout2 = () => { */}
       {/* const isNonMobile1 = useMediaQuery("(min-width:600px)"); */}
       {/* //returns boolean depending on the min width   //desktop=true mobile=false */}
@@ -314,16 +314,8 @@ const LayoutMonteize = () => {
         isSidebarAllCategoriesOpen={isSidebarAllCategoriesOpen}
         setIsSidebarAllCategoriesOpen={setIsSidebarAllCategoriesOpen}
       /> */}
-  <Navbar
-          isSidebarOpen={isSidebarOpen}
-          setIsSidebarOpen={setIsSidebarOpen}
-        />
-      <SidebarMonetize
-        isNonMobile1={isNonMobile1}
-        drawerWidth="250px"
-        isSidebarMonetizeOpen={isSidebarMonetizeOpen}
-        setIsSidebarMonetizeOpen={setIsSidebarMonetizeOpen}
-      />
+  <Navbar/>
+      <SidebarMonetize/>
 
       {/* <Monteiz/> */}
 

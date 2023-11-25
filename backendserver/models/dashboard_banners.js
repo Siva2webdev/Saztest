@@ -29,6 +29,6 @@ updated:
 },
 
     
-})
+},{ versionKey: false })
 const dashboard_banners=new mongoose.model("dashboard_banners",dashboardSchema);
 export default dashboard_banners;

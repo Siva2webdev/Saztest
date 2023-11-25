@@ -1,12 +1,12 @@
-// import React from "react";
-import React, { useEffect, useState } from "react";
+import React from "react";
+
 import FlexBetween from "components/FlexBetween";
 
 import Header from "components/Header";
-import axios from "axios";
+
 import CustomColumnMenu from "components/DataGridCustomColumnMenu"
 
-
+ 
 
 import {
 
@@ -20,8 +20,6 @@ import {
 
   Traffic,
   Update,
-  Edit,
-  Delete
 
 } from "@mui/icons-material";
 
@@ -36,7 +34,6 @@ import {
   useTheme,
 
   useMediaQuery,
-  IconButton
 
 } from "@mui/material";
 
@@ -52,24 +49,23 @@ import StatBox from "components/StatBox";
 
 import Navbar from "components/Navbar";
 
-
+ 
 
 const Allmessage4 = () => {
 
   const theme = useTheme();
 
   const isNonMediumScreens = useMediaQuery("(min-width: 1800px)");
-  const [allcontent, setAllcontent] = useState([]);
 
   // const { data, isLoading } = useGetDashboardQuery();
 
-
+ 
 
   const columns = [
 
     {
 
-      field: "title",
+      field: "Title",
 
       headerName: "Title",
 
@@ -89,7 +85,7 @@ const Allmessage4 = () => {
 
     {
 
-      field: "created",
+      field: "created date",
 
       headerName: "Created Date",
 
@@ -99,7 +95,7 @@ const Allmessage4 = () => {
 
     {
 
-      field: "user_ids",
+      field: "users",
 
       headerName: "Users",
 
@@ -111,7 +107,7 @@ const Allmessage4 = () => {
 
     {
 
-      field: "start_date",
+      field: "starting date",
 
       headerName: "Starting Date",
 
@@ -123,21 +119,33 @@ const Allmessage4 = () => {
 
     {
 
-        field: "repeat_interval",
-
+        field: "repeat intervel",
+  
         headerName: "Repeat nterval",
-
+  
         flex: 1,
-
+  
         // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
-
+  
       },
 
       {
 
         field: "status",
-
+  
         headerName: "Status",
+  
+        flex: 1,
+  
+        // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
+  
+      },
+
+    {
+
+        field: "action",
+
+        headerName: "Action",
 
         flex: 1,
 
@@ -145,77 +153,15 @@ const Allmessage4 = () => {
 
       },
 
-      {
-        field: "action",
-        headerName: "Actions",
-        flex: 1,
-        renderCell: (params) => {
+     
 
-
-          // Delete Action
-        const handleDeleteAction = async (id) => {
-          if (
-            window.confirm(`Do you want to delete item with ObjectId: ${id}?`)
-          ) {
-            try {
-              const res = await axios.delete(
-                `http://localhost:5001/api/multi_user_messages/delete/${id}`
-              );
-
-              if (res.status === 200) {
-                const updatedAllcontent = allcontent.filter(
-                  (item) => item._id !== id
-                );
-                setAllcontent(updatedAllcontent);
-              } else {
-                console.error("Failed to delete item.");
-              }
-            } catch (err) {
-              console.error(err);
-            }
-          }
-        };
-
-          return (
-            <div>
-              <IconButton
-                // onClick={handleEditAction}
-                aria-label="Edit"
-                color="primary"
-
-              >
-                <Edit />
-              </IconButton>
-
-              <text>|</text>
-
-              <IconButton
-              onClick={() => handleDeleteAction(params.row._id)}
-                aria-label="Delete"
-                color="secondary"
-              >
-
-                <Delete />
-              </IconButton>
-            </div>
-          );
-        },
-      },
   ];
 
-  const [multiusermessage, setMultiusermessage] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5001/api/multi_user_messages/find")
-      .then((response) => response.json())
-      .then((json) => setMultiusermessage(json.data));
-  }, []);
-  console.log(multiusermessage);
-
-
+ 
 
   return (
 
-
+ 
 
     <Box m="1.5rem 3.5rem" ml="400px">
 
@@ -227,7 +173,7 @@ const Allmessage4 = () => {
 
       {/* <Navbar/> */}
 
-
+ 
 
       <Box
 
@@ -237,7 +183,7 @@ const Allmessage4 = () => {
 
         gridTemplateColumns="repeat(12, 1fr)"
 
-        gridAutoRows="200px"
+        gridAutoRows="160px"
 
         gap="20px"
 
@@ -255,7 +201,7 @@ const Allmessage4 = () => {
 
           title="APP MESSAGE"
 
-
+ 
 
           searchtab = {<div className="content">
 
@@ -279,7 +225,7 @@ const Allmessage4 = () => {
 
           }
 
-
+       
 
         //   icon={
 
@@ -295,9 +241,9 @@ const Allmessage4 = () => {
 
                <DataGrid   sx={{mt:"-60px"}}
 
+         
 
-
-            rows={multiusermessage}
+            rows={[]}
 
             columns={columns}
 
@@ -312,6 +258,6 @@ const Allmessage4 = () => {
 
 };
 
-
+ 
 
 export default Allmessage4;

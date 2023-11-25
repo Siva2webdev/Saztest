@@ -373,9 +373,8 @@ app.use((req, res, next) => {
 dotenv.config();
 const PORT = process.env.PORT;
 const MONGO_URL =
-  // "mongodb://sazpinhyd:FlKXIamPtqvgh8Nq@ac-ufb5bpw-shard-00-00.aiduhsr.mongodb.net:27017,ac-ufb5bpw-shard-00-01.aiduhsr.mongodb.net:27017,ac-ufb5bpw-shard-00-02.aiduhsr.mongodb.net:27017/sazpinmiddleware?ssl=true&replicaSet=atlas-gbn4no-shard-0&authSource=admin&retryWrites=true&w=majority";
+  "mongodb://sazpinhyd:FlKXIamPtqvgh8Nq@ac-ufb5bpw-shard-00-00.aiduhsr.mongodb.net:27017,ac-ufb5bpw-shard-00-01.aiduhsr.mongodb.net:27017,ac-ufb5bpw-shard-00-02.aiduhsr.mongodb.net:27017/sazpinmiddleware?ssl=true&replicaSet=atlas-gbn4no-shard-0&authSource=admin&retryWrites=true&w=majority";
 //global error handling
-process.env.MONGO_URL;
 
 app.use("/api/user", userRouter);
 

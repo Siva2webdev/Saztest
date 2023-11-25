@@ -22,7 +22,7 @@ import {
   useTheme,
   useMediaQuery,
   Avatar,
-  Container
+  Container,
 } from "@mui/material";
 
 import Sidebar from "components/Sidebar";
@@ -61,8 +61,8 @@ import SidebarAllCategories from "components/SidebarAllCategories";
 
 const LiveTvCategory = () => {
   const theme = useTheme();
-  const isNonMediumScreens = useMediaQuery("(min-width: 300px, max-width:1280px) ");
-  const isNonMobile = useMediaQuery("(min-width:600px)");
+  const isNonMediumScreens = useMediaQuery("(min-width:300px, max-width:1280px)");
+  const isNonMobile = useMediaQuery("(min-width:300px, max-width:1280px)");
 
 
   const [videocategories, setvideocategories] = useState([]);
@@ -219,11 +219,9 @@ setvideocategories(res.data)});
       <FlexBetween>{/* <Header title="Live TV Category"  /> */}</FlexBetween>
 
       <Box
-        mt="20px"
-        ml="0px"
+        mt="10px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        // gridAutoRows="500px"
         gap="20px"
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
@@ -257,20 +255,22 @@ setvideocategories(res.data)});
             </div>
           }
         />
-                 {/* <Container sx={{width:850,height: 450}}>
-                  <br></br><br></br>
-                  <br></br><br></br> */}
-        <DataGrid
-          // loading={isLoading || !data}
-          // getRowId={(row) => row._id}
-          // rows={(data && data.transactions) || []}
-          rows={videocategories}
-          columns={columns}
-          pageSize={8}
-          // checkboxSelection
-          getRowId={(row) => String(row._id)}
-        />
-        {/* </Container> */}
+        <Container sx={{height: 450}}>
+<DataGrid
+   
+
+
+    disableSelectionOnClick
+    rows={videocategories}
+    columns={columns}
+    pageSize={8}
+    checkboxSelection
+    getRowId={(row) => String(row._id)}
+
+
+
+   />
+</Container>
       </Box>
 
       <CustomColumnMenu />

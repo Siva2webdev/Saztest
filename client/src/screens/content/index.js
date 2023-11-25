@@ -4,7 +4,7 @@ import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 // import SidebarContent from "components/SidebarContent"
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
-
+// import "index.css";
 import {
   DownloadOutlined,
   Email,
@@ -43,9 +43,9 @@ import { Menu as MenuIcon, IconButton } from "@mui/material";
 const Content = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery(
-    "(min-width: 400px, max-width:1280px)"
-  );
-  const isNonMobile = useMediaQuery("(min-width:600px)");
+    "(min-width: 400px, max-width:1280px)")
+  // );
+  // const isNonMobile = useMediaQuery("(min-width:600px)");
   // const { data, isLoading } = useGetDashboardQuery();
   const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
 
@@ -100,7 +100,7 @@ const Content = () => {
         }}
       >
         {/* ROW 1 */}
-        <StatBox
+        <StatBox 
           title="RECENT USERS"
           // value={data && data.totalCustomers}
           // increase="+14%"
@@ -111,7 +111,7 @@ const Content = () => {
             />
           }
         />
-        <DataGrid
+        <DataGrid 
           // loading={isLoading || !data}
           // getRowId={(row) => row._id}
           // rows={(data && data.transactions) || []}

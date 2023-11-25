@@ -1,4 +1,4 @@
-import userinfos from "../models/userInfos.js";
+import userinfos from "../models/userinfos.js";
 
 
 //GET
@@ -36,20 +36,20 @@ const userinfosdata =async (req, res) => {
  }
  }
  export {userinfosbyId};
-
+ 
 
 
 
 //POST API
 const adduserinfos=async(req,res)=>
 {
-const {
+const {  
     _id,
     name,
     email,
     password,
     confirmpassword,
-
+    
 }= req.body;
   try{
     const newData=new userinfos({
@@ -58,7 +58,7 @@ const {
         email,
         password,
         confirmpassword,
-
+        
        })
     await newData.save();
     return res.json(await userinfos.find());
@@ -68,7 +68,7 @@ const {
     console.log(err.message);
   }
 }
-export {adduserinfos};
+export {adduserinfos}; 
 
 
 
@@ -125,37 +125,37 @@ export{userinfospatch};
 // filter
 
 const usernotificationSortable =async (req, res) => {
-
+    
     let queryStr=JSON.stringify(req.query);
     queryStr=queryStr.replace(/\b(gte|gt|lte|lt)\b/g,(match)=>`$${match}`);
-
+    
     const queryObj=JSON.parse(queryStr);
     console.log(queryObj);
-
-
+    
+    
     console.log(req.query)
     try{
       const user_notificationSortable= await user_notifications.find(queryObj);
-
-
+    
+    
         res.status(200).json({
-
+    
         status:"success",
         length:user_notificationSortable.length,
         data:{
-
+    
             user_notificationSortable}
         });
       }
-
+    
         catch(err)
         {
-
+    
           res.status(404).json({
-
+    
             status:"fail",
             message:err.message}
           )}
           }
-
+    
         export {usernotificationSortable};

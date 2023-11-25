@@ -9,7 +9,6 @@ import { DataGrid } from "@mui/x-data-grid";
 // import SidebarContent from "components/SidebarContent"
 
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
-import axios from "axios";
 
 import {
   DownloadOutlined,
@@ -17,8 +16,6 @@ import {
   PointOfSale,
   PersonAdd,
   Traffic,
-  Edit,
-  Delete
 } from "@mui/icons-material";
 
 import {
@@ -27,7 +24,6 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-  Avatar
 } from "@mui/material";
 
 import Sidebar from "components/Sidebar";
@@ -55,8 +51,6 @@ import {
   AdminPanelSettingsOutlined,
   TrendingUpOutlined,
   ContentCopyOutlined,
-
-
 } from "@mui/icons-material";
 
 import { TocOutlinedIcon } from "@mui/icons-material/TocOutlined";
@@ -69,7 +63,7 @@ import SupervisorAccountOutlinedIcon from "@mui/icons-material/SupervisorAccount
 
 import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 
-import { } from "@mui/icons-material";
+import {} from "@mui/icons-material";
 
 import { useState, useEffect } from "react";
 
@@ -92,7 +86,6 @@ const Seriesnamelist = () => {
   const isNonMediumScreens = useMediaQuery(
     "(min-width: 400px,max-width:1280px)"
   );
-  const [allcontent, setAllcontent] = useState([]);
 
   // const { data, isLoading } = useGetDashboardQuery();
 
@@ -100,30 +93,11 @@ const Seriesnamelist = () => {
 
   const columns = [
     {
-      field: "image",
+      field: "_image",
+
       headerName: "Image",
-      flex: 1,
-      renderCell: (params) => (
-        <Avatar
-          alt="User Avatar"
-          // src={`${params.value}`}
-          sx={{ width: 50, height: 50 }} // Customize the width and height of the avatars
-        />
-      ),
-
-      // headerName: "Image",
 
       flex: 1,
-      width: 200,
-      renderCell: (mod_categories) => {
-        return (
-          <div>
-
-            <Avatar alt="Movie Name" src={mod_categories.row.image}>  {mod_categories.row.image}</Avatar>
-          </div>
-        )
-      }
-
     },
 
     {
@@ -143,7 +117,7 @@ const Seriesnamelist = () => {
     },
 
     {
-      field: "createdate",
+      field: "createdDate",
 
       headerName: "Created Date",
 
@@ -156,73 +130,14 @@ const Seriesnamelist = () => {
 
     {
       field: "action",
-      headerName: "Actions",
+
+      headerName: "Action",
+
       flex: 1,
-      renderCell: (params) => {
-        // const id = params.row.id; // Assuming 'id' is a unique identifier for the row
 
-        // Delete Action
-        const handleDeleteAction = async (id) => {
-          if (
-            window.confirm(`Do you want to delete item with ObjectId: ${id}?`)
-          ) {
-            try {
-              const res = await axios.delete(
-                `http://localhost:5001/api/mod_categories/delete/${id}`
-              );
-
-              if (res.status === 200) {
-                const updatedAllcontent = allcontent.filter(
-                  (item) => item._id !== id
-                );
-                setAllcontent(updatedAllcontent);
-              } else {
-                console.error("Failed to delete item.");
-              }
-            } catch (err) {
-              console.error(err);
-            }
-          }
-        };
-
-        return (
-          <div>
-            <IconButton
-              // onClick={handleEditAction}
-              aria-label="Edit"
-              color="primary"
-
-            >
-              <Edit />
-            </IconButton>
-
-            <text>|</text>
-
-            <IconButton
-              onClick={() => handleDeleteAction(params.row._id)}
-              aria-label="Delete"
-              color="secondary"
-            >
-
-              <Delete />
-            </IconButton>
-          </div>
-        );
-      },
+      // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
     },
-
-
   ];
-
-
-
-  const [seriesnamelist, setSeriesnamelist] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5001/api/mod_categories/find")
-      .then((response) => response.json())
-      .then((json) => setSeriesnamelist(json.data));
-  }, []);
-  console.log(seriesnamelist);
 
   return (
     <Box m="1.5rem 2.5rem" ml="310px">
@@ -235,7 +150,7 @@ const Seriesnamelist = () => {
         ml="0px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        // gridAutoRows="160px"
+        gridAutoRows="160px"
         gap="20px"
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
@@ -281,7 +196,7 @@ const Seriesnamelist = () => {
 
           // rows={(data && data.transactions) || []}
 
-          rows={seriesnamelist}
+          rows={[]}
           columns={columns}
         />
       </Box>

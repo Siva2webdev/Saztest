@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import axios from "axios";
 import {
   TextField,
   Button,
@@ -35,24 +34,25 @@ const AddMessage1 = () => {
   const [visiblechecked, setVisibleChecked] = useState(false);
 
   const [formData, setFormData] = useState({
-    id: "",
+    visible: "",
 
-    title: "",
+    stream_for_webtv: "",
 
-    description: "",
+    backup_stream_1: "",
 
-    user_ids: "",
+    backup_stream_2: "",
 
-    start_date: "",
+    backup_stream_3: "",
 
-    repeat_interval: "",
+    backup_stream_4: "",
 
-    is_active: "",
+    backup_stream_5: "",
 
-    created: "",
+    backup_stream_6: "",
 
-    modified: "",
+    select_channel_image: "",
 
+    select_the_category: "",
   });
 
   const handleChange = (e) => {
@@ -61,21 +61,11 @@ const AddMessage1 = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   console.log(formData);
-  // };
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // console.log(formData);
-    axios
-      .post('http://localhost:5001/api/messages/post', formData)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+    console.log(formData);
   };
-
 
 
   const [products, setProducts] = useState([]);
@@ -102,7 +92,7 @@ const AddMessage1 = () => {
       <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
-          name="title"
+          name="Title"
           label="Title"
           variant="outlined"
           value={formData.title}
@@ -112,65 +102,65 @@ const AddMessage1 = () => {
 
         {/*
 
-
+ 
 
          <FormControl>
 
-
+ 
 
             <FormControlLabel
 
-
+ 
 
             label = " Visible"
 
-
+ 
 
               control={
 
-
+ 
 
                 <Checkbox
 
-
+ 
 
                   id="agree"
 
-
+ 
 
                   checked={checked}
 
-
+ 
 
                   onChange={(e) => setChecked(e.target.checked)}
 
-
+ 
 
                 />
 
+ 
 
+               
 
-
-
-
+ 
 
               }
 
-
+ 
 
              />
 
+ 
 
+           
 
-
-
-
+ 
 
           </FormControl> */}
 
         <TextField
           fullWidth
-          name="description"
+          name="Description"
           label="Description"
           variant="outlined"
           value={formData.PassWord}
@@ -212,7 +202,7 @@ const AddMessage1 = () => {
 
         <TextField
           fullWidth
-          name="start_date"
+          name="Startdate"
           label="Startdate"
           variant="outlined"
           value={formData.Address1}
@@ -222,7 +212,7 @@ const AddMessage1 = () => {
 
         <TextField
           fullWidth
-          name="repeat_interval"
+          name="Repeat Intervels"
           label="Repeat Intervels"
           variant="outlined"
           value={formData.Address1}
@@ -233,7 +223,7 @@ const AddMessage1 = () => {
           <Button style={{ backgroundColor: "White", color: "black" }}>
             Reset
           </Button>
-          <Button type= "submit" style={{ backgroundColor: "green" }}>Submit</Button>
+          <Button style={{ backgroundColor: "green" }}>Submit</Button>
         </ButtonGroup>
       </form>
 

@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FlexBetween from "components/FlexBetween";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
-
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 import {
   DownloadOutlined,
   Email,
   PointOfSale,
   PersonAdd,
   Traffic,
+  Edit,
+  Delete,
 } from "@mui/icons-material";
 import {
   Box,
@@ -20,6 +23,12 @@ import {
   FormControl,
   checked,
   setChecked,
+  Container,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 // import BreakdownChart from "components/BreakdownChart";
@@ -30,24 +39,40 @@ import SidebarMonetize from "components/SidebarMonetize";
 
 const AssignedProducts = () => {
   const [checked, setChecked] = useState(false);
+  const navigate = useNavigate();
+
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery(
     "(min-width: 400px, max-width: 1280px)"
   );
   // const { data, isLoading } = useGetDashboardQuery();
+  useEffect(() => {
+    fetchData(); // Fetch initial data when the component mounts
+  }, []);
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
 
+  const openDeleteDialog = (_id) => {
+    setDeleteDialogOpen(true);
+    setDeleteItemId(_id);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setDeleteItemId(null);
+  };
   const columns = [
-    <FormControl>
-      <FormControlLabel
-        control={
-          <Checkbox
-            id="agree"
-            checked={checked}
-            onChange={(e) => setChecked(e.target.checked)}
-          />
-        }
-      />
-    </FormControl>,
+    // <FormControl>
+    //   <FormControlLabel
+    //     control={
+    //       <Checkbox
+    //         id="agree"
+    //         checked={checked}
+    //         onChange={(e) => setChecked(e.target.checked)}
+    //       />
+    //     }
+    //   />
+    // </FormControl>,
 
     {
       field: "name",
@@ -65,14 +90,14 @@ const AssignedProducts = () => {
       flex: 1,
     },
     {
-      field: "serial#",
+      field: "serial_num",
       headerName: "Serial#",
       flex: 1,
       // sortable: false,
       // renderCell: (params) => params.value.length,
     },
     {
-      field: "mac address",
+      field: "mac_address",
       headerName: "Mac Address",
       flex: 1,
       // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
@@ -83,35 +108,98 @@ const AssignedProducts = () => {
       flex: 1,
     },
     {
-      field: "assigned date",
+      field: "created",
       headerName: "Assigned Date",
     },
     {
       field: "invoice",
       headerName: "Invoice",
     },
+    {
+      field: "action",
+      headerName: "Actions",
+      flex: 1,
+      renderCell: (params) => {
+        const _id = params.row._id; // Assuming 'id' is a unique identifier for the row
+
+  const handleEditAction = (_id) =>
+        {
+          navigate(`/assignproducts/${params.row._id}`);
+          // Ikkada Edit Action Logic Raasko
+          console.log(`Edit action for ID ${_id}`);
+          // aah Edit Logic ikkada Add chesko
+        };
+        const handleDeleteAction = (_id) => {
+          // Open the delete confirmation dialog
+          openDeleteDialog(_id);
+        };
+
+        const handleDeleteConfirmation = () => {
+          // Assuming you have an API endpoint for deleting by ID
+          axios
+            .delete(`http://localhost:5001/api/product_assignments/delete/${deleteItemId}`)
+            .then((response) => {
+              console.log(`Item with ID ${deleteItemId} deleted successfully.`);
+              closeDeleteDialog(); // Close the dialog
+              fetchData();
+              // You might want to refresh your data after a successful delete
+            })
+            .catch((error) => {
+              console.error(
+                `Error deleting item with ID ${deleteItemId}:`,
+                error
+              );
+            });
+        };
+        return (
+          <div>
+            <IconButton
+              onClick={handleEditAction}
+              aria-label="Edit"
+              color="primary"
+            >
+              <Edit />
+            </IconButton>
+            <text>|</text>
+
+            <IconButton
+              onClick={() => handleDeleteAction(params.row._id)}
+              aria-label="Delete"
+              color="secondary"
+            >
+              <Delete />
+            </IconButton>
+            <Dialog open={isDeleteDialogOpen} onClose={closeDeleteDialog}>
+              <DialogTitle>Confirm Delete</DialogTitle>
+              <DialogContent>
+                Are you sure you want to delete this item?
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={closeDeleteDialog} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleDeleteConfirmation} color="secondary">
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+        );
+      },
+    },
   ];
 
-  return (
-    // <Box m="1.5rem 2.5rem">
-    //   <FlexBetween>
-    //     <Header title="Live TV" subtitle="Welcome to your Live TV" />
+  const [products, setProducts] = useState([]);
+  const fetchData = () => {
+    fetch("http://localhost:5001/api/product_assignments/list")
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setProducts(res.data);
+      });
+  };
 
-    //     <Box>
-    //       <Button
-    //         sx={{
-    //           backgroundColor: theme.palette.secondary.light,
-    //           color: theme.palette.background.alt,
-    //           fontSize: "14px",
-    //           fontWeight: "bold",
-    //           padding: "10px 20px",
-    //         }}
-    //       >
-    //         <DownloadOutlined sx={{ mr: "10px" }} />
-    //         Download Reports
-    //       </Button>
-    //     </Box>
-    //   </FlexBetween>
+  return (
     <Box m="1.5rem 2.5rem" ml="250px">
       <FlexBetween>
         {/* <Header title="ADD MOVIE" /> */}
@@ -123,7 +211,7 @@ const AssignedProducts = () => {
         mt="20px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="160px"
+        // gridAutoRows="160px"
         gap="20px"
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
@@ -141,14 +229,16 @@ const AssignedProducts = () => {
             />
           }
         />
-        <DataGrid
-          // loading={isLoading || !data}
-          // getRowId={(row) => row._id}
-          // rows={(data && data.transactions) || []}
-          rows={[]}
-          columns={columns}
-        />
-
+        <Container sx={{ height: 450 }}>
+          <DataGrid
+            // loading={isLoading || !data}
+            getRowId={(row) => row._id}
+            // rows={(data && data.transactions) || []}
+            disableSelectionOnClick
+            rows={products}
+            columns={columns}
+          />
+        </Container>
         {/* ROW 2 */}
         <Box
           gridColumn="span 8"

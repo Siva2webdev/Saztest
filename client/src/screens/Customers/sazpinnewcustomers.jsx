@@ -11,6 +11,7 @@ import {
   Traffic,
   Edit,
   Delete,
+  
 } from "@mui/icons-material";
 import {
   Box,
@@ -19,7 +20,8 @@ import {
   useTheme,
   useMediaQuery,
 
-  IconButton
+  IconButton,
+  Container,
 
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -118,13 +120,13 @@ const SazpinNewCustomers = () => {
   ];
 
 
-  const [sazpinNewCustomers, setSazpinNewCustomers] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5001/api/masa_new_users/find")
-      .then((response) => response.json())
-      .then((json) => setSazpinNewCustomers(json.data));
-  }, []);
-  console.log(sazpinNewCustomers);
+  // const [sazpinNewCustomers, setSazpinNewCustomers] = useState([]);
+  // useEffect(() => {
+  //   fetch("http://localhost:5001/api/masa_new_users/find")
+  //     .then((response) => response.json())
+  //     .then((json) => setSazpinNewCustomers(json.data));
+  // }, []);
+  // console.log(sazpinNewCustomers);
 
 
   return (
@@ -167,16 +169,17 @@ const SazpinNewCustomers = () => {
         //     />
         //   }
         />
+                      <Container sx={{ height: 450 }}>
+
                <DataGrid   sx={{mt:"-60px"}}
+
 
 
             rows={[]}
 
-            rows={sazpinNewCustomers}
-
             columns={columns}
           />
-
+      </Container>
 
 
       </Box>

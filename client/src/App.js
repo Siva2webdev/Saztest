@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 
-import { CssBaseline, Switch, ThemeProvider } from "@mui/material";
+import { CssBaseline, Switch, ThemeProvider, useMediaQuery } from "@mui/material";
 
 import { createTheme } from "@mui/material/styles";
 
@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { themeSettings } from "themes";
-
+// import useMediaQuery from "@mui/material";
 import {
   BrowserRouter,
   Routes,
@@ -60,6 +60,7 @@ import SazpinNewCustomers from "screens/Customers/sazpinnewcustomers";
 import Customer_Saz1 from "screens/Customers/Customer_Saz1";
 import Customer_Saz2 from "screens/Customers/Customer_Saz2";
 import Customer_Saz3 from "screens/Customers/Customer_Saz3";
+import Notifications from "screens/Customers/Notifications";
 import Playlist_Saz1 from "screens/administrator/Playlist_Saz1";
 import Playlist_Saz2 from "screens/administrator/Playlist_Saz2";
 import Playlist_Saz3 from "screens/administrator/Playlist_Saz3";
@@ -204,7 +205,7 @@ import Addadminstrator from "screens/administrator/addadministrator";
 import AssignProducts from "screens/MonetizeElements/Products/AssignProducts";
 import Resellers from "screens/Resellers/ResellersAction";
 
-import { LiveTv } from "@mui/icons-material";
+import { LiveTv} from "@mui/icons-material";
 
 //set up material UI
 
@@ -251,6 +252,7 @@ import Seriesnamelist from "screens/allcategories/seriescategories/seriesnamelis
 import Saz1_MainURL from "screens/administrator/Saz1_MainURL";
 import Saz2_MainURL from "screens/administrator/Saz2_MainURL";
 import Saz3_MainURL from "screens/administrator/Saz3_MainURL";
+// import Addcustomer_saz1 from "screens/Customers/addCustomer_Saz1";
 
 
 // import { LayoutResellerlist } from "screens/layout";
@@ -303,7 +305,9 @@ function App() {
 
   const theme = useMemo(() => createTheme(themeSettings(mode), [mode]));
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
+  const isNotMediumScreen = useMediaQuery("(min-width:960px)");
+  
   return (
     <div className="app">
       <BrowserRouter>
@@ -390,9 +394,10 @@ function App() {
                 element={<TimeshiftTvCategory />}
               />
               <Route
-                path="/TimeshiftCategory/AddCategory"
+                path="/TimeshiftCategory/AddCategory/:_id"
                 element={<AddCategoryTimeShift />}
               />
+               
               <Route
                 path="/Timeshiftcatsort"
                 element={<Timeshiftsortablelist />}
@@ -454,6 +459,7 @@ function App() {
               <Route path="/addproducts" element={<AddProduct />} />
               <Route path="/addproducts/:_id" element={<AddProduct />} />
               <Route path="/AssignProducts" element={<AssignProducts />} />
+              <Route path="/AssignProducts/:_id" element={<AssignProducts />} />
             </Route>
 
             {/* <Route element={<LayoutResellerlist />}>
@@ -477,6 +483,7 @@ function App() {
               <Route path="/ContentSortable" element={<ContentSortable />} />
               <Route path="/addcontent" element={<AddContent />} />
               <Route path="/addbanner" element={<AddBanner />} />
+              <Route path="/addbanner/:_id" element={<AddBanner />} />
               <Route path="/bannersortable" element={<BannerSortable />} />
               <Route path="/addcontent" element={<AddContent />} />
               <Route path="/allcontent" element={<Allcontent />} />
@@ -503,7 +510,10 @@ function App() {
               ></Route>
               <Route path="/Customers/Customer_Saz2" element={<Customer_Saz2/>}/>
               <Route path="/Customers/Customer_Saz1" element={<Customer_Saz1/>}/>
+              {/* <Route path="/Customers/addcustomer_saz1" element={<Addcustomer_saz1/>}/> */}
+              {/* <Route path="/Customers/addcustomer_saz1/:_id" element={<Addcustomer_saz1/>}/> */}
               <Route path="/Customers/Customer_Saz3" element={<Customer_Saz3/>}/>
+              <Route path="/Customers/Notifications" element={<Notifications/>}/>
             </Route>
 
             <Route element={<LayoutPackage />}>

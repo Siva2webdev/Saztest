@@ -9,6 +9,8 @@ import {
   Collapse,
   ThemeProvider,
   useTheme,
+  useMediaQuery,
+  IconButton,
 } from "@mui/material";
 import {
   PlaylistAddCircle,
@@ -39,6 +41,7 @@ import {
   PostAdd,
   Assignment,
   AssignmentTurnedIn,
+  ChevronRight,
 } from "@mui/icons-material";
 import FlexBetween from "./FlexBetween";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
@@ -46,7 +49,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 
-function SidebarReseller() {
+function SidebarReseller(drawerWidth) {
   // Define state and click handlers for each dropdown
   const [openDropdown1, setOpenDropdown1] = useState(false);
   //   const [openDropdown2, setOpenDropdown2] = useState(false);
@@ -59,6 +62,9 @@ function SidebarReseller() {
   //   const [openDropdown9, setOpenDropdown9] = useState(false);
 
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const [isSidebarResellerOpen, setIsSidebarResellerOpen] = useState(true);
+
   // Define click handlers for each dropdown
   const handleDropdown1Click = () => {
     setOpenDropdown1(!openDropdown1);
@@ -73,8 +79,10 @@ function SidebarReseller() {
   return (
     <ThemeProvider theme={theme}>
       <Drawer
+        open={isSidebarResellerOpen}
         anchor="left"
-        variant="permanent"
+        variant="persistent"
+        onClose={() => setIsSidebarResellerOpen(false)}
         sx={{
           "& .MuiDrawer-paper": {
             color: theme.palette.secondary[200],
@@ -143,6 +151,22 @@ function SidebarReseller() {
           </Collapse>
         </List>
       </Drawer>
+      {isSmallScreen && (
+      <IconButton
+        color="inherit"
+        aria-label={isSidebarResellerOpen ? "Close sidebar" : "Open sidebar"}
+        onClick={() => setIsSidebarResellerOpen(!isSidebarResellerOpen)}
+        sx={{
+          position: 'fixed',
+          top: '5%',
+          left: isSidebarResellerOpen ? drawerWidth : 0.5,
+          transform: 'translateY(-50%)',
+          zIndex: theme.zIndex.drawer + 1,
+        }}
+      >
+        {isSidebarResellerOpen ? <ChevronLeft /> : <ChevronRight />}
+      </IconButton>
+      )}
     </ThemeProvider>
   );
 }

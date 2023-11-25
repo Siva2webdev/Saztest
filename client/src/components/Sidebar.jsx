@@ -29,6 +29,7 @@ import {
   AdminPanelSettingsOutlined,
   TrendingUpOutlined,
   ContentCopyOutlined,
+  ChevronRight,
 } from "@mui/icons-material";
 
 import { TocOutlinedIcon } from "@mui/icons-material/TocOutlined";
@@ -52,52 +53,14 @@ import FlexBetween from "./FlexBetween";
 import image_saz from "assets/image_saz.png";
 
 const navItems = [
-  {
-    text: "DASHBOARD",
-
-    icon: <HomeOutlined />,
-  },
-
-  {
-    text: "CONTENT",
-
-    icon: <ContentCopyOutlined />,
-  },
-
-  {
-    text: "MONETIZE",
-
-    icon: <BusinessOutlinedIcon />,
-  },
-
-  {
-    text: "CUSTOMERS",
-
-    icon: <BusinessOutlinedIcon />,
-  },
-
-  {
-    text: "MANAGE",
-
-    icon: <ManageAccountsOutlinedIcon />,
-  },
-
-  {
-    text: "ADMINISTRATORS",
-
-    icon: <SupervisorAccountOutlinedIcon />,
-  },
-
-  {
-    text: "RESELLERS",
-
-    icon: <SupervisorAccountOutlinedIcon />,
-  },
-  {
-    text: "DC",
-
-    icon: <BusinessOutlinedIcon />,
-  },
+  { text: "DASHBOARD", icon: <HomeOutlined /> },
+  { text: "CONTENT", icon: <ContentCopyOutlined /> },
+  { text: "MONETIZE", icon: <BusinessOutlinedIcon /> },
+  { text: "CUSTOMERS", icon: <BusinessOutlinedIcon /> },
+  { text: "MANAGE", icon: <ManageAccountsOutlinedIcon /> },
+  { text: "ADMINISTRATORS", icon: <SupervisorAccountOutlinedIcon /> },
+  { text: "RESELLERS", icon: <SupervisorAccountOutlinedIcon /> },
+  { text: "DC", icon: <BusinessOutlinedIcon /> },
 ];
 
 const Sidebar = ({
@@ -120,7 +83,7 @@ const Sidebar = ({
   useEffect(() => {
     setActive(pathname.substring(1));
   }, [pathname]);
-
+  
   return (
     <Box component="nav">
       {isSidebarOpen && (
@@ -155,11 +118,7 @@ const Sidebar = ({
                   </Typography>
                 </Box>
 
-                {!isNonMobile && (
-                  <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                    <ChevronLeft />
-                  </IconButton>
-                )}
+                
               </FlexBetween>
             </Box>
 
@@ -219,6 +178,22 @@ const Sidebar = ({
             </List>
           </Box>
         </Drawer>
+      )}
+      {!isNonMobile && (
+      <IconButton
+        color="inherit"
+        aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        sx={{
+          position: 'fixed',
+          top: '10%',
+          left: isSidebarOpen ? drawerWidth : 0.5,
+          transform: 'translateY(-50%)',
+          zIndex: theme.zIndex.drawer + 1,
+        }}
+      >
+        {isSidebarOpen ? <ChevronLeft /> : <ChevronRight />}
+      </IconButton>
       )}
     </Box>
   );

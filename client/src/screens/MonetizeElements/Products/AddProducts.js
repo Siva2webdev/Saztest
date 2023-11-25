@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 
 import Sidebar from "screens/content";
-
+import Joi from "joi";
 import { ContentCopy } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
 import SelectImageSection from "components/ChooseFile";
@@ -53,6 +53,11 @@ const AddProduct = () => {
     description: "",
   });
 
+  const [successMessage, setSuccessMessage] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+ 
+
 
   const handleReset = () => {
     setFormData({
@@ -69,9 +74,9 @@ const AddProduct = () => {
     });
   };
 
-  const [successMessage, setSuccessMessage] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
+
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -80,6 +85,40 @@ const AddProduct = () => {
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  
+    
+    if (_id) {
+      // If _id is defined, it's an edit operation
+      const apiUrl = `http://localhost:5001/api/products/patch/${_id}`; // Edit
+      axios
+        .patch(apiUrl, formData)
+        .then((response) => {
+          setSuccessMessage("Product updated successfully!");
+          setSnackbarOpen(true);
+          handleReset();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      // If _id is not defined, it's an add operation
+      const apiUrl = "http://localhost:5001/api/products/post"; // Add
+      axios
+        .post(apiUrl, formData)
+        .then((response) => {
+          setSuccessMessage("Product added successfully!");
+          setSnackbarOpen(true);
+          handleReset();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
+
 
   useEffect(() => {
     if (_id) {
@@ -107,37 +146,7 @@ const AddProduct = () => {
     }
   }, [_id]);
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-
-  if (_id) {
-    // If _id is defined, it's an edit operation
-    const apiUrl = `http://localhost:5001/api/products/patch/${_id}`; // Edit
-    axios
-      .patch(apiUrl, formData) // Use axios.patch for the PATCH request
-      .then((response) => {
-        setSuccessMessage("Product updated successfully!");
-        setSnackbarOpen(true);
-        handleReset();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  } else {
-    // If _id is not defined, it's an add operation
-    const apiUrl = "http://localhost:5001/api/products/post"; // Add
-    axios
-      .post(apiUrl, formData) // Use axios.post for the POST request
-      .then((response) => {
-        setSuccessMessage("Product added successfully!");
-        setSnackbarOpen(true);
-        handleReset();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
-};
+  
 
 
   return (
