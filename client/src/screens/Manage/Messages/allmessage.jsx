@@ -1,10 +1,14 @@
-import React from "react";
+// import React from "react";
+import React, { useEffect, useState } from "react";
 
 import FlexBetween from "components/FlexBetween";
+// import DeleteIcon from '@mui/icons-material/Delete';
 
 import Header from "components/Header";
 
-import CustomColumnMenu from "components/DataGridCustomColumnMenu"
+import CustomColumnMenu from "components/DataGridCustomColumnMenu";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
  
 
@@ -20,10 +24,14 @@ import {
 
   Traffic,
   Update,
+  Edit,
+  Delete,
+
 
 } from "@mui/icons-material";
 
 import {
+  Container,
 
   Box,
 
@@ -34,6 +42,11 @@ import {
   useTheme,
 
   useMediaQuery,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 
 } from "@mui/material";
 
@@ -52,20 +65,44 @@ import Navbar from "components/Navbar";
  
 
 const Allmessage1 = () => {
-
+  const navigate = useNavigate();
   const theme = useTheme();
-
   const isNonMediumScreens = useMediaQuery("(min-width: 1800px)");
+  const [allcontent, setAllcontent] = useState([]);
 
   // const { data, isLoading } = useGetDashboardQuery();
+  const [messages, setMessages] = useState([]);
+  const fetchData = () => {
+    fetch("http://localhost:5001/api/messages/find")
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setMessages(res.data);
+      });
+  };
 
+  useEffect(() => {
+    fetchData(); // Fetch initial data when the component mounts
+  }, []);
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
+
+  const openDeleteDialog = (_id) => {
+    setDeleteDialogOpen(true);
+    setDeleteItemId(_id);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setDeleteItemId(null);
+  };
  
 
   const columns = [
 
     {
 
-      field: "Title",
+      field: "title",
 
       headerName: "Title",
 
@@ -85,7 +122,7 @@ const Allmessage1 = () => {
 
     {
 
-      field: "created date",
+      field: "created",
 
       headerName: "Created Date",
 
@@ -95,7 +132,7 @@ const Allmessage1 = () => {
 
     {
 
-      field: "users",
+      field: "user_ids",
 
       headerName: "Users",
 
@@ -107,7 +144,7 @@ const Allmessage1 = () => {
 
     {
 
-      field: "starting date",
+      field: "start_date",
 
       headerName: "Starting Date",
 
@@ -119,7 +156,7 @@ const Allmessage1 = () => {
 
     {
 
-        field: "repeat intervel",
+        field: "repeat_interval",
   
         headerName: "Repeat nterval",
   
@@ -141,24 +178,84 @@ const Allmessage1 = () => {
   
       },
 
-    {
-
+      {
         field: "action",
+        headerName: "Actions",                                                                                                                                                                                                   
+        flex:1,
 
-        headerName: "Action",
+        renderCell: (params) => {
+          const _id = params.row._id;
+          const handleEditAction =        (_id) =>
+        {
+          navigate(`/Message/AddMessage/${params.row._id}`);
+          console.log(`Edit action for ID ${_id}`);
+        };
+        const handleDeleteAction = (_id) => {
+          // Open the delete confirmation dialog
+          openDeleteDialog(_id);
+        };
 
-        flex: 1,
-
-        // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
-
+        const handleDeleteConfirmation = () => {
+          // Assuming you have an API endpoint for deleting by ID
+          axios
+            .delete(`http://localhost:5001/api/messages/delete/${deleteItemId}`)
+            .then((response) => {
+              console.log(`Item with ID ${deleteItemId} deleted successfully.`);
+              closeDeleteDialog(); // Close the dialog
+              fetchData();
+              // You might want to refresh your data after a successful delete
+            })
+            .catch((error) => {
+              console.error(
+                `Error deleting item with ID ${deleteItemId}:`,
+                error
+              );
+            });
+        };
+  
+          return (
+            <div>
+              <IconButton
+                onClick={handleEditAction}
+                aria-label="Edit"
+                color="primary"
+  
+              >
+                <Edit />
+              </IconButton>
+  
+              <text>|</text>
+  
+              <IconButton
+                onClick={() => handleDeleteAction(params.row._id)}
+                aria-label="Delete"
+                color="secondary"
+              >
+                <Delete />
+              </IconButton>
+              <Dialog open={isDeleteDialogOpen} onClose={closeDeleteDialog}>
+              <DialogTitle>Confirm Delete</DialogTitle>
+              <DialogContent>
+                Are you sure you want to delete this item?
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={closeDeleteDialog} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleDeleteConfirmation} color="secondary">
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
+            </div>
+          );
+        },
       },
+  
 
      
 
   ];
-
- 
-
   return (
 
  
@@ -183,7 +280,7 @@ const Allmessage1 = () => {
 
         gridTemplateColumns="repeat(12, 1fr)"
 
-        gridAutoRows="160px"
+        gridAutoRows="500"
 
         gap="20px"
 
@@ -239,16 +336,29 @@ const Allmessage1 = () => {
 
         />
 
-               <DataGrid   sx={{mt:"-60px"}}
+<Container sx={{height: 450}}>
+<DataGrid
+   // className={classes.root}
+    // components={{
+    //   LoadingOverlay: CustomLoadingOverlay,
+    //   NoRowsOverlay: CustomNoRowsOverlay,
+    //   ErrorOverlay: CustomErrorOverlay,
+    // }}
+    // loading={loading}
+    // error={error}
 
-         
 
-            rows={[]}
+    disableSelectionOnClick
+    rows={messages}
+    columns={columns}
+    pageSize={8}
+    checkboxSelection
+    getRowId={(row) => String(row._id)}
 
-            columns={columns}
 
-          />
 
+   />
+</Container>
       </Box>
       <CustomColumnMenu/>
 
