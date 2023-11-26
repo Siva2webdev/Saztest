@@ -11,6 +11,7 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
+useMediaQuery,
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Header from "components/Header";
@@ -19,6 +20,7 @@ const AddCategoryMovie = () => {
   const [passchecked, setPassChecked] = useState(false);
   const [visiblechecked, setVisibleChecked] = useState(false);
   const [title, settitle] = useState('')
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [formData, setFormData] = useState({
     title: "",
 
@@ -49,7 +51,7 @@ const AddCategoryMovie = () => {
 
     year: '',
 
-    studio: '',
+    studio: '', 
 
     producer:'',
 
@@ -88,8 +90,10 @@ const AddCategoryMovie = () => {
   };
   return (
     
-    <Box m="1.5rem 2.5rem" ml="350px">
-      <SidebarAllCategories />
+    <Box
+    //  m="1.5rem 2.5rem" ml="350px"
+      m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "350px"}>
+      {/* <SidebarAllCategories /> */}
 
       <FlexBetween></FlexBetween>
 
