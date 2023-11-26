@@ -4,6 +4,8 @@ import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 // import SidebarContent from "components/SidebarContent"
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 import {
   DownloadOutlined,
@@ -23,6 +25,10 @@ import {
   useMediaQuery,
   Avatar,
   Container,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 
 import Sidebar from "components/Sidebar";
@@ -61,9 +67,10 @@ import SidebarAllCategories from "components/SidebarAllCategories";
 
 const LiveTvCategory = () => {
   const theme = useTheme();
-  const isNonMediumScreens = useMediaQuery("(min-width:300px, max-width:1280px)");
-  const isNonMobile = useMediaQuery("(min-width:300px, max-width:1280px)");
-
+  const navigate = useNavigate();
+  const isNonMediumScreens = useMediaQuery("(min-width: 300px, max-width:1280px) ");
+  const isNonMobile = useMediaQuery("(min-width:600px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const [videocategories, setvideocategories] = useState([]);
 
@@ -75,15 +82,15 @@ const LiveTvCategory = () => {
   //     setMovies(res.data.movies)
   //   }
   //  }
- useEffect(   ()=>
-  {
- fetch("http://localhost:5001/api/video_categories/find")
-.then(res=>res.json())
-.then(res=>{console.log(res)
-setvideocategories(res.data)});
+//  useEffect(   ()=>
+//   {
+//  fetch("http://localhost:5001/api/video_categories/find")
+// .then(res=>res.json())
+// .then(res=>{console.log(res)
+// setvideocategories(res.data)});
 
 
-  },[])
+//   },[])
 
 
 
@@ -91,6 +98,32 @@ setvideocategories(res.data)});
 
   // const { data, isLoading } = useGetDashboardQuery();
   const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
+
+  const fetchData = () => {
+    fetch("http://localhost:5001/api/video_categories/find")
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setvideocategories(res.data);
+      });
+  };
+
+  useEffect(() => {
+    fetchData(); // Fetch initial data when the component mounts
+  }, []);
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
+
+  const openDeleteDialog = (_id) => {
+    setDeleteDialogOpen(true);
+    setDeleteItemId(_id);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setDeleteItemId(null);
+  };
+
 
   const columns = [
     {
@@ -173,6 +206,38 @@ setvideocategories(res.data)});
       headerName: "Actions",
       flex: 1,
       renderCell: (params) => {
+
+        const handleEditAction =        (_id) =>
+        {
+          navigate(`/LiveCategory/AddCategory/${params.row._id}`);
+          // Ikkada Edit Action Logic Raasko
+          console.log(`Edit action for ID ${_id}`);
+          // aah Edit Logic ikkada Add chesko
+        };
+        const handleDeleteAction = (_id) => {
+          // Open the delete confirmation dialog
+          openDeleteDialog(_id);
+        };
+ 
+        const handleDeleteConfirmation = () => {
+          // Assuming you have an API endpoint for deleting by ID
+          axios
+            .delete(`http://localhost:5001/api/video_categories/delete/${deleteItemId}`)
+            .then((response) => {
+              console.log(`Item with ID ${deleteItemId} deleted successfully.`);
+              closeDeleteDialog(); // Close the dialog
+              fetchData();
+              // You might want to refresh your data after a successful delete
+            })
+            .catch((error) => {
+              console.error(
+                `Error deleting item with ID ${deleteItemId}:`,
+                error
+              );
+            });
+        };
+
+
         // const id = params.row.id; // Assuming 'id' is a unique identifier for the row
 
         // const handleEditAction = () => {
@@ -189,7 +254,7 @@ setvideocategories(res.data)});
         return (
           <div>
             <IconButton
-              // onClick={handleEditAction}
+              onClick={handleEditAction}
               aria-label="Edit"
               color="primary"
 
@@ -200,13 +265,29 @@ setvideocategories(res.data)});
             <text>|</text>
 
             <IconButton
-              // onClick={handleDeleteAction}
+             onClick={() => handleDeleteAction(params.row._id)}
               aria-label="Delete"
               color="secondary"
             >
 
               <Delete />
             </IconButton>
+
+            <Dialog open={isDeleteDialogOpen} onClose={closeDeleteDialog}>
+              <DialogTitle>Confirm Delete</DialogTitle>
+              <DialogContent>
+                Are you sure you want to delete this item?
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={closeDeleteDialog} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleDeleteConfirmation} color="secondary">
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
+
           </div>
         );
       },
@@ -214,15 +295,20 @@ setvideocategories(res.data)});
   ];
 
   return (
-    <Box m="1.5rem 2.5rem" ml="350px">
-      <SidebarAllCategories />
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "350px"}>
+     {/* m="1.5rem 2.5rem" ml="350px"> */}
+      {/* <SidebarAllCategories /> */}
       <FlexBetween>{/* <Header title="Live TV Category"  /> */}</FlexBetween>
 
       <Box
-        mt="10px"
+        // mt="20px"
+        mt={isSmallScreen ? "10px" : "50px"}
+        ml="0px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        gap="20px"
+        // gridAutoRows="500px"
+        // gap="20px"
+        gap={isSmallScreen ? "10px" : "20px"}
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
@@ -255,22 +341,21 @@ setvideocategories(res.data)});
             </div>
           }
         />
-        <Container sx={{height: 450}}>
-<DataGrid
-   
-
-
-    disableSelectionOnClick
-    rows={videocategories}
-    columns={columns}
-    pageSize={8}
-    checkboxSelection
-    getRowId={(row) => String(row._id)}
-
-
-
-   />
-</Container>
+                 {/* <Container sx={{width:850,height: 450}}>
+                  <br></br><br></br>
+                  <br></br><br></br> */}
+        <DataGrid
+          // loading={isLoading || !data}
+          // getRowId={(row) => row._id}
+          // rows={(data && data.transactions) || []}
+          rows={videocategories}
+          columns={columns}
+          pageSize={8}
+          sx={{ mt: isSmallScreen ? "30px" : "60px" }}
+          // checkboxSelection
+          getRowId={(row) => String(row._id)}
+        />
+        {/* </Container> */}
       </Box>
 
       <CustomColumnMenu />

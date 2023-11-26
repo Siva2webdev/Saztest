@@ -91,6 +91,7 @@ const MoviesList = () => {
   const isNonMediumScreens = useMediaQuery(
     "(min-width: 400px, max-width: 1280px)"
   );
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   // const { data, isLoading } = useGetDashboardQuery();
 
   const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
@@ -212,18 +213,21 @@ const MoviesList = () => {
 
 
   return (
-    <Box m="1.5rem 2.5rem" ml="350px">
-      <SidebarAllCategories />
+    <Box  m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "320px"}>
+     {/* m="1.5rem 2.5rem" ml="350px"> */}
+      {/* <SidebarAllCategories /> */}
 
       <FlexBetween>{/* <Header title="Movie Category"  /> */}</FlexBetween>
 
       <Box
-        mt="20px"
+        // mt="20px"
+        mt={isSmallScreen ? "10px" : "50px"}
         ml="0px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         // gridAutoRows="160px"
-        gap="20px"
+        // gap="20px"
+        gap={isSmallScreen ? "10px" : "20px"}
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
@@ -274,38 +278,11 @@ const MoviesList = () => {
           columns={columns}
           pageSize={8}
           checkboxSelection
+          sx={{ mt: isSmallScreen ? "30px" : "60px" }}
           getRowId={(row) => String(row._id)}
         />
         </Container>
-        {/* <Box
-          gridColumn="span 8"
-          gridRow="span 3"
-          sx={{
-            "& .MuiDataGrid-root": {
-              border: "none",
-              borderRadius: "5rem",
-            },
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: theme.palette.background.alt,
-              color: theme.palette.secondary[100],
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              backgroundColor: theme.palette.background.alt,
-            },
-            "& .MuiDataGrid-footerContainer": {
-              backgroundColor: theme.palette.background.alt,
-              color: theme.palette.secondary[100],
-              borderTop: "none",
-            },
-            "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-              color: `${theme.palette.secondary[200]} !important`,
-            },
-          }}
-        ></Box> */}
+     
       </Box>
 
       <CustomColumnMenu />
