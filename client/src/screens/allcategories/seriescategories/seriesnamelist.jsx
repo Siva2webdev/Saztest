@@ -1,14 +1,10 @@
 import React from "react";
-
 import FlexBetween from "components/FlexBetween";
-
 import Header from "components/Header";
-
 import { DataGrid } from "@mui/x-data-grid";
-
 // import SidebarContent from "components/SidebarContent"
-
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
+import axios from "axios";
 
 import {
   DownloadOutlined,
@@ -16,6 +12,8 @@ import {
   PointOfSale,
   PersonAdd,
   Traffic,
+  Edit,
+  Delete
 } from "@mui/icons-material";
 
 import {
@@ -24,6 +22,11 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
+  Avatar,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from "@mui/material";
 
 import Sidebar from "components/Sidebar";
@@ -51,6 +54,8 @@ import {
   AdminPanelSettingsOutlined,
   TrendingUpOutlined,
   ContentCopyOutlined,
+
+
 } from "@mui/icons-material";
 
 import { TocOutlinedIcon } from "@mui/icons-material/TocOutlined";
@@ -63,7 +68,7 @@ import SupervisorAccountOutlinedIcon from "@mui/icons-material/SupervisorAccount
 
 import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 
-import {} from "@mui/icons-material";
+import { } from "@mui/icons-material";
 
 import { useState, useEffect } from "react";
 
@@ -74,30 +79,89 @@ import { Menu as MenuIcon, IconButton } from "@mui/material";
 import SidebarAllCategory from "components/SidebarAllCategories";
 
 import SidebarAllCategories from "components/SidebarAllCategories";
+import { useNavigate } from 'react-router-dom';
 
 // import SidebarAllCategories from 'components/SidebarAllCategories'
 
 const Seriesnamelist = () => {
+  // const theme = useTheme();
+  const navigate = useNavigate();
   const theme = useTheme();
+  const isNonMediumScreens = useMediaQuery(
+    "(min-width: 400px, max-width: 1280px)"
+  );
 
   // const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
 
   // const isNonMobile = useMediaQuery("(min-width:600px)");
+
   const isNonMediumScreens = useMediaQuery(
     "(min-width: 400px,max-width:1280px)"
   );
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
+
+  
+  const [allcontent, setAllcontent] = useState([]);
+
+
   // const { data, isLoading } = useGetDashboardQuery();
+
+  const [seriesnamelist, setSeriesnamelist] = useState([]);
+  const fetchData = () => {
+    fetch("http://localhost:5001/api/mod_categories/find")
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setSeriesnamelist(res.data);
+      });
+  };
+
+  useEffect(() => {
+    fetchData(); // Fetch initial data when the component mounts
+  }, []);
 
   const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
 
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
+
+  const openDeleteDialog = (_id) => {
+    setDeleteDialogOpen(true);
+    setDeleteItemId(_id);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setDeleteItemId(null);
+  };
+
+
   const columns = [
     {
-      field: "_image",
-
+      field: "image",
       headerName: "Image",
+      flex: 1,
+      renderCell: (params) => (
+        <Avatar
+          alt="User Avatar"
+          // src={`${params.value}`}
+          sx={{ width: 50, height: 50 }} // Customize the width and height of the avatars
+        />
+      ),
+
+      // headerName: "Image",
 
       flex: 1,
+      width: 200,
+      renderCell: (mod_categories) => {
+        return (
+          <div>
+
+            <Avatar alt="Movie Name" src={mod_categories.row.image}>  {mod_categories.row.image}</Avatar>
+          </div>
+        )
+      }
+
     },
 
     {
@@ -117,7 +181,7 @@ const Seriesnamelist = () => {
     },
 
     {
-      field: "createdDate",
+      field: "createdate",
 
       headerName: "Created Date",
 
@@ -130,14 +194,96 @@ const Seriesnamelist = () => {
 
     {
       field: "action",
-
-      headerName: "Action",
-
+      headerName: "Actions",
       flex: 1,
+      renderCell: (params) => {
+        // const id = params.row.id; // Assuming 'id' is a unique identifier for the row
 
-      // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
+        const handleEditAction =        (_id) =>
+        {
+          navigate(`/SeriesCategory/AddseriesName/${params.row._id}`);
+          // Ikkada Edit Action Logic Raasko
+          console.log(`Edit action for ID ${_id}`);
+          // aah Edit Logic ikkada Add chesko
+        };
+        const handleDeleteAction = (_id) => {
+          // Open the delete confirmation dialog
+          openDeleteDialog(_id);
+        };
+
+        const handleDeleteConfirmation = () => {
+          // Assuming you have an API endpoint for deleting by ID
+          axios
+            .delete(`http://localhost:5001/api/mod_categories/delete/${deleteItemId}`)
+            .then((response) => {
+              console.log(`Item with ID ${deleteItemId} deleted successfully.`);
+              closeDeleteDialog(); // Close the dialog
+              fetchData();
+              // You might want to refresh your data after a successful delete
+            })
+            .catch((error) => {
+              console.error(
+                `Error deleting item with ID ${deleteItemId}:`,
+                error
+              );
+            });
+        };
+
+
+        return (
+          <div>
+            <IconButton
+              // onClick={handleEditAction}
+              onClick={handleEditAction}
+              aria-label="Edit"
+              color="primary"
+
+            >
+              <Edit />
+            </IconButton>
+
+            <text>|</text>
+
+            <IconButton
+              onClick={() => handleDeleteAction(params.row._id)}
+              aria-label="Delete"
+              color="secondary"
+            >
+
+              <Delete />
+            </IconButton>
+
+            <Dialog open={isDeleteDialogOpen} onClose={closeDeleteDialog}>
+              <DialogTitle>Confirm Delete</DialogTitle>
+              <DialogContent>
+                Are you sure you want to delete this item?
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={closeDeleteDialog} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleDeleteConfirmation} color="secondary">
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+        );
+      },
     },
+
+
   ];
+
+
+
+  // const [seriesnamelist, setSeriesnamelist] = useState([]);
+  // useEffect(() => {
+  //   fetch("http://localhost:5001/api/mod_categories/find")
+  //     .then((response) => response.json())
+  //     .then((json) => setSeriesnamelist(json.data));
+  // }, []);
+  // console.log(seriesnamelist);
 
   return (
     <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "310px"}>
@@ -147,12 +293,14 @@ const Seriesnamelist = () => {
       <FlexBetween>{/* <Header title="Movie Category"  /> */}</FlexBetween>
 
       <Box
+
                 // mt="20px"
                 mt={isSmallScreen ? "10px" : "50px"}
                 display="grid"
                 gridTemplateColumns="repeat(12, 1fr)"
                 // gap="20px"
                 gap={isSmallScreen ? "10px" : "20px"}
+
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
@@ -196,8 +344,13 @@ const Seriesnamelist = () => {
           // getRowId={(row) => row._id}
 
           // rows={(data && data.transactions) || []}
+
           sx={{ mt: isSmallScreen ? "30px" : "60px" }}
-          rows={[]}
+        
+
+
+          rows={seriesnamelist}
+
           columns={columns}
         />
       </Box>

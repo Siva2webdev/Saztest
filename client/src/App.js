@@ -410,6 +410,10 @@ function App() {
                 element={<AddCategorySeries />}
               />
               <Route
+                path="/SeriesCategory/AddseriesName/:_id"
+                element={<AddCategorySeries />}
+              />
+              <Route
                 path="/Seriesnamesortablelist"
                 element={<Seriesnamesortablelist />}
               />
@@ -566,12 +570,14 @@ function App() {
               <Route path="/Multiuser/AddUpdate" element={<AddUpdates12 />} />
               <Route path="/Message/AllMessage" element={<Allmessage1 />} />
               <Route path="/Message/AddMessage" element={<AddMessage1 />} />
+              <Route path="/Message/AddMessage:_id" element={<AddMessage1 />} />
               <Route path="/France/AllMessage" element={<Allmessage2 />} />
               <Route path="/France/AddMessage" element={<AddMessage2 />} />
               <Route path="/Shahid/AllMessage" element={<Allmessage3 />} />
               <Route path="/Shahid/AddMessage" element={<AddMessage3 />} />
               <Route path="/Multi/AllMessage" element={<Allmessage4 />} />
               <Route path="/Multi/AddMessage" element={<AddMessage4 />} />
+              <Route path="/Multi/AddMessage/:_id" element={<AddMessage4 />} />
               <Route path="/ShahidM5/AllMessage" element={<Allmessage5 />} />
               <Route path="/ShahidM5/AddMessage" element={<AddMessage5 />} />
               <Route path="/Zoomtak/AllMessage" element={<Allmessage6 />} />
