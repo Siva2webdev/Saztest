@@ -2,17 +2,13 @@ import React from "react";
 import FlexBetween from "components/FlexBetween";
 import Header from "components/Header";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu"
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
+
 import {
   DownloadOutlined,
   Email,
   PointOfSale,
   PersonAdd,
   Traffic,
-  Delete,
-  Edit
 } from "@mui/icons-material";
 import {
   Box,
@@ -20,12 +16,6 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Menu as MenuIcon,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 // import BreakdownChart from "components/BreakdownChart";
@@ -36,41 +26,13 @@ import Navbar from "components/Navbar";
 
 const Customer_Saz1 = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
   const isNonMediumScreens = useMediaQuery("(min-width: 1800px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   // const { data, isLoading } = useGetDashboardQuery();
 
-  const [allcustomer_saz1, setAllcustomer_saz1] = useState([]);
-  const fetchData = () => {
-    fetch("http://localhost:5001/api/customer_saz1/find")
-      .then((response) => response.json())
-      .then((json) => setAllcustomer_saz1(json.data));
-  };
-  console.log(allcustomer_saz1);
-   
-  useEffect(() => {
-    fetchData(); // Fetch initial data when the component mounts
-  }, []);
-   
-   
-  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [deleteItemId, setDeleteItemId] = useState(null);
-   
-  const openDeleteDialog = (_id) => {
-    setDeleteDialogOpen(true);
-    setDeleteItemId(_id);
-  };
-   
-  const closeDeleteDialog = () => {
-    setDeleteDialogOpen(false);
-    setDeleteItemId(null);
-  };
-const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
-
   const columns = [
     {
-      field: "id",
+      field: "ID",
       headerName: "ID",
       flex:0.7,
     },
@@ -85,132 +47,48 @@ const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
       flex: 1.1,
     },
     {
-      field: "device_id",
+      field: "DeviceType",
       headerName: "DeviceType",
       flex: 1,
       // renderCell: (params) => params.value.length,
     },
     {
-      field: "name",
+      field: "Name",
       headerName: "Name",
       flex: 0.7,
       // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
     },
     {
-        field: "is_trail",
+        field: "isTrail",
         headerName: "isTrail",
         flex: 0.7,
         // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
       },
       {
-        field: "status",
+        field: "Active/InActive",
         headerName: "Active/InActive",
         flex: 1,
         // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
       },
       {
-        field: "enddate",
+        field: "Expiry Date",
         headerName: "Expiry Date",
         flex: 1,
         // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
       },
       {
-        field: "created",
+        field: "Created Date",
         headerName: "Created Date",
         flex: 1,
         // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
-      },
-      {
-        field: "action",
-        headerName: "Action",
-        flex: 1,
-        // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
-        renderCell: (params) => {
-          // const id = params.row.id; // Assuming 'id' is a unique identifier for the row
-          const handleEditAction =        (_id) =>
-          {
-            navigate(`/Customers/addcustomer_saz1/${params.row._id}`);
-            // Ikkada Edit Action Logic Raasko
-            console.log(`Edit action for ID ${_id}`);
-            // aah Edit Logic ikkada Add chesko
-          };
-          const handleDeleteAction = (_id) => {
-            // Open the delete confirmation dialog
-            openDeleteDialog(_id);
-          };
-          const handleDeleteConfirmation = () => {
-            // Assuming you have an API endpoint for deleting by ID
-            axios
-              .delete(`http://localhost:5001/api/customer_saz1/delete/${deleteItemId}`)
-              .then((response) => {
-                console.log(`Item with ID ${deleteItemId} deleted successfully.`);
-                closeDeleteDialog(); // Close the dialog
-                fetchData();
-                // You might want to refresh your data after a successful delete
-              })
-              .catch((error) => {
-                console.error(
-                  `Error deleting item with ID ${deleteItemId}:`,
-                  error
-                );
-              });
-          };
-  
-          // const handleEditAction = () => {
-          //   // Ikkada Edit Action Logic Raasko
-          //   console.log(`Edit action for ID `);
-          //   // aah Edit Logic ikkada Add chesko
-          // };
-          // const handleDeleteAction = () => {
-          //   // Ikkada Delete Action Logic Raasko
-          //   console.log(`Delete action for ID `);
-          //   // aah Delete Logic ikkada Add chesko
-          // }
-  
-          return (
-            <div>
-              <IconButton
-                onClick={handleEditAction}
-                aria-label="Edit"
-                color="primary"
-  
-              >
-                <Edit />
-              </IconButton>
-  
-              <text>|</text>
-  
-              <IconButton
-                onClick={() => handleDeleteAction(params.row._id)}
-                aria-label="Delete"
-                color="secondary"
-              >
-  
-                <Delete />
-              </IconButton>
-              <Dialog open={isDeleteDialogOpen} onClose={closeDeleteDialog}>
-          <DialogTitle>Confirm Delete</DialogTitle>
-          <DialogContent>
-            Are you sure you want to delete this item?
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeDeleteDialog} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleDeleteConfirmation} color="secondary">
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-            </div>
-          );
-        },
       },
   ];
 
   return (
 
-    <Box  m={isSmallScreen ? "1rem" : "1.5rem 3.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
+    <Box 
+    m={isSmallScreen ? "1rem" : "1.5rem 3.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
+    {/* m="1.5rem 3.5rem" ml="250px"> */}
       <FlexBetween>
         {/* <Header title="Customer_Saz2" /> */}
       </FlexBetween>
@@ -221,7 +99,7 @@ const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
         // mt="50px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="250px"
+        gridAutoRows="160px"
         gap={isSmallScreen ? "10px" : "20px"}
         // gap="20px"
         sx={{
@@ -250,12 +128,14 @@ const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
         //     />
         //   }
         />
-               <DataGrid   sx={{ mt: isSmallScreen ? "10px" : "-60px" }}
-                        getRowId={(row) => row._id}
+               {/* <DataGrid   sx={{mt:"-60px"}} */}
+               
+               <DataGrid  rows={[]} columns={columns} 
+                sx={{ mt: isSmallScreen ? "10px" : "-60px" }}/>
 
-            rows={allcustomer_saz1}
-            columns={columns}
-          />
+            {/* rows={[]} */}
+            {/* columns={columns} */}
+          {/* /> */}
 
 
 
@@ -263,13 +143,6 @@ const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
 
 
       <CustomColumnMenu/>
-      <FlexBetween>
-        <IconButton
-          onClick={() => setIsSidebarContentOpen(!isSidebarContentOpen)}
-        >
-          <MenuIcon />
-        </IconButton>
-      </FlexBetween>
     </Box>
   );
 };

@@ -57,6 +57,7 @@ const ShowsCategory = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1280px)");
   const isNonMobile = useMediaQuery("(min-width:400px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   // const { data, isLoading } = useGetDashboardQuery();
   const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
 
@@ -100,16 +101,16 @@ const ShowsCategory = () => {
   console.log(showscategorylist);
 
   return (
-    <Box m="1.5rem 2.5rem" ml="350px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "310px"}>
       <FlexBetween>{/* <Header title="Movie Category"  /> */}</FlexBetween>
 
       <Box
-        mt="20px"
-        ml="0px"
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        // gridAutoRows="300px"
-        gap="20px"
+          // mt="20px"
+          mt={isSmallScreen ? "10px" : "50px"}
+          display="grid"
+          gridTemplateColumns="repeat(12, 1fr)"
+          // gap="20px"
+          gap={isSmallScreen ? "10px" : "20px"}
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
@@ -146,6 +147,7 @@ const ShowsCategory = () => {
           // loading={isLoading || !data}
           // getRowId={(row) => row._id}
           // rows={(data && data.transactions) || []}
+          sx={{ mt: isSmallScreen ? "30px" : "60px" }}
           rows={showscategorylist}
           columns={columns}
         />

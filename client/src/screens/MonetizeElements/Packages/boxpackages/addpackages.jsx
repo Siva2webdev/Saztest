@@ -1,33 +1,18 @@
-
-
-
 import React, { useState, useEffect } from "react";
 
-
 import {
-
   TextField,
-
   Button,
-
   ButtonGroup,
-
   FormControl,
-
   InputLabel,
-
   Select,
-
   MenuItem,
-
   FormControlLabel,
-
   Checkbox,
-
   Box,
-
   Typography,
-
+  useMediaQuery,
 } from "@mui/material";
 
 import { Input } from "@mui/material";
@@ -45,16 +30,11 @@ import InputFileUpload from "components/ChooseFile";
 import { styled } from "@mui/material/styles";
 import SidebarMonetize from "components/SidebarMonetize";
 
- 
-
- 
-
 const Addpackage = () => {
-
   const [checked, setChecked] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const [formData, setFormData] = useState({
-
     title: "",
 
     visible: "",
@@ -76,71 +56,40 @@ const Addpackage = () => {
     select_channel_image: "",
 
     select_the_category: "",
-
   });
 
- 
-
   const handleChange = (e) => {
-
     const { name, value } = e.target;
 
     setFormData({ ...formData, [name]: value });
-
   };
 
- 
-
   const handleSubmit = (e) => {
-
     e.preventDefault();
 
     console.log(formData);
-
   };
 
- 
-
   const VisuallyHiddenInput = styled("input")({
-
     clip: "rect(0 0 0 0)",
-
- 
 
     clipPath: "inset(50%)",
 
- 
-
     height: 1,
-
- 
 
     overflow: "hidden",
 
- 
-
     position: "absolute",
-
- 
 
     bottom: 0,
 
- 
-
     left: 0,
-
- 
 
     whiteSpace: "nowrap",
 
- 
-
     width: 1,
-
   });
 
-
- 
   const [categorieslist, setcategorieslist] = useState([]);
   useEffect(() => {
     fetch("http://localhost:5001/api/categories/find")
@@ -165,44 +114,26 @@ const Addpackage = () => {
   }, []);
   console.log(song_categories);
 
-
- 
-
   return (
-
-    <Box m="1.5rem 2.5rem" ml="250px">
-
+   
+    <Box  m={isSmallScreen ? "1rem" : "1.5rem 3.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
+    {/* //  m="1.5rem 2.5rem" ml="250px" */}
       <FlexBetween>
-
         <Header title="PACKAGE DETAILS" />
 
- 
-
-        <Box></Box>
-
+       
       </FlexBetween>
 
       <form onSubmit={handleSubmit}>
-
         <TextField
-
           fullWidth
-
           name="name"
-
           label="Name"
-
           variant="outlined"
-
           value={formData.title}
-
           onChange={handleChange}
-
           margin="normal"
-
         />
-
- 
 
         {/* <FormControl>
 
@@ -232,153 +163,82 @@ const Addpackage = () => {
 
           </FormControl> */}
 
- 
-
         {/* <InputFileUpload /> */}
 
         <Box>
+          <div>
+            <Typography variant="h6">Select Package Image</Typography>
 
-      <div>
-
-        <Typography variant="h6">Select Package Image</Typography>
-
- 
-
-        <Button
-
-          component="label"
-
-          variant="contained"
-
-          startIcon={<CloudUpload />}
-
-        >
-
-          Upload file
-
-          <VisuallyHiddenInput type="file" />
-
-        </Button>
-
-      </div>
-
-    </Box>
+            <Button
+              component="label"
+              variant="contained"
+              startIcon={<CloudUpload />}
+            >
+              Upload file
+              <VisuallyHiddenInput type="file" />
+            </Button>
+          </div>
+        </Box>
 
         <TextField
-
           fullWidth
-
           name="description"
-
           label="Description"
-
           variant="outlined"
-
           value={formData.stream_for_webtv}
-
           onChange={handleChange}
-
           margin="normal"
-
         />
 
- 
-
         <TextField
-
           fullWidth
-
           name="dailyamount"
-
           label="Daily Amount"
-
           variant="outlined"
-
           value={formData.backup_stream_1}
-
           onChange={handleChange}
-
           margin="normal"
-
         />
 
         <TextField
-
           fullWidth
-
           name="weekly_amount"
-
           label="Weekly Amount"
-
           variant="outlined"
-
           value={formData.backup_stream_2}
-
           onChange={handleChange}
-
           margin="normal"
-
         />
 
- 
-
         <TextField
-
           fullWidth
-
           name="monthly_amount"
-
           label="Monthly Amount"
-
           variant="outlined"
-
           value={formData.backup_stream_5}
-
           onChange={handleChange}
-
           margin="normal"
-
         />
 
- 
-
         <TextField
-
           fullWidth
-
           name="quartely_amount"
-
           label="Quarterly Amount"
-
           variant="outlined"
-
           value={formData.backup_stream_3}
-
           onChange={handleChange}
-
           margin="normal"
-
         />
 
         <TextField
-
           fullWidth
-
           name="half_yearly_amount"
-
           label="Half Yearly Amount"
-
           variant="outlined"
-
           value={formData.backup_stream_4}
-
           onChange={handleChange}
-
           margin="normal"
-
         />
-
- 
 
         {/* <TextField
 
@@ -397,8 +257,6 @@ const Addpackage = () => {
         margin="normal"
 
       /> */}
-
- 
 
         {/* <InputFileUpload/> */}
 
@@ -421,8 +279,6 @@ const Addpackage = () => {
          
 
       /> */}
-
- 
 
         {/* <TextField
 
@@ -451,25 +307,18 @@ const Addpackage = () => {
         {/* Select1 */}
 
         <FormControl fullWidth variant="outlined" margin="normal">
-
           <InputLabel htmlFor="select_the_category">VOD Packages</InputLabel>
 
           <Select
-
             label="VOD Packages"
-
             name="select_the_category"
-
             value={formData.select_the_category}
-
             onChange={handleChange}
-
           >
-
-<MenuItem >(Choose Category)</MenuItem>
+            <MenuItem>(Choose Category)</MenuItem>
             {categorieslist.map((type) => (
-              <MenuItem key={(type.id)} value={(type.id)}>
-                {(type.title)}
+              <MenuItem key={type.id} value={type.id}>
+                {type.title}
               </MenuItem>
             ))}
             {/* <MenuItem value="english">2005-Down</MenuItem>
@@ -532,34 +381,21 @@ const Addpackage = () => {
 
             <MenuItem value="TOP 12">TOP 12</MenuItem> */}
 
- 
-
             {/* Add more language MenuItems as needed */}
 
- 
-
             {/* Select2 */}
-
           </Select>
-
         </FormControl>
 
         <FormControl fullWidth variant="outlined" margin="normal">
-
           <InputLabel htmlFor="select_the_category">MOD Packages</InputLabel>
 
           <Select
-
             label="MOD Packages"
-
             name="select_the_category"
-
             value={formData.select_the_category}
-
             onChange={handleChange}
-
           >
-
             <MenuItem value="92">دنيا 2</MenuItem>
 
             <MenuItem value="95">بنات سوبرمان</MenuItem>
@@ -1632,178 +1468,127 @@ const Addpackage = () => {
 
             <MenuItem value="569">طلعت روحي</MenuItem>
 
- 
-
             {/* Add more language MenuItems as needed */}
-
-         
-
-         
-
           </Select>
-
         </FormControl>
-
-       
 
         {/* Select3 */}
 
         <FormControl fullWidth variant="outlined" margin="normal">
-
           <InputLabel htmlFor="select_the_category">Audio Packages</InputLabel>
 
           <Select
-
             label="Audio Packages"
-
             name="select_the_category"
-
             value={formData.select_the_category}
-
             onChange={handleChange}
-
           >
-
             <MenuItem value="1">Arabic</MenuItem>
 
-<MenuItem value="5">TOP RADIO</MenuItem>
+            <MenuItem value="5">TOP RADIO</MenuItem>
 
-<MenuItem value="6">Turkish</MenuItem>
-
- 
+            <MenuItem value="6">Turkish</MenuItem>
 
             {/* Add more language MenuItems as needed */}
-
           </Select>
-
         </FormControl>
-
-       
 
         {/* Select4 */}
 
         <FormControl fullWidth variant="outlined" margin="normal">
-
-          <InputLabel htmlFor="select_the_category">Live TV Packages</InputLabel>
+          <InputLabel htmlFor="select_the_category">
+            Live TV Packages
+          </InputLabel>
 
           <Select
-
             label="Live TV Packages"
-
             name="select_the_category"
-
             value={formData.select_the_category}
-
             onChange={handleChange}
-
           >
-
             <MenuItem value="1">OSN TEST</MenuItem>
 
-<MenuItem value="7">KURDISH</MenuItem>
+            <MenuItem value="7">KURDISH</MenuItem>
 
-<MenuItem value="6">AFRICAN</MenuItem>
+            <MenuItem value="6">AFRICAN</MenuItem>
 
-<MenuItem value="2">ARABIC</MenuItem>
+            <MenuItem value="2">ARABIC</MenuItem>
 
-<MenuItem value="4">SPORTS</MenuItem>
+            <MenuItem value="4">SPORTS</MenuItem>
 
-<MenuItem value="9">KIDS</MenuItem>
+            <MenuItem value="9">KIDS</MenuItem>
 
-<MenuItem value="10">NEWS</MenuItem>
+            <MenuItem value="10">NEWS</MenuItem>
 
-<MenuItem value="11">RELIGION</MenuItem>
+            <MenuItem value="11">RELIGION</MenuItem>
 
-<MenuItem value="8">MUSIC</MenuItem>
+            <MenuItem value="8">MUSIC</MenuItem>
 
-<MenuItem value="3">TURKISH</MenuItem>
+            <MenuItem value="3">TURKISH</MenuItem>
 
-<MenuItem value="5">IRAQ</MenuItem>
+            <MenuItem value="5">IRAQ</MenuItem>
 
-<MenuItem value="16">MAGHREB</MenuItem>
+            <MenuItem value="16">MAGHREB</MenuItem>
 
-<MenuItem value="17">GERMAN</MenuItem>
+            <MenuItem value="17">GERMAN</MenuItem>
 
-<MenuItem value="22">FRANCE</MenuItem>
+            <MenuItem value="22">FRANCE</MenuItem>
 
-<MenuItem value="49">HD channels</MenuItem>
+            <MenuItem value="49">HD channels</MenuItem>
 
-<MenuItem value="41">Farsi</MenuItem>
+            <MenuItem value="41">Farsi</MenuItem>
 
-<MenuItem value="43">Important</MenuItem>
+            <MenuItem value="43">Important</MenuItem>
 
-<MenuItem value="44">Problem</MenuItem>
+            <MenuItem value="44">Problem</MenuItem>
 
-<MenuItem value="45">AFGHANISTAN</MenuItem>
+            <MenuItem value="45">AFGHANISTAN</MenuItem>
 
-<MenuItem value="47">Christian</MenuItem>
-
- 
+            <MenuItem value="47">Christian</MenuItem>
 
             {/* Add more language MenuItems as needed */}
-
           </Select>
-
         </FormControl>
-
-       
 
         {/* Select5 */}
 
         <FormControl fullWidth variant="outlined" margin="normal">
-
-          <InputLabel htmlFor="select_the_category">VideoLive TV Packages</InputLabel>
+          <InputLabel htmlFor="select_the_category">
+            VideoLive TV Packages
+          </InputLabel>
 
           <Select
-
             label="VideoLive TV Packages"
-
             name="select_the_category"
-
             value={formData.select_the_category}
-
             onChange={handleChange}
-
           >
-
             <MenuItem value="28">TS-ARABIC</MenuItem>
 
-<MenuItem value="30">FARSI</MenuItem>
+            <MenuItem value="30">FARSI</MenuItem>
 
-<MenuItem value="31">خرزة زرقا</MenuItem>
-
- 
+            <MenuItem value="31">خرزة زرقا</MenuItem>
 
             {/* Add more language MenuItems as needed */}
-
           </Select>
-
         </FormControl>
-
-       
 
         {/* Select6 */}
 
         <FormControl fullWidth variant="outlined" margin="normal">
-
           <InputLabel htmlFor="select_the_category">Shows Packages</InputLabel>
 
           <Select
-
             label="Shows Packages"
-
             name="select_the_category"
-
             value={formData.select_the_category}
-
             onChange={handleChange}
-
           >
             {/* <MenuItem ></MenuItem> */}
             {show_categories.map((type) => (
-              <MenuItem key={(type.id)} value={(type.id)}>
-                {(type.title)}
-            </MenuItem>
+              <MenuItem key={type.id} value={type.id}>
+                {type.title}
+              </MenuItem>
             ))}
             {/* <MenuItem value="172">إسلاميات</MenuItem>
 
@@ -1815,71 +1600,45 @@ const Addpackage = () => {
 
 <MenuItem value="180">ers</MenuItem> */}
 
-            
-
             {/* Add more language MenuItems as needed */}
-  
           </Select>
-
         </FormControl>
-
- 
 
         {/* Select7 */}
 
         <FormControl fullWidth variant="outlined" margin="normal">
-
           <InputLabel htmlFor="select_the_category">Songs Packages</InputLabel>
 
           <Select
-
             label="Songs Packages"
-
             name="select_the_category"
-
             value={formData.select_the_category}
-
             onChange={handleChange}
-
           >
-             {song_categories.map((type) => (
-              <MenuItem key={(type.id)} value={(type.id)}>
-                {(type.title)}
-            </MenuItem>
+            {song_categories.map((type) => (
+              <MenuItem key={type.id} value={type.id}>
+                {type.title}
+              </MenuItem>
             ))}
 
-  {/* <MenuItem value="29">Arabic</MenuItem>
+            {/* <MenuItem value="29">Arabic</MenuItem>
 
 <MenuItem value="30">Pop</MenuItem> */}
 
- 
-
             {/* Add more language MenuItems as needed */}
-
           </Select>
-
         </FormControl>
 
- 
-
         <ButtonGroup variant="contained" aria-label="outlined button group">
-
           <Button>Reset</Button>
 
           <Button>Submit</Button>
-
         </ButtonGroup>
-
       </form>
 
-      <SidebarMonetize />
-
+      {/* <SidebarMonetize /> */}
     </Box>
-
   );
-
 };
-
- 
 
 export default Addpackage;

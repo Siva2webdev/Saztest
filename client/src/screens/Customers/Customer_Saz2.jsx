@@ -27,6 +27,7 @@ import Navbar from "components/Navbar";
 const Customer_Saz2 = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1800px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   // const { data, isLoading } = useGetDashboardQuery();
 
   const columns = [
@@ -85,18 +86,21 @@ const Customer_Saz2 = () => {
 
   return (
 
-    <Box m="1.5rem 3.5rem" ml="250px">
+    <Box  m={isSmallScreen ? "1rem" : "1.5rem 3.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
+     {/* m="1.5rem 3.5rem" ml="250px"> */}
       <FlexBetween>
         {/* <Header title="Customer_Saz2" /> */}
       </FlexBetween>
       <Navbar/>
 
       <Box
-        mt="50px"
+        // mt="50px"
+        mt={isSmallScreen ? "10px" : "50px"}
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="160px"
-        gap="20px"
+        // gap="20px"
+        gap={isSmallScreen ? "10px" : "20px"}
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
@@ -123,7 +127,7 @@ const Customer_Saz2 = () => {
         //     />
         //   }
         />
-               <DataGrid   sx={{mt:"-60px"}} 
+               <DataGrid   sx={{ mt: isSmallScreen ? "10px" : "-60px" }}
          
             rows={[]}
             columns={columns}

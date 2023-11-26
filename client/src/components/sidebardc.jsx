@@ -17,6 +17,8 @@ import {
   InputLabel,
   ThemeProvider,
   useTheme,
+  useMediaQuery,
+  IconButton,
 } from "@mui/material";
 import {
   PlaylistAddCircle,
@@ -28,6 +30,7 @@ import {
   StarBorder,
   Sort,
   Theaters,
+  ChevronRight,
   AddCircleSharp,
   AutoAwesomeMotionSharp,
   RadioTwoTone,
@@ -44,13 +47,13 @@ import {
 } from "@mui/icons-material";
 import FlexBetween from "./FlexBetween";
 
-const Sidebardc = () => {
+const Sidebardc = (drawerWidth) => {
   // Define state and click handlers for each dropdown
   const [openDropdown1, setOpenDropdown1] = useState(false);
   const [openDropdown2, setOpenDropdown2] = useState(false);
   const [openDropdown3, setOpenDropdown3] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const theme = useTheme();
   // Define click handlers for each dropdown
   const handleDropdown1Click = () => {
@@ -68,7 +71,7 @@ const Sidebardc = () => {
         open={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
         anchor="left"
-        variant="permanent"
+        variant="persistent"
         sx={{
           "& .MuiDrawer-paper": {
             color: theme.palette.secondary[200],
@@ -175,6 +178,22 @@ const Sidebardc = () => {
           </Collapse>
         </List>
       </Drawer>
+      {isSmallScreen && (
+      <IconButton
+        color="inherit"
+        aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        sx={{
+          position: 'fixed',
+          top: '2%',
+          left: isSidebarOpen ? drawerWidth : 0.5,
+          transform: 'translateY(-50%)',
+          zIndex: theme.zIndex.drawer + 1,
+        }}
+      >
+        {isSidebarOpen ? <ChevronLeft /> : <ChevronRight />}
+      </IconButton>
+      )}
     </ThemeProvider>
   );
 };

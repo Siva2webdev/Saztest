@@ -31,6 +31,8 @@ const Channellist = () => {
     "(min-width: 400px, max-width: 2000px)"
   );
 
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+
   // const isNonMediumScreens = useMediaQuery(
   //   "(min-width: 400px, max-width: 1280px)"
   // );
@@ -99,7 +101,8 @@ const Channellist = () => {
     // <FlexBetween>
     //   {/* <Header title="ADD MOVIE" /> */}
 
-    <Box m="1.5rem 2.5rem" ml="250px">
+    // <Box m="1.5rem 2.5rem" ml="250px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
       <FlexBetween>
         {/* <Header title="ADD MOVIE" /> */}
 
@@ -107,11 +110,14 @@ const Channellist = () => {
       </FlexBetween>
 
       <Box
-        mt="20px"
+        // mt="20px"
         display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
+        // gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="160px"
-        gap="20px"
+        // gap="20px"
+        mt={isSmallScreen ? "10px" : "50px"}
+        gridTemplateColumns={isSmallScreen ? "1fr" : "repeat(12, 1fr)"}
+        gap={isSmallScreen ? "10px" : "20px"}
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
@@ -129,6 +135,7 @@ const Channellist = () => {
           }
         />
         <DataGrid
+          sx={{ mt: isSmallScreen ? "10px" : "-60px" }}
           // loading={isLoading || !data}
           // getRowId={(row) => row._id}
           // rows={(data && data.transactions) || []}

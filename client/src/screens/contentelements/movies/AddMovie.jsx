@@ -10,6 +10,7 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
+  useMediaQuery,
 } from "@mui/material";
 // import Sidebar from 'screens/content';
 // import { ContentCopy } from '@mui/icons-material';
@@ -20,6 +21,7 @@ import SidebarContent from "components/SidebarContent";
 import InputFileUpload from "components/ChooseFile";
 
 const Addmovie = () => {
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [checked, setChecked] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -86,7 +88,8 @@ const Addmovie = () => {
   }, []);
 
   return (
-    <Box m="1.5rem 2.5rem" ml="250px">
+    // <Box m="1.5rem 2.5rem" ml="250px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
       <FlexBetween>
         <Header title="ADD MOVIE" />
 

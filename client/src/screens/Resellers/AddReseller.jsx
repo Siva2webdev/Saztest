@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import {
   TextField,
   Button,
@@ -12,34 +14,178 @@ import {
   Checkbox,
   ButtonGroup,
   RadioGroup,
-  FormLabel
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import Header from "components/Header";
 import FlexBetween from "components/FlexBetween";
 const Addreseller = () => {
   const [value, setValue] = useState();
+  const { _id } = useParams();
   // const [checked, setChecked] = useState(false);
   // const [checked1, setChecked1] = useState(false);
   // const [checked2, setChecked2] = useState(false);
   // const [checked3, setChecked3] = useState(false);
   const [formData, setFormData] = useState({
-    monthly: "",
-    quarterly: "",
-    halfyearly: "",
-    yearly: "",
+        id: "",
+        name: "",
+        surname:"",
+        nick:"",
+        mail:'',
+        password:"",
+        enddate:"",
+        createdby:"",
+        billing_id:"",
+        device_id:"",
+        is_multiple_session:"",
+        is_loggedin:"",
+        status:"",
+        group_id:"",
+        created:"",
+        modified:"",
+        payment_settings_id:"",
+        category_password:"",
+        user_limit:"",
+        number_of_login:"",
+        is_deleted:"",
+        is_trail:"",
+        is_paid:"",
+        is_cdn:"",
+        reseller_module_type:"",
+        reseller_box_price:"",
+        profile_image:"",
+        session_id:"",
+        renewal_date:""
   });
 
-  const handleChange = (e) => {
+  const handleReset = () => {
+    setFormData({
+      id: "",
+      name: "",
+      surname:"",
+      nick:"",
+      mail:'',
+      password:"",
+      enddate:"",
+      createdby:"",
+      billing_id:"",
+      device_id:"",
+      is_multiple_session:"",
+      is_loggedin:"",
+      status:"",
+      group_id:"",
+      created:"",
+      modified:"",
+      payment_settings_id:"",
+      category_password:"",
+      user_limit:"",
+      number_of_login:"",
+      is_deleted:"",
+      is_trail:"",
+      is_paid:"",
+      is_cdn:"",
+      reseller_module_type:"",
+      reseller_box_price:"",
+      profile_image:"",
+      session_id:"",
+      renewal_date:""
+    });
+  };
+const [successMessage, setSuccessMessage] = useState("");
+const [snackbarOpen, setSnackbarOpen] = useState(false);
+const handleChange = (e) => {
     const { name, value } = e.target;
-
     setFormData({ ...formData, [name]: value });
   };
+const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+  const [resellers, setResellers] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:5001/api/resellers/find")
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setResellers(res.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (_id) {
+      axios
+        .get(`http://localhost:5001/api/resellers/${_id}`)
+        .then((response) => {
+          const productData = response.data;
+          setFormData({
+            name: productData.name,
+            surname: productData.surname,
+            nick: productData.nick,
+            mail: productData.mail,
+            password: productData.password,
+            enddate: productData.enddate,
+            createdby: productData.createdby,
+            billing_id: productData.billing_id,
+            device_id: productData.device_id,
+            is_multiple_session: productData.is_multiple_session,
+            is_loggedin: productData.is_loggedin,
+            status: productData.status,
+            group_id: productData.group_id,
+            created: productData.created,
+            modified: productData.modified,
+            payment_settings_id: productData.payment_settings_id,
+            category_password: productData.category_password,
+            user_limit: productData.user_limit,
+            number_of_login: productData.number_of_login,
+            is_deleted: productData.is_deleted,
+            is_trail: productData.is_trail,
+            is_paid: productData.is_paid,
+            is_cdn: productData.is_cdn,
+            reseller_module_type: productData.reseller_module_type,
+            reseller_box_price: productData.reseller_box_price,
+            profile_image: productData.profile_image,
+            session_id: productData.session_id,
+            renewal_date: productData.renewal_date,
+
+          });
+        })
+        .catch((error) => {
+          console.error('Error fetching product data:', error);
+        });
+    }
+  }, [_id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(formData);
-  };
+  if (_id) {
+    // If _id is defined, it's an edit operation
+    const apiUrl = `http://localhost:5001/api/resellers/patch/${_id}`; // Edit
+    axios
+      .patch(apiUrl, formData) // Use axios.patch for the PATCH request
+      .then((response) => {
+        setSuccessMessage("Product updated successfully!");
+        setSnackbarOpen(true);
+        handleReset();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  } else {
+    // If _id is not defined, it's an add operation
+    const apiUrl = "http://localhost:5001/api/resellers/post"; // Add
+    axios
+      .post(apiUrl, formData) // Use axios.post for the POST request
+      .then((response) => {
+        setSuccessMessage("Product added successfully!");
+        setSnackbarOpen(true);
+        handleReset();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+};
+
 
   return (
     <Box m="1.5rem 2.5rem" ml="300px">
@@ -51,21 +197,27 @@ const Addreseller = () => {
       <h4>LOGIN DETAILS</h4>
       <form onSubmit={handleSubmit}>
         <TextField
+          name="UserName"
           label="User Name"
           variant="outlined"
           margin="normal"
+          value={formData.UserName}
+          onChange={handleChange}
           fullWidth
         />
         <TextField
+        name="password"
           label="Password"
           type="password"
+          value={formData.password}
+          onChange={handleChange}
           variant="outlined"
           margin="normal"
           fullWidth
         />
         <FormControl fullWidth variant="outlined" margin="normal">
           <InputLabel>Reseller Module</InputLabel>
-          <Select label="Reseller Module" required>
+          <Select label="Reseller Module">
             <MenuItem value="choose">(Choose Module)</MenuItem>
             <MenuItem value="humax">Humax</MenuItem>
             <MenuItem value="france">France</MenuItem>
@@ -78,56 +230,71 @@ const Addreseller = () => {
           </Select>
         </FormControl>
         <TextField
-          label="End of Membership Date"
-          type="date"
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          InputLabelProps={{ shrink: true }}
+        fullWidth
+        name="enddate"
+        label="End of Membership Date"
+        variant="outlined"
+        value={formData.enddate}
+        onChange={handleChange}
+        margin="normal"
+        InputLabelProps={{ shrink: true }}
         />
         <TextField
-          label="Customer Limit"
-          // type="number"
-          variant="outlined"
-          margin="normal"
-          fullWidth
+        fullWidth
+        name="user_limit"
+        label="Customer Limit"
+        variant="outlined"
+        value={formData.user_limit}
+        onChange={handleChange}
+        margin="normal"
         />
         <h4>PERSONAL DETAILS</h4>
         <TextField
-          label="First Name"
-          variant="outlined"
-          margin="normal"
-          fullWidth
+        fullWidth
+        name="name"
+        label="First Name"
+        variant="outlined"
+        value={formData.name}
+        onChange={handleChange}
+        margin="normal"
         />
         <TextField
-          label="Last Name"
-          variant="outlined"
-          margin="normal"
-          fullWidth
+        fullWidth
+        name="surname"
+        label="Last Name"
+        variant="outlined"
+        value={formData.surname}
+        onChange={handleChange}
+        margin="normal"
         />
         <TextField
-          label="Email Address"
-          type="email"
-          variant="outlined"
-          margin="normal"
-          fullWidth
+        fullWidth
+        name="mail"
+        label="Email Address"
+        variant="outlined"
+        value={formData.mail}
+        onChange={handleChange}
+        margin="normal"
         />
         <TextField
           label="Address1"
           variant="outlined"
           margin="normal"
+          onChange={handleChange}
           fullWidth
         />
         <TextField
           label="Address2"
           variant="outlined"
           margin="normal"
+          onChange={handleChange}
           fullWidth
         />
         <TextField 
           label="City" 
           variant="outlined" 
           margin="normal" 
+          onChange={handleChange}
           fullWidth
         />
 
@@ -135,6 +302,7 @@ const Addreseller = () => {
           label="Postal/Zip Code"
           variant="outlined"
           margin="normal"
+          onChange={handleChange}
           fullWidth
         />
                 <FormControl fullWidth variant="outlined" margin="normal">
@@ -172,9 +340,25 @@ const Addreseller = () => {
         <br></br><br></br>
         <ButtonGroup style={{float: 'right'}} variant="contained" aria-label="outlined button group">
           <Button>Hide Prompts</Button>
-          <Button color="success">Register</Button>
+          <Button type= "submit" color="success">Register</Button>
         </ButtonGroup>
       </form>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000} // Adjust the duration as needed
+        onClose={handleCloseSnackbar}
+
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          variant="filled"
+        >
+          {successMessage}
+        </Alert>
+      </Snackbar>
+
+
     </Box>
   );
 };

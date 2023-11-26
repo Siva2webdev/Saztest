@@ -55,8 +55,9 @@ import SidebarAllCategory from "components/SidebarAllCategories";
 
 const ShowsNames = () => {
   const theme = useTheme();
-  const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
+  const isNonMediumScreens = useMediaQuery("(min-width: 1280px)");
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   // const { data, isLoading } = useGetDashboardQuery();
   const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
 
@@ -100,16 +101,16 @@ const ShowsNames = () => {
   console.log(showsnames);
 
   return (
-    <Box m="1.5rem 2.5rem" ml="350px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "310px"}>
       <FlexBetween>{/* <Header title="Movie Category"  /> */}</FlexBetween>
 
       <Box
-        mt="20px"
-        ml="0px"
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        // gridAutoRows="250px"
-        gap="20px"
+         // mt="20px"
+         mt={isSmallScreen ? "10px" : "50px"}
+         display="grid"
+         gridTemplateColumns="repeat(12, 1fr)"
+         // gap="20px"
+         gap={isSmallScreen ? "10px" : "20px"}
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
@@ -146,6 +147,7 @@ const ShowsNames = () => {
           // loading={isLoading || !data}
           // getRowId={(row) => row._id}
           // rows={(data && data.transactions) || []}
+          sx={{ mt: isSmallScreen ? "30px" : "60px" }}
           rows={showsnames}
           columns={columns}
         />
@@ -153,7 +155,7 @@ const ShowsNames = () => {
 
       <CustomColumnMenu />
 
-      <SidebarAllCategory />
+      {/* <SidebarAllCategory /> */}
       <FlexBetween>
         <IconButton
           onClick={() => setIsSidebarContentOpen(!isSidebarContentOpen)}

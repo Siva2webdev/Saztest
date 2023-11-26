@@ -87,20 +87,20 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* Left side */}
-        {/* <FlexBetween> */}
+        <FlexBetween>
           <FlexBetween
             backgroundColor={theme.palette.background.alt}
             borderRadius="9px"
             gap="3rem"
-            // p="0.1rem 1.5rem"
+            p="0.1rem 1.5rem"
           >
-            </FlexBetween>
             {/* <InputBase placeholder="Search..."></InputBase>
    <IconButton>
     <Search/>
 
     </IconButton> */}
-        {/* </FlexBetween> */}
+          </FlexBetween>
+        </FlexBetween>
         {/* RIGHT SIDE */}
 
         <FlexBetween gap="1.5rem">

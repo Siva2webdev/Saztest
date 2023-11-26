@@ -49,7 +49,7 @@ const {
     email,
     password,
     confirmpassword,
-    
+    __v
 }= req.body;
   try{
     const newData=new userinfos({
@@ -58,7 +58,7 @@ const {
         email,
         password,
         confirmpassword,
-        
+        __v
        })
     await newData.save();
     return res.json(await userinfos.find());

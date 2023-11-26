@@ -7,9 +7,10 @@ import adminRoute from "./routes/adminRoute.js";
 // import videoRoute from "./routes/videoRoute.js"
 //import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/authRouter.js";
-
 // import movieRouter from "./routes/moviesRoute.js"
+// import resellersRoute from "./routes/resell"
 
+// import resellersRoutes from "./routes/rese"
 import moviesRoute from "./routes/moviesRoute.js";
 import commonExpiryRoute from "./routes/commonExpiryRoute.js";
 import commonLoginRoute from "./routes/commonLoginRoute.js";
@@ -126,6 +127,7 @@ import userloginRoute from "./routes/userloginRoute.js";
 import moviesRouter from "./routes/moviesRoute.js";
 import globalErrorHandler from "./Controller/errorController.js";
 
+
 // import moviesSortableRoute from "./routes/moviesSortableRoute.js"
 
 import cors from "cors";
@@ -170,6 +172,7 @@ import masaNewAppUpdatesRoutes from "./routes/masaNewAppUpdatesRoutes.js";
 import masaNewUsersRoutes from "./routes/masaNewUsersRoutes.js";
 import masaNewVerAppUpdates from "./routes/masaNewVerAppUpdates.js";
 import masaOfferMessagesRoutes from "./routes/masaOfferMessagesRoutes.js";
+// import resellers
 // import masaPlusAppUpdates from "./routes/masaPlusAppUpdates.js";
 // import masaPlusUserLoginsRoutes from "./routes/masaPlusUserLoginsRoutes.js";
 // import masaPlusUserMessagesRoutes from "./routes/masaPlusUserMessagesRoutes.js";
@@ -266,7 +269,7 @@ app.use(ticketcategoriesRoutes);
 app.use(ticketelementsRoutes);
 app.use(ticketnotificationsRoutes);
 app.use(playlistsaz1Routes);
-
+// app.use(resellersRoutes);
 app.use(livetvRoutes);
 app.use(livetvaudioRoute);
 app.use(livetvfavroutes);
@@ -319,6 +322,7 @@ app.use(masaNewAppUpdatesRoutes);
 app.use(masaNewUsersRoutes);
 app.use(masaNewVerAppUpdates);
 app.use(masaOfferMessagesRoutes);
+app.use(resellersRoutes)
 // app.use(masaPlusAppUpdates);
 // app.use(masaPlusUserLoginsRoutes);
 // app.use(masaPlusUserMessagesRoutes);
@@ -519,7 +523,7 @@ app.use("/api/groups", groupsRoute);
 app.use("/api/humax_payloads", humaxpayloadsRoute);
 app.use("/api/shahid_new_app_updates", shahid_new_app_updatesRoute);
 app.use("/api/customer_saz1", Customer_Saz1Route);
-
+app.use("/api/resellers",resellersRoutes);
 // const err= new Error("Error ");
 
 //gloabl error handling middleware when no route defined is not present

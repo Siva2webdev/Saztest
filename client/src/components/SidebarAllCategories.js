@@ -11,11 +11,13 @@ import {
   ThemeProvider,
   createTheme,
   useTheme,
+  useMediaQuery,
+  IconButton,
 } from "@mui/material";
-import {Inbox, ExpandLess, ExpandMore, StarBorder, VideoCallSharp, SwitchVideo, LocalMoviesTwoTone, Difference, RadioRounded, SurroundSound, LoupeRounded, QueuePlayNext, DvrOutlined, SmartDisplayOutlined, DesktopWindowsRounded, AddToQueueSharp, LiveTvTwoTone, ViewTimelineSharp, FormatLineSpacingOutlined, AddCircleOutlined, TheatersSharp, ControlPoint, DeveloperBoardTwoTone, TheatersRounded, ControlPointRounded, LibraryMusicTwoTone, LyricsRounded, PlaylistAdd} from "@mui/icons-material";
+import {Inbox, ExpandLess, ExpandMore, StarBorder, VideoCallSharp,ChevronRight,ChevronLeft, SwitchVideo, LocalMoviesTwoTone, Difference, RadioRounded, SurroundSound, LoupeRounded, QueuePlayNext, DvrOutlined, SmartDisplayOutlined, DesktopWindowsRounded, AddToQueueSharp, LiveTvTwoTone, ViewTimelineSharp, FormatLineSpacingOutlined, AddCircleOutlined, TheatersSharp, ControlPoint, DeveloperBoardTwoTone, TheatersRounded, ControlPointRounded, LibraryMusicTwoTone, LyricsRounded, PlaylistAdd} from "@mui/icons-material";
 
 
-function Sidebar() {
+function Sidebar(drawerWidth) {
   // Define state and click handlers for each dropdown
   const [openDropdown1, setOpenDropdown1] = useState(false);
   const [openDropdown2, setOpenDropdown2] = useState(false);
@@ -24,6 +26,8 @@ function Sidebar() {
   const [openDropdown5, setOpenDropdown5] = useState(false);
   const [openDropdown6, setOpenDropdown6] = useState(false);
   const [openDropdown7, setOpenDropdown7] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const theme = useTheme();
 
   // Define click handlers for each dropdown
@@ -52,8 +56,10 @@ function Sidebar() {
   return (
     <ThemeProvider theme={theme}>
       <Drawer
+       open={isSidebarOpen}
+       onClose={() => setIsSidebarOpen(false)}
         anchor="left"
-        variant="permanent"
+        variant="persistent"
         sx={{
           "& .MuiDrawer-paper": {
             color: theme.palette.secondary[200],
@@ -316,6 +322,22 @@ function Sidebar() {
           </Collapse>
         </List>
       </Drawer>
+      {isSmallScreen && (
+      <IconButton
+        color="inherit"
+        aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        sx={{
+          position: 'fixed',
+          top: '2%',
+          left: isSidebarOpen ? drawerWidth : 0.5,
+          transform: 'translateY(-50%)',
+          zIndex: theme.zIndex.drawer + 1,
+        }}
+      >
+        {isSidebarOpen ? <ChevronLeft /> : <ChevronRight />}
+      </IconButton>
+      )}
     </ThemeProvider>
   );
 }

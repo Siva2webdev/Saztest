@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, ButtonGroup, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, Box } from '@mui/material';
+import { TextField, Button, ButtonGroup, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, Box , useMediaQuery} from '@mui/material';
 import { Input } from '@mui/material';
 import { CloudUpload } from '@mui/icons-material';
 import SidebarContent from 'components/SidebarContent';
@@ -10,6 +10,7 @@ import InputFileUpload from 'components/ChooseFile';
 
 
 const AddShow= () => {
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [checked, setChecked] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -46,19 +47,11 @@ const AddShow= () => {
   console.log(Addshowepisodes);
 
   return (
-    <Box m="1.5rem 2.5rem" ml="250px">
+    // <Box m="1.5rem 2.5rem" ml="250px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
     <FlexBetween>
 
     <Header title="ADD SERIES" />
-    <SidebarContent/>
-
-
-    {/* <Header title="ADD SHOW EPISODES" />
-=======
-    {/* <Header title="ADD SHOW EPISODES" /> */}
-
-
-//     <SidebarContent/> */}
 
 
     <Box></Box>

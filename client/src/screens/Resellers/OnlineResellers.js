@@ -1,8 +1,9 @@
-import React from "react";
+
+                                                                                                                                                           import React from "react";
 import FlexBetween from "components/FlexBetween";
-
+ 
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
-
+ 
 import {
   DownloadOutlined,
   Email,
@@ -23,14 +24,14 @@ import { DataGrid } from "@mui/x-data-grid";
 // import { useGetDashboardQuery } from "state/api";
 import StatBox from "components/StatBox";
 // import SidebarReseller from "components/SidebarResellers";
-
+ 
 const OnlineResellers = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery(
     "(min-width: 400px, max-width: 1280px)"
   );
   // const { data, isLoading } = useGetDashboardQuery();
-
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const columns = [
     {
       field: "nick",
@@ -66,12 +67,12 @@ const OnlineResellers = () => {
       // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
     },
   ];
-
+ 
   return (
     // <Box m="1.5rem 2.5rem">
     //   <FlexBetween>
     //     <Header title="Movies" subtitle="Welcome to your Movies" />
-
+ 
     //     <Box>
     //       <Button
     //         sx={{
@@ -87,19 +88,23 @@ const OnlineResellers = () => {
     //       </Button>
     //     </Box>
     //   </FlexBetween>
-    <Box m="1.5rem 2.5rem" ml="300px">
+ 
+    // <Box m="1.5rem 2.5rem" ml="300px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "300px"}>
       <FlexBetween>
         {/* <Header title="ADD MOVIE" /> */}
-
+ 
         <Box></Box>
       </FlexBetween>
-
+ 
       <Box
-        mt="20px"
+        // mt="20px"
+        mt={isSmallScreen ? "10px" : "50px"}
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="160px"
-        gap="20px"
+        // gap="20px"
+        gap={isSmallScreen ? "10px" : "20px"}
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
@@ -132,8 +137,10 @@ const OnlineResellers = () => {
             </div>
           }
         />
-        <DataGrid rows={[]} columns={columns} />
-
+        <DataGrid
+        sx={{ mt: isSmallScreen ? "10px" : "60px" }}
+        rows={[]} columns={columns} />
+ 
         <Box
           gridColumn="span 8"
           gridRow="span 3"
@@ -165,10 +172,11 @@ const OnlineResellers = () => {
         ></Box>
         {/* <SidebarReseller /> */}
       </Box>
-
+ 
       <CustomColumnMenu />
     </Box>
   );
 };
-
+ 
 export default OnlineResellers;
+ 

@@ -4,7 +4,7 @@ import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 // import SidebarContent from "components/SidebarContent"
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
-// import "index.css";
+
 import {
   DownloadOutlined,
   Email,
@@ -43,8 +43,10 @@ import { Menu as MenuIcon, IconButton } from "@mui/material";
 const Content = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery(
-    "(min-width: 400px, max-width:1280px)")
-  // );
+    "(min-width: 400px, max-width:1280px)"
+  );
+
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   // const isNonMobile = useMediaQuery("(min-width:600px)");
   // const { data, isLoading } = useGetDashboardQuery();
   const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
@@ -81,7 +83,8 @@ const Content = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem" ml="250px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "250px"} mt={isSmallScreen ? "70px" : "undefined"}>
+    {/* <Box m="1.5rem 2.5rem" ml="250px"> */}
       <FlexBetween>
         <Header title="CONTENT" />
 
@@ -89,18 +92,21 @@ const Content = () => {
       </FlexBetween>
 
       <Box
-        mt="20px"
+        // mt="20px"   
+        mt={isSmallScreen ? "10px" : "50px"}
         ml="0px"
         display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
+        // gridTemplateColumns="repeat(12, 1fr)"
+        gridTemplateColumns={isSmallScreen ? "1fr" : "repeat(12, 1fr)"}
         gridAutoRows="160px"
-        gap="20px"
+        // gap="20px"
+        gap={isSmallScreen ? "10px" : "20px"}
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
       >
         {/* ROW 1 */}
-        <StatBox 
+        <StatBox
           title="RECENT USERS"
           // value={data && data.totalCustomers}
           // increase="+14%"
@@ -111,7 +117,8 @@ const Content = () => {
             />
           }
         />
-        <DataGrid 
+        <DataGrid
+          sx={{ mt: isSmallScreen ? "10px" : "60px" }}
           // loading={isLoading || !data}
           // getRowId={(row) => row._id}
           // rows={(data && data.transactions) || []}

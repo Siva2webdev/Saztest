@@ -11,6 +11,7 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
+  useMediaQuery
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 
@@ -20,7 +21,7 @@ import SidebarAllCategories from "components/SidebarAllCategories";
 const AddCategoryRadio = () => {
   const [passchecked, setPassChecked] = useState(false);
   const [visiblechecked, setVisibleChecked] = useState(false);
-
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [formData, setFormData] = useState({
     title: "",
 
@@ -80,8 +81,9 @@ const AddCategoryRadio = () => {
   };
 
   return (
-    <Box m="1.5rem 2.5rem" ml="350px">
-      <SidebarAllCategories />
+    <Box  m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "350px"}>
+     {/* m="1.5rem 2.5rem" ml="350px"> */}
+      {/* <SidebarAllCategories /> */}
       <FlexBetween></FlexBetween>
 
       <form onSubmit={handleSubmit}>

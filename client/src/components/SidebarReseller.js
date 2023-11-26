@@ -30,6 +30,7 @@ import {
   OndemandVideo,
   Layers,
   ChevronLeft,
+  ChevronRight,
   Menu as MenuIcon,
   SortByAlpha,
   InventorySharp,
@@ -41,7 +42,6 @@ import {
   PostAdd,
   Assignment,
   AssignmentTurnedIn,
-  ChevronRight,
 } from "@mui/icons-material";
 import FlexBetween from "./FlexBetween";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
@@ -52,19 +52,11 @@ import StarBorder from "@mui/icons-material/StarBorder";
 function SidebarReseller(drawerWidth) {
   // Define state and click handlers for each dropdown
   const [openDropdown1, setOpenDropdown1] = useState(false);
-  //   const [openDropdown2, setOpenDropdown2] = useState(false);
-  //   const [openDropdown3, setOpenDropdown3] = useState(false);
-  //   const [openDropdown4, setOpenDropdown4] = useState(false);
-  //   const [openDropdown5, setOpenDropdown5] = useState(false);
-  //   const [openDropdown6, setOpenDropdown6] = useState(false);
-  //   const [openDropdown7, setOpenDropdown7] = useState(false);
-  //   const [openDropdown8, setOpenDropdown8] = useState(false);
-  //   const [openDropdown9, setOpenDropdown9] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  
 
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
-  const [isSidebarResellerOpen, setIsSidebarResellerOpen] = useState(true);
-
   // Define click handlers for each dropdown
   const handleDropdown1Click = () => {
     setOpenDropdown1(!openDropdown1);
@@ -79,10 +71,10 @@ function SidebarReseller(drawerWidth) {
   return (
     <ThemeProvider theme={theme}>
       <Drawer
-        open={isSidebarResellerOpen}
+       open={isSidebarOpen}
+       onClose={() => setIsSidebarOpen(false)}
         anchor="left"
         variant="persistent"
-        onClose={() => setIsSidebarResellerOpen(false)}
         sx={{
           "& .MuiDrawer-paper": {
             color: theme.palette.secondary[200],
@@ -94,7 +86,7 @@ function SidebarReseller(drawerWidth) {
         }}
       >
         <h1>
-          <center>Reseller</center>
+          <center>Resellers</center>
         </h1>
         <List>
           {/* Dropdown 1 */}
@@ -154,17 +146,17 @@ function SidebarReseller(drawerWidth) {
       {isSmallScreen && (
       <IconButton
         color="inherit"
-        aria-label={isSidebarResellerOpen ? "Close sidebar" : "Open sidebar"}
-        onClick={() => setIsSidebarResellerOpen(!isSidebarResellerOpen)}
+        aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         sx={{
           position: 'fixed',
-          top: '5%',
-          left: isSidebarResellerOpen ? drawerWidth : 0.5,
+          top: '2%',
+          left: isSidebarOpen ? drawerWidth : 0.5,
           transform: 'translateY(-50%)',
           zIndex: theme.zIndex.drawer + 1,
         }}
       >
-        {isSidebarResellerOpen ? <ChevronLeft /> : <ChevronRight />}
+        {isSidebarOpen ? <ChevronLeft /> : <ChevronRight />}
       </IconButton>
       )}
     </ThemeProvider>

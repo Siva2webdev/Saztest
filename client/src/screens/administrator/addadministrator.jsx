@@ -10,6 +10,7 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
+  useMediaQuery
 } from "@mui/material";
 import { Input } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
@@ -20,6 +21,7 @@ import InputFileUpload from "components/ChooseFile";
 
 const Addadminstrator = () => {
   const [checked, setChecked] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [formData, setFormData] = useState({
     visible: "",
     stream_for_webtv: "",
@@ -44,7 +46,8 @@ const Addadminstrator = () => {
   };
 
   return (
-    <Box m="1.5rem 2.5rem" ml="310px">
+    <Box  m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "300px"}>
+     {/* m="1.5rem 2.5rem" ml="310px"> */}
       <FlexBetween>
         <Header title="Adminstrator Registration Form" />
 

@@ -14,6 +14,7 @@ import {
   Traffic,
   Edit,
   Delete,
+
 } from "@mui/icons-material";
 import {
   Box,
@@ -27,6 +28,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  openDe,
+  
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 // import BreakdownChart from "components/BreakdownChart";
@@ -41,6 +44,7 @@ const Allproducts = () => {
   const isNonMediumScreens = useMediaQuery(
     "(min-width: 400px, max-width: 1280px)"
   );
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   // const { data, isLoading } = useGetDashboardQuery();
 
   const [products, setProducts] = useState([]);
@@ -128,7 +132,7 @@ const Allproducts = () => {
       renderCell: (params) => {
         const _id = params.row._id; // Assuming 'id' is a unique identifier for the row
 
-  const handleEditAction = (_id) =>
+  const handleEditAction =        (_id) =>
         {
           navigate(`/addproducts/${params.row._id}`);
           // Ikkada Edit Action Logic Raasko
@@ -197,24 +201,24 @@ const Allproducts = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem" ml="250px">
+    <Box  m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
+    {/* m="1.5rem 2.5rem" ml="250px"> */}
       <FlexBetween>{/* <Header title="PRODUCTS LISTING" /> */}</FlexBetween>
 
       <Box
-        mt="20px"
+        // mt="20px"
+        mt={isSmallScreen ? "10px" : "50px"}
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        // gridAutoRows="160px"
-
-        // gridAutoRows="160px"
-
-        gap="20px"
+        // gap="20px"
+        gap={isSmallScreen ? "10px" : "20px"}
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
       >
         {/* ROW 1 */}
-        <StatBox
+        {/* <StatBox
+     
           title="PRODUCTS LISTING"
           // value={data && data.totalCustomers}
           // increase="+14%"
@@ -240,11 +244,49 @@ const Allproducts = () => {
               </div>
             </div>
           }
+        /> */}
+
+
+
+<StatBox
+          title="AUDIO STREAM LISTING"
+          searchtab={
+            <div className="content">
+              <div id="data_table_wrapper" className="dataTables_wrapper" role="grid">
+                <div className="dataTables_filter" id="data_table_filter">
+                  <label
+                    style={{
+                      display: "flex",
+                      flexDirection: isSmallScreen ? "column" : "row",
+                      alignItems: "center",
+                    }}
+                  >
+                  Search 
+                    <input
+                      type="text"
+                      aria-controls="data_table"
+                      style={{
+                        width: isSmallScreen ? "100%" : "auto",
+                        margin: isSmallScreen ? "10px 0" : "0 10px",
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+          }
+          // icon={<Search sx={{ color: theme.palette.secondary[300], fontSize: "26px" }} />}
         />
-        <Container sx={{ height: 450 }}>
+
+
+
+
+
+        <Container sx={{ height: 474 }}>
           <DataGrid
             // loading={isLoading || !data}
             getRowId={(row) => row._id}
+            sx={{ mt: isSmallScreen ? "30px" : "60px" }}
             // rows={(data && data.transactions) || []}
             disableSelectionOnClick
             rows={products}
@@ -282,7 +324,7 @@ const Allproducts = () => {
             },
           }}
         ></Box>
-        <SidebarMonetize />
+        {/* <SidebarMonetize /> */}
       </Box>
 
       <CustomColumnMenu />

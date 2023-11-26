@@ -40,66 +40,18 @@ export { customer_saz1byObId };
 
 //POST API
 const addcustomer_saz1 = async (req, res) => {
-  const {
-  id,
-  name,
-  surname,
-  nick,
-  mail,
-  password,
-  enddate,
-  createdby,
-  billing_id,
-  device_id,
-  is_multiple_session,
-  is_loggedin,
-  status,
-  group_id,
-  created,
-  modified,
-  payment_settings_id,
-  category_password,
-  user_limit,
-  number_of_login,
-  is_deleted,
-  is_trail,
-  is_paid,
-  is_cdn,
-  reseller_id,
-  activation_date,
-  renewal_date
-
-} = req.body;
+  const { Id, CustomerId, Model_Name, Name, Devicetype, isTrail, Active, Expiry_Date, Created_Date} = req.body;
   try {
     const newData = new customer_saz1({
-      id,
-      name,
-      surname,
-      nick,
-      mail,
-      password,
-      enddate,
-      createdby,
-      billing_id,
-      device_id,
-      is_multiple_session,
-      is_loggedin,
-      status,
-      group_id,
-      created,
-      modified,
-      payment_settings_id,
-      category_password,
-      user_limit,
-      number_of_login,
-      is_deleted,
-      is_trail,
-      is_paid,
-      is_cdn,
-      reseller_id,
-      activation_date,
-      renewal_date
-      
+        Id,
+        CustomerId,
+        Model_Name,
+        Name,
+        Devicetype,
+        isTrail,
+        Active,
+        Expiry_Date,
+        Created_Date
     });
     await newData.save();
     // const videodata = await dashboard_categories.find();

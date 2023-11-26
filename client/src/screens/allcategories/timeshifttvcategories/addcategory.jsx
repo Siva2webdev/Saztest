@@ -1,6 +1,6 @@
 import React, { useState, useEffect  } from "react";
 import axios from "axios";
-import Joi from 'joi';
+
 import { useParams } from "react-router-dom";
 import {
   TextField,
@@ -30,29 +30,29 @@ const AddCategoryTimeShift = () => {
   const [visiblechecked, setVisibleChecked] = useState(false); 
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const { _id } = useParams();
-  const [validationError, setValidationError] = useState(null);
-  const validationSchema = Joi.object({
-    // id: Joi.string().regex(/^[0-9]+$/, "id").required(),
-    id: Joi.string().empty(''),
-    // name: Joi.string().empty('').min(3).max(30).default('default value').label('Billing Type Name'),
-    title: Joi.string().regex(/^[a-zA-Z]+$/).min(3).max(30).required().label('Title'),
-    // name: Joi.string().empty('').label('Billing Type Name'),
-    is_protected: Joi.string() .valid(0, 1) .label('password protected'),
-  });
+  // const [validationError, setValidationError] = useState(null);
+  // const validationSchema = Joi.object({
+  //   // id: Joi.string().regex(/^[0-9]+$/, "id").required(),
+  //   id: Joi.string().empty(''),
+  //   // name: Joi.string().empty('').min(3).max(30).default('default value').label('Billing Type Name'),
+  //   title: Joi.string().regex(/^[a-zA-Z]+$/).min(3).max(30).required().label('Title'),
+  //   // name: Joi.string().empty('').label('Billing Type Name'),
+  //   // is_protected: Joi.string().label('password protected'),
+  // });
 
 
   const [formData, setFormData] = useState({
     id:"",
     title: "",
-    is_protected:"",
-    visible: "",
+    // is_protected:"",
+    // visible: "",
   });
 
 
   const handleReset = () => {
     setFormData({
      title:" ",
-     is_protected:"",
+    //  is_protected:"",
     });
   };
 
@@ -87,7 +87,6 @@ const AddCategoryTimeShift = () => {
           const videoliveData = response.data;
           setFormData({
             title: videoliveData.title,
-            is_protected:videoliveData.is_protected,
           });
         })
         .catch((error) => {
@@ -98,17 +97,16 @@ const AddCategoryTimeShift = () => {
 
 const handleSubmit = (e) => {
   e.preventDefault();
-  const dataToValidate={is_protected:1};
-    const validationResult = validationSchema.validate(formData, {
-    abortEarly: false, dataToValidate,
-  });
+  // const validationResult = validationSchema.validate(formData, {
+  //   abortEarly: false,
+  // });
 
-  if (validationResult.error) {
-    setValidationError(validationResult.error.details);
-    return;
-  }
+  // if (validationResult.error) {
+  //   setValidationError(validationResult.error.details);
+  //   return;
+  // }
 
-  setValidationError(null);
+  // setValidationError(null);
 
 
   if (_id) {
@@ -161,7 +159,7 @@ const handleSubmit = (e) => {
         <label>Password Protected :</label>
         <br />
         <FormControl>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               <Checkbox
                 id="agree"
@@ -169,13 +167,13 @@ const handleSubmit = (e) => {
                 onChange={(e) => setPassChecked(e.target.checked)}
               />
             }
-          />
-          {/* <FormControlLabel 
+          /> */}
+          <FormControlLabel 
             name="is_protected"
             control={<Checkbox checked={passchecked} onChange={handleCheckboxChange} />}
-            value={formData.is_protected} */}
-             {/* label="Check me" */}
-            {/* /> */}
+            value={formData.is_protected?"1":"0"}
+            // label="Check me"
+            />
         </FormControl>
         {/* <input type="checkbox" name="termsAndConditions" id="termsAndConditions"></input>
         <br /> */}
@@ -209,14 +207,14 @@ const handleSubmit = (e) => {
           ></input>
         </div>
         <br />
-        {validationError && (
+        {/* {validationError && (
           <div style={{ color: 'red' }}>
             {validationError.map((error) => (
               <div>{error.message}</div>
             ))}
             
             </div>
-      )}
+      )} */}
         <ButtonGroup variant="contained" aria-label="outlined button group">
           <Button type="reset" onClick={handleReset}>Reset</Button>
 

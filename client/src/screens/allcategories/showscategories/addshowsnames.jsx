@@ -12,12 +12,14 @@ import {
   Checkbox,
   Box,
   NativeSelect,
+  useMediaQuery
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Header from "components/Header";
 const AddShowsNames = () => {
   const [passchecked, setPassChecked] = useState(false);
   const [visiblechecked, setVisibleChecked] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [age, setAge] = React.useState("");
 
   const handleChangeShows = (event) => {
@@ -83,7 +85,8 @@ const AddShowsNames = () => {
   };
 
   return (
-    <Box m="1.5rem 2.5rem" ml="350px">
+    <Box  m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "350px"}>
+     {/* m="1.5rem 2.5rem" ml="350px"> */}
       <FlexBetween></FlexBetween>
 
       <form onSubmit={handleSubmit}>
