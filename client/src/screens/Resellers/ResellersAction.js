@@ -59,6 +59,7 @@ const ResellersAction = () => {
     "(min-width: 400px, max-width: 1300px)"
   );
   const isNonMobile = useMediaQuery("(min-width: 400px, max-width: 1300px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   // const { data, isLoading } = useGetDashboardQuery();
   const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
 
@@ -100,18 +101,21 @@ const ResellersAction = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem" ml="310px">
+    <Box  m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "350px"}>
+    {/* m="1.5rem 2.5rem" ml="310px"> */}
       <FlexBetween>
         {/* <Header title="Reseller Action Notification"  /> */}
       </FlexBetween>
 
       <Box
-        mt="20px"
-        ml="0px"
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="160px"
-        gap="20px"
+         // mt="20px"
+         mt={isSmallScreen ? "10px" : "50px"}
+         ml="0px"
+         display="grid"
+         gridTemplateColumns="repeat(12, 1fr)"
+         // gridAutoRows="500px"
+         // gap="20px"
+         gap={isSmallScreen ? "10px" : "20px"}
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
@@ -149,6 +153,7 @@ const ResellersAction = () => {
           // loading={isLoading || !data}
           // getRowId={(row) => row._id}
           // rows={(data && data.transactions) || []}
+          sx={{ mt: isSmallScreen ? "30px" : "60px" }}
           rows={[]}
           columns={columns}
         />

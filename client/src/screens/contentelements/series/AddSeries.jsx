@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { TextField, Button, ButtonGroup, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, Box } from '@mui/material';
+import { TextField, Button, ButtonGroup, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, Box,useMediaQuery } from '@mui/material';
 import SidebarContent from 'components/SidebarContent';
 import FlexBetween from "components/FlexBetween";
 import Header from "components/Header";
 import InputFileUpload from 'components/ChooseFile';
 
 const AddSeries = () => {
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [checked, setChecked] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -39,8 +40,8 @@ const AddSeries = () => {
 
   return (
 
-    
-    <Box m="1.5rem 2.5rem" ml="250px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
+    {/* <Box m="1.5rem 2.5rem" ml="250px"> */}
     <FlexBetween>
     <Header title="ADD SERIES" />
     

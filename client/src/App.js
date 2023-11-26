@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 
-import { CssBaseline, Switch, ThemeProvider, useMediaQuery } from "@mui/material";
+import { CssBaseline, Switch, ThemeProvider } from "@mui/material";
 
 import { createTheme } from "@mui/material/styles";
 
@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { themeSettings } from "themes";
-// import useMediaQuery from "@mui/material";
+
 import {
   BrowserRouter,
   Routes,
@@ -60,7 +60,6 @@ import SazpinNewCustomers from "screens/Customers/sazpinnewcustomers";
 import Customer_Saz1 from "screens/Customers/Customer_Saz1";
 import Customer_Saz2 from "screens/Customers/Customer_Saz2";
 import Customer_Saz3 from "screens/Customers/Customer_Saz3";
-import Notifications from "screens/Customers/Notifications";
 import Playlist_Saz1 from "screens/administrator/Playlist_Saz1";
 import Playlist_Saz2 from "screens/administrator/Playlist_Saz2";
 import Playlist_Saz3 from "screens/administrator/Playlist_Saz3";
@@ -74,7 +73,6 @@ import Layout, { Layoutdc } from "screens/layout";
 import MoviesList from "screens/allcategories/moviecategories/moviecategory";
 
 import AddCategoryMovie from "screens/allcategories/moviecategories/addcategory";
-
 
 import RadioCategory from "screens/allcategories/radiocategories/radiocategory";
 
@@ -129,8 +127,6 @@ import AddTimeShiftTvChannel from "screens/contentelements/Timeshift/Timeshifttv
 import AddShow from "screens/contentelements/Showepisodes/Addshowepisode";
 
 import ShowEpisodeList from "screens/contentelements/Showepisodes/Showepisodelist";
-
-
 
 //set up material UI
 
@@ -191,7 +187,7 @@ import Addimage from "screens/Manage/Humaxappimages/addimage";
 // import AddMessage10 from "screens/Manage/Shahidnewmessage/addmessage";
 import AddMessage10 from "screens/Manage/Sazpinnewmessage/addmessage";
 import Allmessage10 from "screens/Manage/Sazpinnewmessage/allmessage";
-import AddMessage9 from  "screens/Manage/Sazpinplususermessage/addmessage";
+import AddMessage9 from "screens/Manage/Sazpinplususermessage/addmessage";
 import Allmessage9 from "screens/Manage/Sazpinplususermessage/allmessage";
 import Allmessage11 from "screens/Manage/Livemessage/appmessage";
 import Allmessage12 from "screens/Manage/Shahidnewmessage/allmessage";
@@ -201,11 +197,10 @@ import All from "screens/Manage/Inventary/all";
 import AllAdministrator from "screens/administrator/alladministrator";
 import Addadminstrator from "screens/administrator/addadministrator";
 
-
 import AssignProducts from "screens/MonetizeElements/Products/AssignProducts";
 import Resellers from "screens/Resellers/ResellersAction";
 
-import { LiveTv} from "@mui/icons-material";
+import { LiveTv } from "@mui/icons-material";
 
 //set up material UI
 
@@ -222,11 +217,9 @@ import { LiveTv} from "@mui/icons-material";
 // import { addUser, removerUser, removerUSer } from "utils/userSlice";
 import AssiginedProducts from "screens/MonetizeElements/Products/AssignedProducts";
 
-
 import OnlineResellers from "screens/Resellers/OnlineResellers";
 
 import AddProduct from "screens/MonetizeElements/Products/AddProducts";
-
 
 import ResellersLogin from "screens/Resellers/ResellerLoginNotification";
 import Addcustomer from "screens/Customers/addcustomer";
@@ -252,11 +245,8 @@ import Seriesnamelist from "screens/allcategories/seriescategories/seriesnamelis
 import Saz1_MainURL from "screens/administrator/Saz1_MainURL";
 import Saz2_MainURL from "screens/administrator/Saz2_MainURL";
 import Saz3_MainURL from "screens/administrator/Saz3_MainURL";
-// import Addcustomer_saz1 from "screens/Customers/addCustomer_Saz1";
-
 
 // import { LayoutResellerlist } from "screens/layout";
-
 
 const Dashboard = lazy(() => import("screens/dashboard"));
 
@@ -298,16 +288,11 @@ function App() {
 
   //gives access to store
 
-
-
-
   const mode = useSelector((state) => state.global.mode);
 
   const theme = useMemo(() => createTheme(themeSettings(mode), [mode]));
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const isSmallScreen = useMediaQuery("(max-width:600px)");
-  const isNotMediumScreen = useMediaQuery("(min-width:960px)");
-  
+
   return (
     <div className="app">
       <BrowserRouter>
@@ -332,7 +317,7 @@ function App() {
               <Route path="/content" element={<Content />} />
               <Route path="/Addchannel" element={<Addchannel />} />
               <Route path="/ListChannel" element={<Channellist />} />
-              <Route path="/Dropdown2Option2" element={<MovieSortableList/>} />
+              <Route path="/Dropdown2Option2" element={<MovieSortableList />} />
               <Route path="/AddMovie" element={<Addmovie />} />
               <Route path="/MovieList" element={<Movielist />} />
               <Route path="/AddSeriesEpisodes" element={<AddSeries />} />
@@ -342,13 +327,22 @@ function App() {
               <Route path="/SongsList" element={<Songslist />} />
               <Route path="/CatchupList" element={<ChannelListing />} />
               <Route path="/AddtimeshiftChannel" element={<AddTimeShift />} />
-              <Route path="/SeriesEpisodesList" element={<SeriesEpisodesList />} />
+              <Route
+                path="/SeriesEpisodesList"
+                element={<SeriesEpisodesList />}
+              />
               <Route path="/SortableChannel" element={<SortableChannel />} />
-              <Route path="/radioSort" element={<RadioSortableList/>}/>
-              <Route path="/SeriesEpisodesSortableList" element={<SeriesEpisodesSortableList />} />
+              <Route path="/radioSort" element={<RadioSortableList />} />
+              <Route
+                path="/SeriesEpisodesSortableList"
+                element={<SeriesEpisodesSortableList />}
+              />
               <Route path="/ShowsEpisodeSort" element={<ShowsEpisodeSort />} />
               <Route path="/SongsSort" element={<SongsSortableList />} />
-              <Route path="/TimeshiftChannelSort" element={< Timeshiftchannelsort/>}/>
+              <Route
+                path="/TimeshiftChannelSort"
+                element={<Timeshiftchannelsort />}
+              />
               <Route
                 path="/timeshiftChannelList"
                 element={<AddTimeShiftTvChannel />}
@@ -386,6 +380,10 @@ function App() {
                 element={<AddCategoryLiveTv />}
               />
               <Route
+                path="/LiveCategory/AddCategory/:_id"
+                element={<AddCategoryLiveTv />}
+              />
+              <Route
                 path="/LiveTvcatSortableList"
                 element={<Livetvsortablelist />}
               />
@@ -394,19 +392,19 @@ function App() {
                 element={<TimeshiftTvCategory />}
               />
               <Route
+                path="/TimeshiftCategory/AddCategory"
+                element={<AddCategoryTimeShift />}
+              />
+              <Route
                 path="/TimeshiftCategory/AddCategory/:_id"
                 element={<AddCategoryTimeShift />}
               />
-               
               <Route
                 path="/Timeshiftcatsort"
                 element={<Timeshiftsortablelist />}
               />
 
-              <Route
-                path="/Seriesnamelist"
-                element={<Seriesnamelist />}
-              />
+              <Route path="/Seriesnamelist" element={<Seriesnamelist />} />
               <Route
                 path="/SeriesCategory/AddseriesName"
                 element={<AddCategorySeries />}
@@ -445,38 +443,18 @@ function App() {
               <Route path="/SongcatSort" element={<Songcatsortlist />}></Route>
             </Route>
 
-            {/* <Route element={<LayoutResellerlist />}> */}
-
-            {/* <Route path="/resellers" element="" /> */}
-            {/* <Route path="/allresellers"  element ={<Allreseller/>}/> */}
-
-            {/* <Route path="/onlineresellers" element={<OnlineResellers />} />
-            </Route> */}
+           
 
             <Route element={<LayoutMonteize />}>
               <Route path="/monetize" element={<AllPackages />} />
               <Route path="/allproducts" element={<Allproducts />} />
-              <Route
-                path="/assignedproducts"
-                element={<AssiginedProducts />}
-              />
+              <Route path="/assignedproducts" element={<AssiginedProducts />} />
               <Route path="/addproducts" element={<AddProduct />} />
               <Route path="/addproducts/:_id" element={<AddProduct />} />
               <Route path="/AssignProducts" element={<AssignProducts />} />
-              <Route path="/AssignProducts/:_id" element={<AssignProducts />} />
             </Route>
 
-            {/* <Route element={<LayoutResellerlist />}>
-              <Route path="/resellers" element={<Allreseller/>} />
-              <Route path="/addresellers" element={<Addreseller />} />
-
-              <Route
-                path="/resellersloginnotfication"
-                element={<ResellersLogin />}
-              />
-
-              <Route path="/allresellers" element={<Allreseller />} />
-            </Route> */}
+           
 
             <Route element={<Layoutdc />}>
               <Route path="/dc" element={<Allcontent />} />
@@ -487,7 +465,6 @@ function App() {
               <Route path="/ContentSortable" element={<ContentSortable />} />
               <Route path="/addcontent" element={<AddContent />} />
               <Route path="/addbanner" element={<AddBanner />} />
-              <Route path="/addbanner/:_id" element={<AddBanner />} />
               <Route path="/bannersortable" element={<BannerSortable />} />
               <Route path="/addcontent" element={<AddContent />} />
               <Route path="/allcontent" element={<Allcontent />} />
@@ -498,8 +475,6 @@ function App() {
             {/* <Route element={<LayoutResellerlist />}>
 
 <Route path="/monetize" element={<Navigate to ="monetize" replace/>}/>
-
-
             </Route>  */}
 
             <Route element={<LayoutCustomers />}>
@@ -512,12 +487,18 @@ function App() {
                 path="/Customers/addcustomer"
                 element={<Addcustomer />}
               ></Route>
-              <Route path="/Customers/Customer_Saz2" element={<Customer_Saz2/>}/>
-              <Route path="/Customers/Customer_Saz1" element={<Customer_Saz1/>}/>
-              {/* <Route path="/Customers/addcustomer_saz1" element={<Addcustomer_saz1/>}/> */}
-              {/* <Route path="/Customers/addcustomer_saz1/:_id" element={<Addcustomer_saz1/>}/> */}
-              <Route path="/Customers/Customer_Saz3" element={<Customer_Saz3/>}/>
-              <Route path="/Customers/Notifications" element={<Notifications/>}/>
+              <Route
+                path="/Customers/Customer_Saz2"
+                element={<Customer_Saz2 />}
+              />
+              <Route
+                path="/Customers/Customer_Saz1"
+                element={<Customer_Saz1 />}
+              />
+              <Route
+                path="/Customers/Customer_Saz3"
+                element={<Customer_Saz3 />}
+              />
             </Route>
 
             <Route element={<LayoutPackage />}>
@@ -538,7 +519,8 @@ function App() {
               <Route path="/allresellers" element={<Allreseller />} />
 
               <Route path="/addresellers" element={<Addreseller />} />
-
+              
+               <Route path="/addresellers/:_id" element={<Addreseller />} />
               <Route path="/onlineresellers" element={<OnlineResellers />} />
 
               <Route
@@ -624,13 +606,13 @@ function App() {
                 path="/addadministrator"
                 element={<Addadminstrator />}
               ></Route>
-              <Route path="/Playlist_Saz2" element={<Playlist_Saz2/>}/>
-              <Route path="/Playlist_Saz3" element={<Playlist_Saz3/>}/>
-              <Route path="/Playlist_Saz1" element={<Playlist_Saz1/>}/>
-              <Route path="/Saz1_MainURL" element={<Saz1_MainURL/>}/>
-              <Route path="/Saz2_MainURL" element={<Saz2_MainURL/>}/>
-              <Route path="/Saz3_MainURL" element={<Saz3_MainURL/>}/>
-           </Route>
+              <Route path="/Playlist_Saz2" element={<Playlist_Saz2 />} />
+              <Route path="/Playlist_Saz3" element={<Playlist_Saz3 />} />
+              <Route path="/Playlist_Saz1" element={<Playlist_Saz1 />} />
+              <Route path="/Saz1_MainURL" element={<Saz1_MainURL />} />
+              <Route path="/Saz2_MainURL" element={<Saz2_MainURL />} />
+              <Route path="/Saz3_MainURL" element={<Saz3_MainURL />} />
+            </Route>
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

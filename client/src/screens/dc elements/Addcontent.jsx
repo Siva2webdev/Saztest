@@ -10,6 +10,7 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
+  useMediaQuery,
 } from "@mui/material";
 import InputFileUpload from "components/ChooseFile";
 
@@ -19,10 +20,11 @@ import Header from "components/Header";
 
 // import SidebarMonetize from "components/SidebarMonetize";
 import Sidebardc from "components/sidebardc";
-// import SidebarDC from 'components/sidebardc';
+// import Sidebardc from 'components/sidebardc';
 
 const AddContent = () => {
-  const[checked,setChecked]=useState(false);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const[checked,setChecked]=useState(true);
   const [formData, setFormData] = useState({
     BillingTypeName: "",
   });
@@ -40,7 +42,8 @@ const AddContent = () => {
   };
 
   return (
-    <Box m="1.5rem 2.5rem" ml="300px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "300px"}>
+    {/* <Box m="1.5rem 2.5rem" ml="300px"> */}
       <FlexBetween></FlexBetween>
 
       <form onSubmit={handleSubmit}>
@@ -136,7 +139,7 @@ const AddContent = () => {
           <Button style={{ backgroundColor: "green" }}>Submit</Button>
         </ButtonGroup>
       </form>
-      <Sidebardc/>
+      {/* <Sidebardc/> */}
     </Box>
   );
 };

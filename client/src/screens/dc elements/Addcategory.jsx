@@ -10,17 +10,19 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
+  useMediaQuery,
 } from "@mui/material";
 
 // import FlexBetween from "components/FlexBetween";
 // import Header from "components/Header";
-// import Sidebardc from "components/sidebardc";
+import Sidebardc from "components/sidebardc";
 // import { ForkRight } from "@mui/icons-material";
 // import { useMediaQuery } from 'react-responsive'
 
 const AddCategory = () => {
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   // const [passwordchecked, setPasswordChecked] = useState(false);
-  const [visiblechecked, setVisibleChecked] = useState(false);
+  const [visiblechecked, setVisibleChecked] = useState(true);
   // const theme = useTheme();
   // const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   // const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -47,9 +49,9 @@ const AddCategory = () => {
   };
 
   return (
-
-    <Box m="1.5rem 0.5rem"  ml="300px" marginTop="120px" margin=" 0 auto" max-width="1210px" min-width="570px" width="80%" sx={{display:'flex', flexDirection:{xs:"column", md:"row"}, justifyContent:"space-between" }}
-    >
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "300px"}>
+     {/* <Box m="1.5rem 0.5rem"  ml="300px" marginTop="120px" margin=" 0 auto" max-width="1210px" min-width="570px" width="80%" sx={{display:'flex', flexDirection:{xs:"column", md:"row"}, justifyContent:"space-between" }} */}
+    
 
       {/* <Sidebardc /> */}
 

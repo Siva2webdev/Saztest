@@ -80,7 +80,7 @@ const SongsSortableList = () => {
        
 
       </form>
-      <SidebarContent />
+      {/* <SidebarContent /> */}
       <Navbar />
     </Box>
   );

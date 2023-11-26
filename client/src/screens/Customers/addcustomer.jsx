@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+// import axios from 'axios';
 import {
   TextField,
   Button,
@@ -7,21 +8,31 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  FormControlLabel,
+  Checkbox,
   Box,
   Typography,
   IconButton,
   InputAdornment,
+  useMediaQuery
 } from "@mui/material";
-import { Delete, Add } from "@mui/icons-material";
+import { Input } from "@mui/material";
+import { CloudUpload, Delete, Add, AddOutlined } from "@mui/icons-material";
+// import SidebarContent from "components/SidebarContent";
+import FlexBetween from "components/FlexBetween";
+import Header from "components/Header";
+import InputFileUpload from "components/ChooseFile";
+import { styled } from "@mui/material/styles";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import SidebarCustomers from "components/SidebarCustomers";
-import FlexBetween from "components/FlexBetween";
-import Header from "components/Header";
+import App from "App";
 
 const Addcustomer = () => {
-  const [formData, setFormData] = useState({
+  const [checked, setChecked] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const [formData, setFormData] = useState([{
     title: "",
     visible: "",
     stream_for_webtv: "",
@@ -41,38 +52,34 @@ const Addcustomer = () => {
       {
         name: "",
         url: "",
-      },
-    ],
-  });
+      },]
+  }]);
+
+  // const handleAddField = () => {
+  //   setFormData([...formData, { name: '' }]);
+  // };
+
+  // const handleRemoveField = (index) => {
+  //   const newFormData = [...formData];
+  //   newFormData.splice(index, 1);
+  //   setFormData(newFormData);
+  // };
+
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handlePlaylistChange = (index, field, value) => {
-    const updatedPlaylists = [...formData.playlists];
-    updatedPlaylists[index][field] = value;
-    setFormData((prevData) => ({ ...prevData, playlists: updatedPlaylists }));
-  };
-
-  const handleAddPlaylist = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      playlists: [...prevData.playlists, { name: "", url: "" }],
-    }));
-  };
-
-  const handleDeletePlaylist = (index) => {
-    const updatedPlaylists = [...formData.playlists];
-    updatedPlaylists.splice(index, 1);
-    setFormData((prevData) => ({ ...prevData, playlists: updatedPlaylists }));
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
   };
+
+
+
 
   const [paymentTypes, setPaymentTypes] = useState([]);
 
@@ -95,27 +102,19 @@ const Addcustomer = () => {
       });
   }, []);
 
-  const [packages, setPackages] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5001/api/packages/find")
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setPackages(res.data);
-      });
-  }, []);
+  const label = { inputProps: { label: 'Checkbox demo' } };
 
 
 
   return (
-    <Box m="1.5rem 2.5rem" ml="250px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "300px"}>
+    {/* m="1.5rem 2.5rem" ml="250px"> */}
       <FlexBetween>
         <Header title="Sazpin New Customer Registration" />
+
         <Box></Box>
       </FlexBetween>
-
       <form onSubmit={handleSubmit}>
-        {/* ... Your existing code ... */}
         <h3>
           <u>Product Selection</u>
         </h3>
@@ -128,13 +127,21 @@ const Addcustomer = () => {
             value={formData.choose_package}
             onChange={handleChange}
           >
-            <MenuItem value="17">(Choose package Type)</MenuItem>
+            <MenuItem value="farisi">farisi turkish</MenuItem>
+            <MenuItem value="6">FRANCE</MenuItem>
+            <MenuItem value="8">FRANCE Plus</MenuItem>
+            <MenuItem value="4">Full package</MenuItem>
+            <MenuItem value="12">Humax Vejo Arab TV</MenuItem>
+            <MenuItem value="18">Leo Player</MenuItem>
+            <MenuItem value="14">Lite Tv</MenuItem>
+            <MenuItem value="1">Sazpin Basic Plan</MenuItem>
+            <MenuItem value="11">Sazpin basisc no german</MenuItem>
+            <MenuItem value="13">Sazpin New Song</MenuItem>
+            <MenuItem value="7">test</MenuItem>
+            <MenuItem value="10">TimeShift Package</MenuItem>
+            <MenuItem value="3">Turkish Basic Plan</MenuItem>
 
-            {packages.map((type) => (
-            <MenuItem key={type.id} value={type.id}>
-            {type.name}
-            </MenuItem>
-            ))}
+            {/* Add more language MenuItems as needed */}
 
             {/* Select2 */}
           </Select>
@@ -211,53 +218,61 @@ const Addcustomer = () => {
         </LocalizationProvider>
 
 
+
         <div>
-          {formData.playlists.map((playlist, index) => (
-            <div key={index} style={{ alignItems: "center" }}>
-              <TextField
-                fullWidth
-                name={`name${index}`}
-                label="Playlist Name"
-                variant="outlined"
-                value={playlist.name}
-                onChange={(e) =>
-                  handlePlaylistChange(index, "name", e.target.value)
-                }
-                margin="normal"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => handleDeletePlaylist(index)}
-                        color="secondary"
-                      >
-                        <Delete />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+        <div  style={{  alignItems: 'center' }}>
+          <TextField
+            fullWidth
+            name="name"
+            label="Playlist Name"
+            variant="outlined"
+            value={formData.name}
+            onChange={handleChange}
+            // onChange={(event) => {
+            //   const newFormData = [...formData];
+            //   newFormData[index].name = event.target.value;
+            //   setFormData(newFormData);
+            // }
+          // }
+            margin="normal"
+            InputProps={{
+              endAdornment: (
+                <React.Fragment>
+                  <InputAdornment position="end">
+                  <IconButton
+                    color="secondary"
+                    // onClick={() => handleRemoveField(index)}
+                  >
+                    <Delete />
+                  </IconButton>
+                  </InputAdornment>
+                </React.Fragment>
+              ),
+            }}
+          />
 
-              <TextField
-                fullWidth
-                name={`url${index}`}
-                label="URL"
-                variant="outlined"
-                value={playlist.url}
-                onChange={(e) =>
-                  handlePlaylistChange(index, "url", e.target.value)
-                }
-                margin="normal"
-              />
-            </div>
-          ))}
-          <IconButton onClick={handleAddPlaylist} color="primary">
-            <Add />
-          </IconButton>
+          <TextField
+            fullWidth
+            name={`url`}
+            label="URL"
+            variant="outlined"
+            value={formData.url}
+            onChange={handleChange}
+            // onChange={(event) => {
+            //   const newFormData = [...formData];
+            //   newFormData[index].url = event.target.value;
+            //   setFormData(newFormData);
+            // }}
+            margin="normal"
+          />
         </div>
+      <IconButton color="primary" >
+        <Add />
+      </IconButton>
+    </div>
 
-        {/* ... Your existing code ... */}
-        <h3><u>Personal details</u></h3>
+
+    <h3><u>Personal details</u></h3>
 
 
         <TextField
@@ -384,6 +399,7 @@ const Addcustomer = () => {
             <MenuItem value="One">STB One</MenuItem>
           </Select>
         </FormControl>
+
         <ButtonGroup variant="contained" aria-label="outlined button group">
           <Button color="error">Hide Prompts</Button>
           <Button type="submit" color="success">
@@ -391,8 +407,8 @@ const Addcustomer = () => {
           </Button>
         </ButtonGroup>
       </form>
-      g
-      <SidebarCustomers />
+      {/* <SidebarContent /> */}
+      {/* <SidebarCustomers /> */}
     </Box>
   );
 };

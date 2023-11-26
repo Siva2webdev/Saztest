@@ -11,6 +11,7 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
+  useMediaQuery
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 // import Header from 'components/Header';
@@ -19,13 +20,13 @@ import FlexBetween from "components/FlexBetween";
 
 // import { TextField, Button, ButtonGroup, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox ,Box } from '@mui/material';
 // import FlexBetween from 'components/FlexBetween';
-import SidebarAllCategories from "components/SidebarAllCategories";
+// import SidebarAllCategories from "components/SidebarAllCategories";
 import Header from "components/Header";
 
 const AddCategorySong = () => {
   const [passchecked, setPassChecked] = useState(false);
   const [visiblechecked, setVisibleChecked] = useState(false);
-
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [formData, setFormData] = useState({
     title: "",
 
@@ -85,7 +86,9 @@ const AddCategorySong = () => {
   };
 
   return (
-    <Box m="1.5rem 2.5rem" ml="350px">
+    <Box    m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "350px"}>
+     
+    {/* m="1.5rem 2.5rem" ml="350px"> */}
       <FlexBetween></FlexBetween>
 
       <form onSubmit={handleSubmit}>
@@ -150,7 +153,7 @@ const AddCategorySong = () => {
         </ButtonGroup>
       </form>
 
-      <SidebarAllCategories />
+      {/* <SidebarAllCategories /> */}
     </Box>
   );
 };

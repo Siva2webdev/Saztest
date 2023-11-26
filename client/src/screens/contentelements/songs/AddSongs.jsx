@@ -10,6 +10,7 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
+  useMediaQuery,
 } from "@mui/material";
 
 import Sidebar from "screens/content";
@@ -25,6 +26,7 @@ import SidebarContent from "components/SidebarContent";
 import InputFileUpload from "components/ChooseFile";
 
 const AddSong = () => {
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [checked, setChecked] = useState(false);
   const[checked1, setChecked1] = useState(false);
 
@@ -62,7 +64,8 @@ const AddSong = () => {
 
 
   return (
-    <Box m="1.5rem 2.5rem" ml="250px">
+    // <Box m="1.5rem 2.5rem" ml="250px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
       <FlexBetween>
         <Header title="ADD SONG STREAM" />
 

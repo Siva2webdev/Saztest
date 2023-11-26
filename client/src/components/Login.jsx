@@ -17,24 +17,24 @@ import {
   updateProfile,
 } from "firebase/auth";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
+ 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const name = useRef(null);
   const theme = useTheme();
   const navigate = useNavigate();
-
+ 
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
   };
-
+ 
   const [formData, updateFormData] = React.useState();
-
+ 
     const handleChange = (e) => {
       updateFormData({
         ...formData,
-
+ 
         // Trimming any whitespace
         [e.target.name]: e.target.value.trim(),
         // [e.target.password]: e.target.value.trim()
@@ -45,11 +45,11 @@ const handleSubmit=async()=>
   console.log("email,password",formData.email,formData.password)
   const email=formData.email;
   const password=formData.password
-
+ 
   let result=await fetch("http://localhost:5001/api/user/login",{
     method:"POST",
     body:JSON.stringify({email,password}),
-
+ 
     headers:
     {
       "Content-Type":"application/json"
@@ -62,14 +62,14 @@ const handleSubmit=async()=>
     localStorage.setItem("user",JSON.stringify(result))
     navigate("/dashboard");
   }
-
-
+ 
+ 
 }
-
+ 
 const[user,setUser]=useState(null);
 const[email,setEmail]=useState("")
 const[password,setPassword]=useState("")
-
+ 
   return (
     <Container component="main" maxWidth="sm">
       <CssBaseline />
@@ -87,7 +87,7 @@ const[password,setPassword]=useState("")
         <Typography component="h1" variant="h5" mt={"50px"}>
           {isSignInForm ? "Sign In" : "Sign Up"}
         </Typography>
-
+ 
         {!isSignInForm && (
           <TextField
             required
@@ -99,7 +99,7 @@ const[password,setPassword]=useState("")
             onChange={handleChange}
           />
         )}
-
+ 
         <TextField
           required
           fullWidth
@@ -109,7 +109,7 @@ const[password,setPassword]=useState("")
           name="email"
           onChange={handleChange}
         />
-
+ 
         <TextField
           required
           fullWidth
@@ -119,7 +119,7 @@ const[password,setPassword]=useState("")
           name="password"
           onChange={handleChange}
         />
-
+ 
         {!isSignInForm && (
           <Box sx={{ textAlign: "left", marginY: 1 }}>
             <Checkbox {...label} />
@@ -128,13 +128,13 @@ const[password,setPassword]=useState("")
             </Typography>
           </Box>
         )}
-
+ 
         {errorMessage && (
           <Alert severity="error" sx={{ width: "100%", marginBottom: 2 }}>
             {errorMessage}
           </Alert>
         )}
-
+ 
         <Button
           variant="contained"
           onClick={handleSubmit}
@@ -143,7 +143,7 @@ const[password,setPassword]=useState("")
         >
           {isSignInForm ? "Sign In" : "Sign Up"}
         </Button>
-
+ 
         <Typography
           variant="body2"
           onClick={toggleSignInForm}
@@ -158,5 +158,6 @@ const[password,setPassword]=useState("")
     </Container>
   );
 };
-
+ 
 export default Login;
+ 

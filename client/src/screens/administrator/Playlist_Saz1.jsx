@@ -10,37 +10,20 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 
-
-
 import {
-
- DownloadOutlined,
-
-
-
- PointOfSale,
-
- PersonAdd,
-
- Traffic,
-
+  DownloadOutlined,
+  PointOfSale,
+  PersonAdd,
+  Traffic,
 } from "@mui/icons-material";
 
 import {
-
- Box,
-
- Button,
-
- Typography,
-
- useTheme,
-
- useMediaQuery,
-
+  Box,
+  Button,
+  Typography,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
-
-
 
 import Sidebar from "components/Sidebar";
 
@@ -52,38 +35,21 @@ import Sidebar from "components/Sidebar";
 
 import StatBox from "components/StatBox";
 
-
-
 import {
-
- SettingsOutlined,
-
- ChevronLeft,
-
- ChevronRightOutlined,
-
- HomeOutlined,
-
- ShoppinCartOutlined,
-
- Groups2Outlined,
-
- ReceiptLongOutlined,
-
- PublicOffOutlined,
-
- PointOfSaleOutlined,
-
- CalendarTodayOutlined,
-
- CalendarMonthOutlined,
-
- AdminPanelSettingsOutlined,
-
- TrendingUpOutlined,
-
- ContentCopyOutlined,
-
+  SettingsOutlined,
+  ChevronLeft,
+  ChevronRightOutlined,
+  HomeOutlined,
+  ShoppinCartOutlined,
+  Groups2Outlined,
+  ReceiptLongOutlined,
+  PublicOffOutlined,
+  PointOfSaleOutlined,
+  CalendarTodayOutlined,
+  CalendarMonthOutlined,
+  AdminPanelSettingsOutlined,
+  TrendingUpOutlined,
+  ContentCopyOutlined,
 } from "@mui/icons-material";
 
 import { TocOutlinedIcon } from "@mui/icons-material/TocOutlined";
@@ -106,214 +72,139 @@ import { Menu as MenuIcon, IconButton } from "@mui/material";
 
 import SidebarAllCategory from "components/SidebarAllCategories";
 
-
-
 const Playlist_Saz1 = () => {
+  const theme = useTheme();
 
- const theme = useTheme();
+  // const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
 
- // const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
+  // const isNonMobile = useMediaQuery("(min-width:600px)");
 
- // const isNonMobile = useMediaQuery("(min-width:600px)");
+  const isNonMediumScreens = useMediaQuery(
+    "(min-width: 400px, max-width: 1280px)"
+  );
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  // const { data, isLoading } = useGetDashboardQuery();
 
- const isNonMediumScreens = useMediaQuery(
+  const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
 
- "(min-width: 400px, max-width: 1280px)"
+  const columns = [
+    {
+      field: "id",
 
- );
+      headerName: "ID",
 
- // const { data, isLoading } = useGetDashboardQuery();
+      flex: 1,
+    },
 
- const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
+    {
+      field: "name",
 
+      headerName: "Name",
 
+      flex: 1,
+    },
 
- const columns = [
+    {
+      field: "url",
 
- {
+      headerName: "URL",
 
- field: "id",
+      flex: 1,
+    },
 
- headerName: "ID",
+    {
+      field: "active/inactive",
 
- flex: 1,
+      headerName: "Active/Inactive",
 
- },
+      flex: 1,
 
- {
+      // sortable: false,
 
- field: "name",
+      // renderCell: (params) => params.value.length,
+    },
 
- headerName: "Name",
+    {
+      field: "actions",
 
- flex: 1,
+      headerName: "Actions",
 
- },
+      flex: 1,
 
- {
+      // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
+    },
+  ];
 
- field: "url",
+  return (
+    <Box  m={isSmallScreen ? "1rem" : "1.5rem 3.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
+    {/* m="1.5rem 2.5rem" ml="310px"> */}
+      <FlexBetween>{/* <Header title="Live TV Category" /> */}</FlexBetween>
 
- headerName: "URL",
+      <Box
+       mt={isSmallScreen ? "10px" : "50px"}
+        ml="0px"
+        display="grid"
+        gridTemplateColumns="repeat(12, 1fr)"
+        gridAutoRows="160px"
+        // gap="20px"
+        gap={isSmallScreen ? "10px" : "20px"}
+        sx={{
+          "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
+        }}
+      >
+        {/* ROW 1 */}
 
- flex: 1,
+        <StatBox
+          title="Playlist_Saz1"
+          // value={data && data.totalCustomers}
 
- },
+          // increase="+14%"
 
- {
+          // description="Since last month"
 
- field: "active/inactive",
-
- headerName: "Active/Inactive",
-
- flex: 1,
-
- // sortable: false,
-
- // renderCell: (params) => params.value.length,
-
- },
-
- {
-
- field: "actions",
-
- headerName: "Actions",
-
- flex: 1,
-
- // renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
-
- },
-
-
-
- ];
-
-
-
- return (
-
- <Box m="1.5rem 2.5rem" ml="310px">
-
- <FlexBetween>{/* <Header title="Live TV Category" /> */}</FlexBetween>
-
-
-
- <Box
-
- mt="20px"
-
- ml="0px"
-
- display="grid"
-
- gridTemplateColumns="repeat(12, 1fr)"
-
- gridAutoRows="160px"
-
- gap="20px"
-
- sx={{
-
- "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
-
- }}
-
- >
-
- {/* ROW 1 */}
-
- <StatBox
-
- title="Playlist_Saz1"
-
- // value={data && data.totalCustomers}
-
- // increase="+14%"
-
- // description="Since last month"
-
-
-
- searchtab={
-
- <div className="content">
-
- <div
-
- id="data_table_wrapper"
-
- className="dataTables_wrapper"
-
- role="grid"
-
- >
-
- <div className="dataTables_filter" id="data_table_filter">
-
- <label>
-
- Search &nbsp;&nbsp;
-
- <input type="text" aria-controls="data_table" />
-
- </label>
-
- </div>
-
- </div>
-
- </div>
-
- }
-
- />
-
- <DataGrid
-
- // loading={isLoading || !data}
-
- // getRowId={(row) => row._id}
-
- // rows={(data && data.transactions) || []}
-
- rows={[]}
-
- columns={columns}
-
- />
-
- </Box>
-
-
-
- <CustomColumnMenu />
-
-
-
- {/* <SidebarAllCategory/> */}
-
- <FlexBetween>
-
- <IconButton
-
- onClick={() => setIsSidebarContentOpen(!isSidebarContentOpen)}
-
- >
-
- <MenuIcon />
-
- </IconButton>
-
- </FlexBetween>
-
- </Box>
-
- );
-
+          searchtab={
+            <div className="content">
+              <div
+                id="data_table_wrapper"
+                className="dataTables_wrapper"
+                role="grid"
+              >
+                <div className="dataTables_filter" id="data_table_filter">
+                  <label>
+                    Search &nbsp;&nbsp;
+                    <input type="text" aria-controls="data_table" />
+                  </label>
+                </div>
+              </div>
+            </div>
+          }
+        />
+
+        <DataGrid
+          // loading={isLoading || !data}
+
+          // getRowId={(row) => row._id}
+
+          // rows={(data && data.transactions) || []}
+          sx={{ mt: isSmallScreen ? "10px" : "-60px" }}
+          rows={[]}
+          columns={columns}
+        />
+      </Box>
+
+      <CustomColumnMenu />
+
+      {/* <SidebarAllCategory/> */}
+
+      <FlexBetween>
+        <IconButton
+          onClick={() => setIsSidebarContentOpen(!isSidebarContentOpen)}
+        >
+          <MenuIcon />
+        </IconButton>
+      </FlexBetween>
+    </Box>
+  );
 };
-
-
 
 export default Playlist_Saz1;

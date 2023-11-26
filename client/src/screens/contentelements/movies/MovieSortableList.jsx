@@ -123,7 +123,7 @@ const MovieSortableList = () => {
           disabled
         />
       </form>
-      <SidebarContent />
+      {/* <SidebarContent /> */}
       <Navbar />
     </Box>
   );

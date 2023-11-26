@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Drawer,
-  Box,
-  Typography,
-  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -12,7 +9,8 @@ import {
   Collapse,
   ThemeProvider,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
+  IconButton,
 } from "@mui/material";
 import {
   PlaylistAddCircle,
@@ -32,6 +30,7 @@ import {
   OndemandVideo,
   Layers,
   ChevronLeft,
+  ChevronRight,
   Menu as MenuIcon,
   SortByAlpha,
   InventorySharp,
@@ -43,24 +42,29 @@ import {
   PostAdd,
   Assignment,
   AssignmentTurnedIn,
-  ChevronRight
 } from "@mui/icons-material";
 import FlexBetween from "./FlexBetween";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
- 
-function SidebarMonetize({ isNonMobile, drawerWidth }) {
+
+function SidebarMonetize(drawerWidth) {
+  // Define state and click handlers for each dropdown
   const [openDropdown1, setOpenDropdown1] = useState(false);
   const [openDropdown2, setOpenDropdown2] = useState(false);
   const [openDropdown3, setOpenDropdown3] = useState(false);
-  // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isSidebarMonetizeOpen, setIsSidebarMonetizeOpen] = useState(true);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  //   const [openDropdown4, setOpenDropdown4] = useState(false);
+  //   const [openDropdown5, setOpenDropdown5] = useState(false);
+  //   const [openDropdown6, setOpenDropdown6] = useState(false);
+  //   const [openDropdown7, setOpenDropdown7] = useState(false);
+  //   const [openDropdown8, setOpenDropdown8] = useState(false);
+  //   const [openDropdown9, setOpenDropdown9] = useState(false);
 
   const theme = useTheme();
- 
+  // Define click handlers for each dropdown
   const handleDropdown1Click = () => {
     setOpenDropdown1(!openDropdown1);
   };
@@ -70,40 +74,27 @@ function SidebarMonetize({ isNonMobile, drawerWidth }) {
   const handleDropdown3Click = () => {
     setOpenDropdown3(!openDropdown3);
   };
- 
+
   return (
     <ThemeProvider theme={theme}>
       <Drawer
+      open={isSidebarOpen}
+      onClose={() => setIsSidebarOpen(false)}
         anchor="left"
-        variant={isNonMobile ? "temporary" : "persistent"}
-        open={isSidebarMonetizeOpen}
-        onClose={() => setIsSidebarMonetizeOpen(false)}
+        variant="persistent"
         sx={{
           "& .MuiDrawer-paper": {
             color: theme.palette.secondary[200],
+
             backgroundColor: theme.palette.background.alt,
+
             boxSizing: "border-box",
-            borderWidth: isNonMobile ? 0 : "2px",
           },
         }}
       >
-        <Box width={isNonMobile ? "100%" : 240}>
-          <Box m="1.5rem 2rem 2rem 3rem">
-            <FlexBetween color={theme.palette.secondary.main}>
-              <Box display="flex" alignItems="center" gap="0.5rem">
-                <Typography variant="h2" fontWeight="bold">
-                  Monetize
-                </Typography>
-              </Box>
-              {!isNonMobile && (
-                  <IconButton onClick={() => setIsSidebarMonetizeOpen(!isSidebarMonetizeOpen)}>
-                    <ChevronLeft />
-                  </IconButton>
-                )}
-            </FlexBetween>
-          </Box>
-        </Box>
+        <h1><center>Monetize</center></h1>
         <List>
+          {/* Dropdown 1 */}
           <ListItem button onClick={handleDropdown1Click}>
             <ListItemIcon>
               <Inventory2 />
@@ -127,7 +118,8 @@ function SidebarMonetize({ isNonMobile, drawerWidth }) {
               </ListItem>
             </List>
           </Collapse>
- 
+
+          {/* Dropdown 2 */}
           <ListItem button onClick={handleDropdown2Click}>
             <ListItemIcon>
               <AttachMoney />
@@ -151,7 +143,8 @@ function SidebarMonetize({ isNonMobile, drawerWidth }) {
               </ListItem>
             </List>
           </Collapse>
- 
+
+          {/* Dropdown 3 */}
           <ListItem button onClick={handleDropdown3Click}>
             <ListItemIcon>
               <Category />
@@ -173,6 +166,7 @@ function SidebarMonetize({ isNonMobile, drawerWidth }) {
                 </ListItemIcon>
                 <ListItemText primary="Add Products" />
               </ListItem>
+
               <ListItem button component={Link} to="/assignproducts">
                 <ListItemIcon>
                   <Assignment />
@@ -185,29 +179,44 @@ function SidebarMonetize({ isNonMobile, drawerWidth }) {
                 </ListItemIcon>
                 <ListItemText primary="Assigned Products" />
               </ListItem>
+              {/* <ListItem button component={Link} to="/assignproducts"> */}
+
+              {/* <ListItem button component={Link} to="/assiginproducts">
+
+              <ListItemIcon>
+                <Assignment />
+              </ListItemIcon>
+              <ListItemText primary="Assigin Products" />
+            </ListItem>
+            <ListItem button component={Link} to="/assiginedproducts">
+              <ListItemIcon>
+                <AssignmentTurnedIn />
+              </ListItemIcon>
+              <ListItemText primary="Assigined Products" />
+
+            </ListItem> */}
             </List>
           </Collapse>
         </List>
       </Drawer>
-{isSmallScreen && (
+      {isSmallScreen && (
       <IconButton
         color="inherit"
-        aria-label={isSidebarMonetizeOpen ? "Close sidebar" : "Open sidebar"}
-        onClick={() => setIsSidebarMonetizeOpen(!isSidebarMonetizeOpen)}
+        aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         sx={{
           position: 'fixed',
-          top: '5%',
-          left: isSidebarMonetizeOpen ? drawerWidth : 0.5,
+          top: '2%',
+          left: isSidebarOpen ? drawerWidth : 0.5,
           transform: 'translateY(-50%)',
           zIndex: theme.zIndex.drawer + 1,
         }}
       >
-        {isSidebarMonetizeOpen ? <ChevronLeft /> : <ChevronRight />}
+        {isSidebarOpen ? <ChevronLeft /> : <ChevronRight />}
       </IconButton>
       )}
     </ThemeProvider>
   );
 }
- 
+
 export default SidebarMonetize;
- 

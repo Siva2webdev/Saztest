@@ -11,6 +11,7 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
+  useMediaQuery,
 } from "@mui/material";
 
 import Sidebar from "screens/content";
@@ -26,6 +27,7 @@ import SidebarContent from "components/SidebarContent";
 import InputFileUpload from "components/ChooseFile";
 
 const AddRadio = () => {
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [checked, setChecked] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -60,7 +62,8 @@ const AddRadio = () => {
   console.log(audio_categorieslist);
 
   return (
-    <Box m="1.5rem 2.5rem" ml="250px">
+    // <Box m="1.5rem 2.5rem" ml="250px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
       <FlexBetween>
         <Header title="ADD AUDIO STREAM" />
 
@@ -167,59 +170,11 @@ const AddRadio = () => {
 
       />
 
-      <TextField
+     
 
-        fullWidth
+     
 
-        name="android_setup_box"
-
-        label="Android Setup box"
-
-        variant="outlined"
-
-        value={formData.android_setup_box}
-
-        onChange={handleChange}
-
-        margin="normal"
-
-      />
-
-      <TextField
-
-        fullWidth
-
-        name="custom_linux_box"
-
-        label="Custom linux box"
-
-        variant="outlined"
-
-        value={formData.custom_linux_box}
-
-        onChange={handleChange}
-
-        margin="normal"
-
-      /> */}
-
-        {/* <TextField
-
-        fullWidth
-
-        name="dreambox"
-
-        label="Dreambox"
-
-        variant="outlined"
-
-        value={formData.dreambox}
-
-        onChange={handleChange}
-
-        margin="normal"
-
-      />
+        
 
       <TextField
 
@@ -365,53 +320,15 @@ const AddRadio = () => {
 
         fullWidth
 
-        name="studio"
-
-        label="Studio"
-
-        variant="outlined"
-
-        value={formData.studio}
-
-        onChange={handleChange}
-
-        margin="normal"
+        
 
       />
 
-        <TextField
-
-        fullWidth
-
-        name="producer"
-
-        label="Producer"
-
-        variant="outlined"
-
-        value={formData.producer}
-
-        onChange={handleChange}
-
-        margin="normal"
+      
 
       />
 
-        <TextField
-
-        fullWidth
-
-        name="director"
-
-        label="Director"
-
-        variant="outlined"
-
-        value={formData.director}
-
-        onChange={handleChange}
-
-        margin="normal"
+      
 
       />
 

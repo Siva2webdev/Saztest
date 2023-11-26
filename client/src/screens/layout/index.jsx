@@ -262,7 +262,7 @@ const Layout2 = () => {
 
 const LayoutResellerlist = () => {
   const isnonmobile1 = useMediaQuery("(min-width:600px)");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const [isSidebarResellersOpen, setIsSidebarResellersOpen] = useState(true);
 
@@ -273,10 +273,10 @@ const LayoutResellerlist = () => {
           setIsSidebarOpen={setIsSidebarOpen}
         />
       <SidebarReseller
-        isNonMobile1={isnonmobile1}
-        drawerWidth="250px"
-        isSidebarResellersOpen={isSidebarResellersOpen}
-        setIsSidebarResellersOpen={setIsSidebarResellersOpen}
+        // isNonMobile1={isnonmobile1}
+        // drawerWidth="250px"
+        // isSidebarResellersOpen={isSidebarResellersOpen}
+        // setIsSidebarResellersOpen={setIsSidebarResellersOpen}
       />
 
       <Box flexGrow={1}>
@@ -300,10 +300,10 @@ const LayoutMonteize = () => {
   const [isSidebarMonetizeOpen, setIsSidebarMonetizeOpen] = useState(true);
   return (
     <Box display={isNonMobile1 ? "flex" : "block"} width="100%" height="100%">
-        {/* <Navbar
+        <Navbar
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
-        /> */}
+        />
       {/* /* const  Layout2 = () => { */}
       {/* const isNonMobile1 = useMediaQuery("(min-width:600px)"); */}
       {/* //returns boolean depending on the min width   //desktop=true mobile=false */}
@@ -314,8 +314,16 @@ const LayoutMonteize = () => {
         isSidebarAllCategoriesOpen={isSidebarAllCategoriesOpen}
         setIsSidebarAllCategoriesOpen={setIsSidebarAllCategoriesOpen}
       /> */}
-  <Navbar/>
-      <SidebarMonetize/>
+  <Navbar
+          isSidebarOpen={isSidebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
+        />
+      <SidebarMonetize
+        isNonMobile1={isNonMobile1}
+        drawerWidth="250px"
+        isSidebarMonetizeOpen={isSidebarMonetizeOpen}
+        setIsSidebarMonetizeOpen={setIsSidebarMonetizeOpen}
+      />
 
       {/* <Monteiz/> */}
 

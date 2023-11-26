@@ -4,49 +4,31 @@ import FlexBetween from "components/FlexBetween";
 
 import Header from "components/Header";
 
-import {DataGrid} from "@mui/x-data-grid"
+import { DataGrid } from "@mui/x-data-grid";
 
 // import SidebarContent from "components/SidebarContent"
 
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 
-
-
-
-
 import {
-
   DownloadOutlined,
-
   Email,
-
   PointOfSale,
-
   PersonAdd,
-
   Traffic,
   Delete,
-  Edit
+  Edit,
 } from "@mui/icons-material";
 
 import {
-
   Box,
-
   Button,
-
   Typography,
-
   useTheme,
-
   useMediaQuery,
-  Avatar
-
+  Avatar,
+  Container,
 } from "@mui/material";
-
-
-
-
 
 // import BreakdownChart from "components/BreakdownChart";
 
@@ -56,109 +38,114 @@ import {
 
 import StatBox from "components/StatBox";
 
-import { Sidebar, Menu, MenuItem, SubMenu,sidebarClasses } from 'react-pro-sidebar';
+import {
+  Sidebar,
+  Menu,
+  MenuItem,
+  SubMenu,
+  sidebarClasses,
+} from "react-pro-sidebar";
 
 // import 'react-pro-sidebar/dist/css/styles.css'
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
+import {
+  SettingsOutlined,
+  ChevronLeft,
+  ChevronRightOutlined,
+  HomeOutlined,
+  ShoppinCartOutlined,
+  Groups2Outlined,
+  ReceiptLongOutlined,
+  PublicOffOutlined,
+  PointOfSaleOutlined,
+  CalendarTodayOutlined,
+  CalendarMonthOutlined,
+  AdminPanelSettingsOutlined,
+  TrendingUpOutlined,
+  ContentCopyOutlined,
+} from "@mui/icons-material";
 
+import { TocOutlinedIcon } from "@mui/icons-material/TocOutlined";
 
+import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 
-import { SettingsOutlined,ChevronLeft,ChevronRightOutlined,HomeOutlined ,ShoppinCartOutlined,Groups2Outlined,ReceiptLongOutlined,PublicOffOutlined,PointOfSaleOutlined,CalendarTodayOutlined,CalendarMonthOutlined,AdminPanelSettingsOutlined,TrendingUpOutlined, ContentCopyOutlined} from '@mui/icons-material';
+import SupervisorAccountOutlinedIcon from "@mui/icons-material/SupervisorAccountOutlined";
 
-import {TocOutlinedIcon} from '@mui/icons-material/TocOutlined';
+import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 
-import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
+import {} from "@mui/icons-material";
 
-import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import { useState, useEffect } from "react";
 
-import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
-
-import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
-
-import {} from '@mui/icons-material';
-
-import {useState,useEffect} from "react";
-
-
-
-import {Menu as MenuIcon,IconButton} from "@mui/material"
+import { Menu as MenuIcon, IconButton } from "@mui/material";
 
 import Navbar from "components/Navbar";
 import Sidebardc from "components/sidebardc";
 
-
-
-
-
 const Allcontent = () => {
-
   const theme = useTheme();
 
-  const isNonMediumScreens = useMediaQuery("(min-width: 400px, max-width:1280px)");
+  const isNonMediumScreens = useMediaQuery(
+    "(min-width: 400px, max-width:1280px)"
+  );
 
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   // const { data, isLoading } = useGetDashboardQuery();
 
   const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
 
-
-
   const columns = [
-
     {
       field: "image",
-
-    headerName: "Image",
-    flex: 1,
-    renderCell: (params) => (
-      <Avatar
-        alt="User Avatar"
-        // src={`${params.value}`}
-        sx={{ width: 50, height: 50 }} // Customize the width and height of the avatars
-      />
-    ),
+      headerName: "Image",
+      flex: 1,
+      renderCell: (params) => (
+        <Avatar
+          alt="User Avatar"
+          // src={`${params.value}`}
+          sx={{ width: 50, height: 50 }} // Customize the width and height of the avatars
+        />
+      ),
 
       // headerName: "Image",
 
       // flex: 1,
       // width:200,
-      renderCell:(dashboard_contents)=>{
-        return(
+      renderCell: (dashboard_contents) => {
+        return (
           <div>
-
-            <Avatar alt="Movie Name" src={dashboard_contents.row.image}>  {dashboard_contents.row.image}</Avatar>
-            </div>
-        )
-      }
-
+            <Avatar alt="Movie Name" src={dashboard_contents.row.image}>
+              {" "}
+              {dashboard_contents.row.image}
+            </Avatar>
+          </div>
+        );
+      },
     },
 
     {
-
       field: "title",
 
       headerName: "title ID",
 
       flex: 1,
-
     },
 
     {
-
       field: "created",
 
       headerName: "Data Added",
 
       flex: 1,
-
     },
 
     {
-
       field: "Active Status",
 
       headerName: "# Active",
@@ -168,7 +155,6 @@ const Allcontent = () => {
       sortable: false,
 
       // renderCell: (params) => params.value.length,
-
     },
 
     {
@@ -195,7 +181,6 @@ const Allcontent = () => {
               // onClick={handleEditAction}
               aria-label="Edit"
               color="primary"
-
             >
               <Edit />
             </IconButton>
@@ -207,14 +192,12 @@ const Allcontent = () => {
               aria-label="Delete"
               color="secondary"
             >
-
               <Delete />
             </IconButton>
           </div>
         );
       },
     },
-
   ];
   const [allcontent, setAllcontent] = useState([]);
   useEffect(() => {
@@ -224,64 +207,41 @@ const Allcontent = () => {
   }, []);
   console.log(allcontent);
 
-
-
   return (
+    // <Box m="1.5rem 2.5rem" ml="300px">
 
-
-
-
-
-
-
-    <Box m="1.5rem 2.5rem" ml="300px">
-
-      <Navbar/>
+    <Box
+      m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"}
+      ml={isSmallScreen ? "10px" : "300px"}
+    >
+      <Navbar />
 
       <FlexBetween>
-
-
-
-
-
-        <Box>
-
-
-
-        </Box>
-
+        <Box></Box>
       </FlexBetween>
 
-
-
       <Box
-
-        mt="20px"
+        // mt="20px"
 
         ml="0px"
-
         display="grid"
-
-        gridTemplateColumns="repeat(12, 1fr)"
+        // gridTemplateColumns="repeat(12, 1fr)"
 
         // gridAutoRows="360px"
 
-        gap="20px"
+        // gap="20px"
 
+        mt={isSmallScreen ? "10px" : "50px"}
+        gridTemplateColumns={isSmallScreen ? "1fr" : "repeat(12, 1fr)"}
+        gap={isSmallScreen ? "10px" : "20px"}
         sx={{
-
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
-
         }}
-
       >
-
         {/* ROW 1 */}
 
         <StatBox
-
           title="CATEGORY LISTING"
-
           // value={data && data.totalCustomers}
 
           // increase="+14%"
@@ -289,19 +249,14 @@ const Allcontent = () => {
           // description="Since last month"
 
           icon={
-
             <Email
-
               sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
-
             />
-
           }
-
         />
-
-               <DataGrid
-
+        <Container sx={{ height: 450 }}>
+          <DataGrid
+            sx={{ mt: isSmallScreen ? "10px" : "60px" }}
             // loading={isLoading || !data}
 
             // getRowId={(row) => row._id}
@@ -309,69 +264,24 @@ const Allcontent = () => {
             // rows={(data && data.transactions) || []}
 
             rows={allcontent}
-
             columns={columns}
-
           />
-
-
-
-
-
+        </Container>
       </Box>
 
+      <CustomColumnMenu />
 
+      {/* <Sidebardc/> */}
 
-
-
-      <CustomColumnMenu/>
-
-
-
-
-
-
-
-
-
-<Sidebardc/>
-
-
-
-
-
-
-
-
-
-<FlexBetween>
-
-<IconButton onClick={()=>setIsSidebarContentOpen(!isSidebarContentOpen)}>
-
-    <MenuIcon/>
-
-    </IconButton>
-
-</FlexBetween>
-
-
-
-</Box>
-
-
-
-
-
-
-
-
-
-
-
+      <FlexBetween>
+        <IconButton
+          onClick={() => setIsSidebarContentOpen(!isSidebarContentOpen)}
+        >
+          <MenuIcon />
+        </IconButton>
+      </FlexBetween>
+    </Box>
   );
-
 };
-
-
 
 export default Allcontent;

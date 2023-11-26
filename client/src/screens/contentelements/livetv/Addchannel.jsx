@@ -10,6 +10,7 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
+  useMediaQuery,
 } from "@mui/material";
 // import { Input } from '@mui/material';
 // import { CloudUpload } from '@mui/icons-material';
@@ -19,6 +20,7 @@ import Header from "components/Header";
 import InputFileUpload from "components/ChooseFile";
 
 const Addchannel = () => {
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const [checked, setChecked] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -45,7 +47,8 @@ const Addchannel = () => {
   };
 
   return (
-    <Box m="1.5rem 2.5rem" ml="250px">
+    // <Box m="1.5rem 2.5rem" ml="250px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
       <FlexBetween>
         <Header title="ADD CHANNEL" />
 

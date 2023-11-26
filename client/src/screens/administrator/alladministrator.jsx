@@ -58,8 +58,8 @@ const AllAdministrator = () => {
   // const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   // const isNonMobile = useMediaQuery("(min-width:600px)");
   const isNonMediumScreens = useMediaQuery(
-    "(min-width: 400px, max-width: 1280px)"
-  );
+    "(min-width: 400px, max-width: 1280px)");
+    const isSmallScreen = useMediaQuery("(max-width: 600px)");
   // const { data, isLoading } = useGetDashboardQuery();
   const [isSidebarContentOpen, setIsSidebarContentOpen] = useState(true);
 
@@ -101,16 +101,19 @@ const AllAdministrator = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem" ml="310px">
+    <Box  m={isSmallScreen ? "1rem" : "1.5rem 2.5rem"} ml={isSmallScreen ? "10px" : "310px"}>
+     {/* m="1.5rem 2.5rem" ml="310px"> */}
       <FlexBetween>{/* <Header title="Live TV Category"  /> */}</FlexBetween>
 
       <Box
-        mt="20px"
+        // mt="20px"
+        mt={isSmallScreen ? "10px" : "50px"}
         ml="0px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="160px"
-        gap="20px"
+        // gap="20px"
+        gap={isSmallScreen ? "10px" : "20px"}
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
@@ -143,13 +146,16 @@ const AllAdministrator = () => {
             </div>
           }
         />
-        <DataGrid
-          // loading={isLoading || !data}
-          // getRowId={(row) => row._id}
-          // rows={(data && data.transactions) || []}
-          rows={[]}
-          columns={columns}
-        />
+        {/* <DataGrid */}
+        <DataGrid sx={{ mt: isSmallScreen ? "10px" : "-60px" }} 
+        rows={[]} 
+        columns={columns} />
+          {/* loading={isLoading || !data}
+           getRowId={(row) => row._id}
+           rows={(data && data.transactions) || []}
+           rows={[]}
+           columns={columns}
+         */}
       </Box>
 
       <CustomColumnMenu />

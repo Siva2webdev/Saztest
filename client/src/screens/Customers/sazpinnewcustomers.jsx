@@ -11,7 +11,6 @@ import {
   Traffic,
   Edit,
   Delete,
-  
 } from "@mui/icons-material";
 import {
   Box,
@@ -20,8 +19,7 @@ import {
   useTheme,
   useMediaQuery,
 
-  IconButton,
-  Container,
+  IconButton
 
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -34,6 +32,7 @@ import Navbar from "components/Navbar";
 const SazpinNewCustomers = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1800px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   // const { data, isLoading } = useGetDashboardQuery();
 
 
@@ -120,29 +119,31 @@ const SazpinNewCustomers = () => {
   ];
 
 
-  // const [sazpinNewCustomers, setSazpinNewCustomers] = useState([]);
-  // useEffect(() => {
-  //   fetch("http://localhost:5001/api/masa_new_users/find")
-  //     .then((response) => response.json())
-  //     .then((json) => setSazpinNewCustomers(json.data));
-  // }, []);
-  // console.log(sazpinNewCustomers);
+  const [sazpinNewCustomers, setSazpinNewCustomers] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:5001/api/masa_new_users/find")
+      .then((response) => response.json())
+      .then((json) => setSazpinNewCustomers(json.data));
+  }, []);
+  console.log(sazpinNewCustomers);
 
 
   return (
 
-    <Box m="1.5rem 3.5rem" ml="250px">
+    <Box m={isSmallScreen ? "1rem" : "1.5rem 3.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
+     {/* m="1.5rem 3.5rem" ml="250px"> */}
       <FlexBetween>
         {/* <Header title="ALL USERS LIST" /> */}
       </FlexBetween>
       <Navbar/>
 
       <Box
-        mt="50px"
+        // mt="20px"
+        mt={isSmallScreen ? "10px" : "50px"}
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        // gridAutoRows="160px"
-        gap="80px"
+        // gap="20px"
+        gap={isSmallScreen ? "10px" : "20px"}
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
         }}
@@ -169,17 +170,16 @@ const SazpinNewCustomers = () => {
         //     />
         //   }
         />
-                      <Container sx={{ height: 450 }}>
-
-               <DataGrid   sx={{mt:"-60px"}}
+               <DataGrid   sx={{ mt: isSmallScreen ? "10px" : "60px" }}
 
 
+            // rows={[]}
 
-            rows={[]}
+            rows={sazpinNewCustomers}
 
             columns={columns}
           />
-      </Container>
+
 
 
       </Box>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+                                                                                                                                                                                       import React, { useState, useEffect } from "react";
 import axios from "axios"
 import { useParams } from "react-router-dom";
 import {
@@ -14,10 +14,11 @@ import {
   Box,
   Snackbar,
   Alert,
+  useMediaQuery
 } from "@mui/material";
-
+ 
 import Sidebar from "screens/content";
-import Joi from "joi";
+ 
 import { ContentCopy } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
 import SelectImageSection from "components/ChooseFile";
@@ -27,38 +28,34 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import SidebarMonetize from "components/SidebarMonetize";
 // import Monteiz from "screens/Monetize";
 import Navbar from "components/Navbar";
-
+ 
 const AddProduct = () => {
   const [checked, setChecked] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const { _id } = useParams();
     const [formData, setFormData] = useState({
     id: "",
-
+ 
     name: "",
-
+ 
     quantity: "",
-
+ 
     model: "",
-
+ 
     purchase_price: "",
-
+ 
     manufacturer: "",
-
+ 
     sale_price: "",
-
+ 
     date: "",
-
+ 
     available: "",
-
+ 
     description: "",
   });
-
-  const [successMessage, setSuccessMessage] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-
  
-
-
+ 
   const handleReset = () => {
     setFormData({
       id: "",
@@ -73,53 +70,19 @@ const AddProduct = () => {
       description: "",
     });
   };
-
-
-
-  
+ 
+  const [successMessage, setSuccessMessage] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
+ 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  
-    
-    if (_id) {
-      // If _id is defined, it's an edit operation
-      const apiUrl = `http://localhost:5001/api/products/patch/${_id}`; // Edit
-      axios
-        .patch(apiUrl, formData)
-        .then((response) => {
-          setSuccessMessage("Product updated successfully!");
-          setSnackbarOpen(true);
-          handleReset();
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    } else {
-      // If _id is not defined, it's an add operation
-      const apiUrl = "http://localhost:5001/api/products/post"; // Add
-      axios
-        .post(apiUrl, formData)
-        .then((response) => {
-          setSuccessMessage("Product added successfully!");
-          setSnackbarOpen(true);
-          handleReset();
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
-
-
+ 
   useEffect(() => {
     if (_id) {
       // If a product ID is available in the URL, fetch product data and pre-fill the form
@@ -145,21 +108,52 @@ const AddProduct = () => {
         });
     }
   }, [_id]);
-
-  
-
-
+ 
+const handleSubmit = (e) => {
+  e.preventDefault();
+ 
+  if (_id) {
+    // If _id is defined, it's an edit operation
+    const apiUrl = `http://localhost:5001/api/products/patch/${_id}`; // Edit
+    axios
+      .patch(apiUrl, formData) // Use axios.patch for the PATCH request
+      .then((response) => {
+        setSuccessMessage("Product updated successfully!");
+        setSnackbarOpen(true);
+        handleReset();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  } else {
+    // If _id is not defined, it's an add operation
+    const apiUrl = "http://localhost:5001/api/products/post"; // Add
+    axios
+      .post(apiUrl, formData) // Use axios.post for the POST request
+      .then((response) => {
+        setSuccessMessage("Product added successfully!");
+        setSnackbarOpen(true);
+        handleReset();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+};
+ 
+ 
   return (
-    <Box m="1.5rem 2.5rem" ml="250px">
-              <SidebarMonetize />
-
-
+    <Box  m={isSmallScreen ? "1rem" : "1.5rem 3.5rem"} ml={isSmallScreen ? "10px" : "250px"}>
+    {/* <Box m="1.5rem 2.5rem" ml="250px"> */}
+              {/* <SidebarMonetize /> */}
+ 
+ 
       <FlexBetween>
         <Header title="ADD PRODUCT" />
-
+ 
         <Box></Box>
       </FlexBetween>
-
+ 
       <form onSubmit={handleSubmit} >
         <TextField
           fullWidth
@@ -171,7 +165,7 @@ const AddProduct = () => {
           margin="normal"
           required
         />
-
+ 
         <TextField
           fullWidth
           name="model"
@@ -181,7 +175,7 @@ const AddProduct = () => {
           onChange={handleChange}
           margin="normal"
         />
-
+ 
         <TextField
           fullWidth
           name="manufacturer"
@@ -191,7 +185,7 @@ const AddProduct = () => {
           onChange={handleChange}
           margin="normal"
         />
-
+ 
         <TextField
           fullWidth
           name="quantity"
@@ -202,7 +196,7 @@ const AddProduct = () => {
           onChange={handleChange}
           margin="normal"
         />
-
+ 
         <TextField
           fullWidth
           name="purchase_price"
@@ -213,7 +207,7 @@ const AddProduct = () => {
           onChange={handleChange}
           margin="normal"
         />
-
+ 
         <TextField
           fullWidth
           name="sale_price"
@@ -224,7 +218,7 @@ const AddProduct = () => {
           onChange={handleChange}
           margin="normal"
         />
-
+ 
         <TextField
           fullWidth
           name="date"
@@ -243,7 +237,7 @@ const AddProduct = () => {
           onChange={handleChange}
           margin="normal"
         />
-
+ 
         <TextField
           fullWidth
           name="description"
@@ -255,10 +249,10 @@ const AddProduct = () => {
           multiline
           rows={4}
         />
-
+ 
         <ButtonGroup variant="contained" aria-label="outlined button group">
           <Button type="reset" onClick={handleReset}>Reset</Button>
-
+ 
           <Button type="submit">Submit</Button>
         </ButtonGroup>
       </form>
@@ -266,7 +260,7 @@ const AddProduct = () => {
         open={snackbarOpen}
         autoHideDuration={6000} // Adjust the duration as needed
         onClose={handleCloseSnackbar}
-
+ 
       >
         <Alert
           onClose={handleCloseSnackbar}
@@ -280,5 +274,5 @@ const AddProduct = () => {
     </Box>
   );
 };
-
+ 
 export default AddProduct;

@@ -71,7 +71,7 @@ const ShowsEpisodeSort = () => {
        
 
       </form>
-      <SidebarContent />
+      {/* <SidebarContent /> */}
       <Navbar />
     </Box>
   );
