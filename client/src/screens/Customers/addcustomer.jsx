@@ -391,7 +391,6 @@ const Addcustomer = () => {
           </Button>
         </ButtonGroup>
       </form>
-      g
       <SidebarCustomers />
     </Box>
   );
