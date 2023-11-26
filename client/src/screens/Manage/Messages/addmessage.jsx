@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import {
   TextField,
   Button,
@@ -11,181 +12,156 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
+  Snackbar,
+  Alert,
 } from "@mui/material";
-
 import { Input } from "@mui/material";
-
 import { CloudUpload } from "@mui/icons-material";
-
 import SidebarContent from "components/SidebarContent";
-
 import FlexBetween from "components/FlexBetween";
-
 import Header from "components/Header";
-
 import InputFileUpload from "components/ChooseFile";
-
-// import Adminsidebar from 'components/adminsidebar';
-
 const AddMessage1 = () => {
   const [checked, setChecked] = useState(false);
   const [passchecked, setPassChecked] = useState(false);
-
+  const { _id } = useParams();
   const [visiblechecked, setVisibleChecked] = useState(false);
-
   const [formData, setFormData] = useState({
-    visible: "",
-
-    stream_for_webtv: "",
-
-    backup_stream_1: "",
-
-    backup_stream_2: "",
-
-    backup_stream_3: "",
-
-    backup_stream_4: "",
-
-    backup_stream_5: "",
-
-    backup_stream_6: "",
-
-    select_channel_image: "",
-
-    select_the_category: "",
+    id: "",
+    title: "",
+    description: "",
+    user_ids: "",
+    start_date: "",
+    repeat_interval: "",
+    is_active: "",
+    created: "",
+    modified: "",
   });
-
+  const handleReset = () => {
+    setFormData({
+      id: "",
+      title: "",
+      description: "",
+      user_ids: "",
+      start_date: "",
+      repeat_interval: "",
+      is_active: "",
+      created: "",
+      modified: "",
+    });
+  };
+  const [successMessage, setSuccessMessage] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData({ ...formData, [name]: value });
+  const { name, value } = e.target;
+  setFormData({ ...formData, [name]: value });
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    console.log(formData);
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
   };
-
-
-  const [products, setProducts] = useState([]);
-
-  // Make an API request to fetch payment types data from your server
+  const [users, setUsers] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5001/api/products/list")
+    fetch("http://localhost:5001/api/users/find")
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        setProducts(res.data);
+        setUsers(res.data);
       });
   }, []);
-
-
+  useEffect(() => {
+    if (_id) {
+      axios
+        .get(`http://localhost:5001/api/messages/${_id}`)
+        .then((response) => {
+          const productData = response.data;
+          setFormData({
+            title: productData.title,
+            description: productData.description,
+            user_ids: productData.user_ids,
+            start_date: productData.start_date,
+            repeat_interval: productData.repeat_interval,
+            is_active: productData.is_active,
+            created: productData.created,
+            modified: productData.modified,
+          });
+        })
+        .catch((error) => {
+          console.error('Error fetching product data:', error);
+        });
+    }
+  }, [_id]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  
+    if (_id) {
+      // If _id is defined, it's an edit operation
+      const apiUrl = `http://localhost:5001/api/messages/patch/${_id}`; // Edit
+      axios
+        .patch(apiUrl, formData) // Use axios.patch for the PATCH request
+        .then((response) => {
+          setSuccessMessage("Product updated successfully!");
+          setSnackbarOpen(true);
+          handleReset();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      // If _id is not defined, it's an add operation
+      const apiUrl = "http://localhost:5001/api/messages/post"; // Add
+      axios
+        .post(apiUrl, formData) // Use axios.post for the POST request
+        .then((response) => {
+          setSuccessMessage("Product added successfully!");
+          setSnackbarOpen(true);
+          handleReset();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
   return (
     <Box m="1.5rem 2.5rem" ml="400px">
       <FlexBetween>
         <Box></Box>
       </FlexBetween>
-
       <h3>APPMESSAGE ADD </h3>
-
       <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
-          name="Title"
+          name="title"
           label="Title"
           variant="outlined"
           value={formData.title}
           onChange={handleChange}
           margin="normal"
         />
-
-        {/*
-
- 
-
-         <FormControl>
-
- 
-
-            <FormControlLabel
-
- 
-
-            label = " Visible"
-
- 
-
-              control={
-
- 
-
-                <Checkbox
-
- 
-
-                  id="agree"
-
- 
-
-                  checked={checked}
-
- 
-
-                  onChange={(e) => setChecked(e.target.checked)}
-
- 
-
-                />
-
- 
-
-               
-
- 
-
-              }
-
- 
-
-             />
-
- 
-
-           
-
- 
-
-          </FormControl> */}
-
         <TextField
           fullWidth
-          name="Description"
+          name="description"
           label="Description"
           variant="outlined"
-          value={formData.PassWord}
+          value={formData.description}
           onChange={handleChange}
           margin="normal"
         />
-
         <FormControl fullWidth variant="outlined" margin="normal">
           <InputLabel htmlFor="Customers">Customers</InputLabel>
-
           <Select
             label="Customers"
             name="Customers"
-            value={formData.Country}
+            value={formData.Customers}
             onChange={handleChange}
           >
             <MenuItem value="17">(Choose Customer)</MenuItem>
-            {products.map((type) => (
+            {users.map((type) => (
           <MenuItem key={type.id} value={type.id}>
-            {type.model}
+            {type.name}
             </MenuItem>
           ))}
           </Select>
         </FormControl>
-
         <label>Active :</label>
         <br />
         <FormControl>
@@ -199,23 +175,21 @@ const AddMessage1 = () => {
             }
           />
         </FormControl>
-
         <TextField
           fullWidth
-          name="Startdate"
+          name="start_date"
           label="Startdate"
           variant="outlined"
-          value={formData.Address1}
+          value={formData.start_date}
           onChange={handleChange}
           margin="normal"
         />
-
         <TextField
           fullWidth
-          name="Repeat Intervels"
+          name="repeat_interval"
           label="Repeat Intervels"
           variant="outlined"
-          value={formData.Address1}
+          value={formData.repeat_interval}
           onChange={handleChange}
           margin="normal"
         />
@@ -223,11 +197,23 @@ const AddMessage1 = () => {
           <Button style={{ backgroundColor: "White", color: "black" }}>
             Reset
           </Button>
-          <Button style={{ backgroundColor: "green" }}>Submit</Button>
+          <Button type= "submit" style={{ backgroundColor: "green" }}>Submit</Button>
         </ButtonGroup>
       </form>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000} // Adjust the duration as needed
+        onClose={handleCloseSnackbar}
 
-      {/* <Adminsidebar /> */}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          variant="filled"
+        >
+          {successMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
